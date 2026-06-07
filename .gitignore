@@ -1,0 +1,34 @@
+# macOS
+.DS_Store
+
+# Editors / IDEs
+.idea/
+.vscode/
+
+# Node / package managers
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local runtime output
+.env
+.env.*
+!.env.example
+.cache/
+.tmp/
+tmp/
+
+# Installed starter skills kept locally for reference.
+# The Paperclip operator suite is intentionally tracked.
+.agents/skills/*
+!.agents/skills/paperclip-setup/
+!.agents/skills/paperclip-clarify/
+!.agents/skills/paperclip-record-strategy/
+!.agents/skills/paperclip-plan-work/
+!.agents/skills/paperclip-triage/
+!.agents/skills/paperclip-monitor/
+
+# Local skill install lock until this repo intentionally adopts one.
+skills-lock.json
