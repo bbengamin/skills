@@ -20,6 +20,8 @@ Read these first:
 - `../../../docs/paperclip-operator/workflow.md`
 - `../../../docs/paperclip-operator/cli-contract.md`
 
+If these project docs are missing, run `paperclip-setup` first to scaffold them from bundled templates.
+
 ## Process
 
 1. Confirm there is an approved clarification summary.

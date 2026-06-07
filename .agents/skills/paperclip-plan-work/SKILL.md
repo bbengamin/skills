@@ -17,6 +17,8 @@ Read these first:
 - `../../../docs/paperclip-operator/afk-readiness.md`
 - `../../../docs/paperclip-operator/cli-contract.md`
 
+If these project docs are missing, run `paperclip-setup` first to scaffold them from bundled templates.
+
 ## Process
 
 1. Identify the parent strategy issue or parent issue.

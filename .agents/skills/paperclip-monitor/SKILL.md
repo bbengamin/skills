@@ -16,6 +16,8 @@ Read these first:
 - `../../../docs/paperclip-operator/workflow.md`
 - `../../../docs/paperclip-operator/cli-contract.md`
 
+If these project docs are missing, run `paperclip-setup` first to scaffold them from bundled templates.
+
 ## Read-Only Workflow
 
 1. Inspect CLI context and company scope.

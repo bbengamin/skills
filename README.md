@@ -30,6 +30,14 @@ Install selected skills:
 npx skills add bbengamin/skills --skill paperclip-setup paperclip-clarify paperclip-record-strategy
 ```
 
+After installing in a fresh project, run `paperclip-setup`. It checks your `paperclipai` context and can scaffold the shared operator docs into the project after you approve:
+
+```text
+AGENTS.md
+CONTEXT.md
+docs/paperclip-operator/
+```
+
 ## Skills
 
 - `paperclip-setup` — check local `paperclipai` context and shared operator docs.
@@ -60,6 +68,8 @@ Company -> Goal -> Project -> Issue -> Workspace -> Agent run
 - `docs/paperclip-operator/afk-readiness.md` — readiness rules for AFK issues.
 - `docs/paperclip-operator/cli-contract.md` — `paperclipai` usage contract.
 - `docs/paperclip-operator/paperclip-docs-index.md` — upstream Paperclip docs index.
+
+These docs are bundled inside `paperclip-setup` as templates so they can be copied into fresh projects.
 
 ## Principles
 

@@ -15,6 +15,8 @@ Read these first:
 - `../../../docs/paperclip-operator/workflow.md`
 - `../../../docs/paperclip-operator/control-plane.md`
 
+If these project docs are missing, run `paperclip-setup` first to scaffold them from bundled templates.
+
 ## Process
 
 Ask one question at a time. For each question, provide your recommended answer.
