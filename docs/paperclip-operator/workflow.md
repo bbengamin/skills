@@ -10,6 +10,8 @@ clarify -> record strategy -> plan work -> triage -> monitor -> recursive planni
 
 Use `paperclip-clarify` when intent is still fuzzy. It interviews the operator one question at a time and produces a non-mutating clarification summary.
 
+Clarification is intentionally rigorous. Do not stop after a shallow pass. Continue until outcome, scope, validation, autonomy, risks, and stop conditions are concrete enough to create a Paperclip strategy artifact.
+
 Resolve:
 
 - goal and desired outcome

@@ -40,6 +40,35 @@ paperclipai issue comment <issue-id> --body "..."
 
 Use REST only when the CLI does not expose the needed operation, such as writing keyed issue documents or creating goals/projects if no CLI command exists.
 
+## REST Fallback
+
+The Paperclip API is the supported fallback when the CLI lacks a command. Do not silently downgrade the Paperclip model because a CLI subcommand is missing.
+
+Derive connection details from:
+
+```sh
+paperclipai context show --json
+```
+
+Use:
+
+- `apiBase` or the active profile API base as the server URL.
+- `companyId` or the active profile company id as the company scope.
+- the configured API key env var, or `PAPERCLIP_API_KEY`, for bearer auth.
+
+If authentication cannot be derived, ask the operator for the missing credential or ask them to run the relevant `paperclipai auth` or context setup command. Do not create lower-quality artifacts just because REST auth is missing.
+
+Common REST operations not fully covered by the CLI:
+
+```text
+GET  /api/companies/{companyId}/goals
+POST /api/companies/{companyId}/goals
+GET  /api/companies/{companyId}/projects
+POST /api/companies/{companyId}/projects
+PATCH /api/projects/{projectId}
+PUT  /api/issues/{issueId}/documents/plan
+```
+
 ## Approval Boundary
 
 All operator skills must:
