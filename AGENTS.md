@@ -13,6 +13,7 @@ Shared references:
 - `docs/paperclip-operator/workflow.md` — operator workflow and skill map.
 - `docs/paperclip-operator/afk-readiness.md` — issue readiness rules.
 - `docs/paperclip-operator/cli-contract.md` — how skills call `paperclipai`.
+- `docs/paperclip-operator/integration-matrix.md` — MCP/CLI/REST surface matrix.
 - `docs/paperclip-operator/paperclip-docs-index.md` — upstream docs used by this suite.
 
 ## Operating Rules

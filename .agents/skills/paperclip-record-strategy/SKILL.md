@@ -19,6 +19,7 @@ Read these first:
 - `../../../docs/paperclip-operator/control-plane.md`
 - `../../../docs/paperclip-operator/workflow.md`
 - `../../../docs/paperclip-operator/cli-contract.md`
+- `../../../docs/paperclip-operator/integration-matrix.md`
 
 If these project docs are missing, run `paperclip-setup` first to scaffold them from bundled templates.
 
@@ -38,31 +39,16 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 7. Create or update only the approved missing parts.
 8. Report the resulting Goal, Project, Parent Issue, and plan document link or identifier.
 
-## Integration Surface
+## Surface Rules
 
-Prefer surfaces in this order:
+Read `integration-matrix.md` before choosing tools.
 
-1. MCP for goals, issues, approvals, agents, dashboard, activity, and cost reads.
-2. CLI for local context/setup and supported issue/company/skill operations.
-3. REST for project list/create/update and keyed issue documents.
+For this skill:
 
-Missing MCP or CLI coverage is not a reason to skip Paperclip-native records when the API supports them.
-
-Use MCP for:
-
-- listing goals: `mcp__paperclip.list_goals`
-- creating goals: `mcp__paperclip.create_goal`
-- updating goals: `mcp__paperclip.update_goal`
-- creating the parent issue: `mcp__paperclip.create_issue`
-
-Use REST for:
-
-- listing projects: `GET /api/companies/{companyId}/projects`
-- creating projects: `POST /api/companies/{companyId}/projects`
-- updating projects with `goalIds`: `PATCH /api/projects/{projectId}`
-- writing the parent issue `plan` document: `PUT /api/issues/{issueId}/documents/plan`
-
-Do not assume `mcp__paperclip.list_goals` returns projects. Its description mentions projects, but current observed output may contain only goal-like records. If the actual response lacks project records, use REST for project discovery.
+- Use MCP for Goal create/update and parent Issue create.
+- Treat Project list/create/update as REST-required unless a real MCP project tool is available.
+- Use REST for the parent Issue `plan` document.
+- Do not assume `mcp__paperclip.list_goals` returns projects. If the actual response lacks project records, use REST for project discovery.
 
 Before calling REST, derive `apiBase`, `companyId`, and authentication from MCP context if available or from `paperclipai context show --json` and the active profile. If auth cannot be derived, stop and ask the operator for the required context instead of degrading the strategy artifact.
 

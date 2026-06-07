@@ -12,6 +12,8 @@ Prefer surfaces in this order:
 
 Do not silently downgrade the Paperclip model because one surface lacks coverage. If the planning chain needs a Goal, Project, Parent Issue, or `plan` document, use the surface that can create it.
 
+For the full operation-by-operation decision table, read `docs/paperclip-operator/integration-matrix.md`.
+
 ## MCP Coverage
 
 Use MCP when available for:

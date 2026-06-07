@@ -67,6 +67,7 @@ Company -> Goal -> Project -> Issue -> Workspace -> Agent run
 - `docs/paperclip-operator/workflow.md` — skill workflow.
 - `docs/paperclip-operator/afk-readiness.md` — readiness rules for AFK issues.
 - `docs/paperclip-operator/cli-contract.md` — `paperclipai` usage contract.
+- `docs/paperclip-operator/integration-matrix.md` — MCP/CLI/REST operation matrix.
 - `docs/paperclip-operator/paperclip-docs-index.md` — upstream Paperclip docs index.
 
 These docs are bundled inside `paperclip-setup` as templates so they can be copied into fresh projects.

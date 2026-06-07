@@ -15,6 +15,7 @@ Read these first:
 - `../../../docs/paperclip-operator/control-plane.md`
 - `../../../docs/paperclip-operator/afk-readiness.md`
 - `../../../docs/paperclip-operator/cli-contract.md`
+- `../../../docs/paperclip-operator/integration-matrix.md`
 
 If these project docs are missing, run `paperclip-setup` first to scaffold them from bundled templates.
 

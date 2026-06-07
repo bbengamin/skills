@@ -16,6 +16,7 @@ Read these first:
   - `../../../docs/paperclip-operator/control-plane.md`
   - `../../../docs/paperclip-operator/workflow.md`
   - `../../../docs/paperclip-operator/cli-contract.md`
+  - `../../../docs/paperclip-operator/integration-matrix.md`
 - Bundled templates when project docs are missing:
   - `references/project-docs/AGENTS.md`
   - `references/project-docs/CONTEXT.md`
@@ -23,6 +24,7 @@ Read these first:
   - `references/project-docs/docs/paperclip-operator/workflow.md`
   - `references/project-docs/docs/paperclip-operator/afk-readiness.md`
   - `references/project-docs/docs/paperclip-operator/cli-contract.md`
+  - `references/project-docs/docs/paperclip-operator/integration-matrix.md`
   - `references/project-docs/docs/paperclip-operator/paperclip-docs-index.md`
 
 ## Workflow
@@ -55,6 +57,7 @@ Read these first:
    - `docs/paperclip-operator/workflow.md`
    - `docs/paperclip-operator/afk-readiness.md`
    - `docs/paperclip-operator/cli-contract.md`
+   - `docs/paperclip-operator/integration-matrix.md`
    - `docs/paperclip-operator/paperclip-docs-index.md`
 
 5. If docs are missing, propose scaffolding them.
