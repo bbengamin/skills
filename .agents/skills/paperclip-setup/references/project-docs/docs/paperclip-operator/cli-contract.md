@@ -80,6 +80,7 @@ Derive connection details from:
 
 ```sh
 paperclipai context show --json
+paperclipai auth whoami --json
 ```
 
 Use:
@@ -87,6 +88,9 @@ Use:
 - `apiBase` or the active profile API base as the server URL.
 - `companyId` or the active profile company id as the company scope.
 - the configured API key env var, or `PAPERCLIP_API_KEY`, for bearer auth.
+- the stored board credential in `~/.paperclip/auth.json` when `auth whoami` reports `source: "board_key"` and no API key env var is configured.
+
+Never print bearer tokens in chat or logs. If a token must be exported for REST tooling, show commands that assign it to an environment variable without echoing the value.
 
 If authentication cannot be derived, ask the operator for the missing credential or ask them to run the relevant `paperclipai auth` or context setup command. Do not create lower-quality artifacts just because REST auth is missing.
 

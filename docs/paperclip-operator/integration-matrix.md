@@ -38,6 +38,7 @@ Known MCP gaps:
 | Operation | Preferred surface | Fallback | Notes |
 |---|---|---|---|
 | Check active Paperclip company | MCP context | CLI `paperclipai context show --json` | MCP tools target the configured active company. CLI exposes profile details. |
+| Derive REST auth | CLI auth store | `PAPERCLIP_API_KEY` env var | Use `paperclipai auth whoami --json` to verify board auth. Stored board credentials live in `~/.paperclip/auth.json`; do not print tokens. |
 | List companies | CLI | REST | No current MCP company list tool. |
 | Export/import company | CLI | REST if documented | Use CLI for backup/restore workflows. |
 | List goals | MCP `list_goals` | REST `GET /api/companies/{companyId}/goals` | Verify response shape before assuming projects are included. |

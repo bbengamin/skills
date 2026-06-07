@@ -50,7 +50,7 @@ For this skill:
 - Use REST for the parent Issue `plan` document.
 - Do not assume `mcp__paperclip.list_goals` returns projects. If the actual response lacks project records, use REST for project discovery.
 
-Before calling REST, derive `apiBase`, `companyId`, and authentication from MCP context if available or from `paperclipai context show --json` and the active profile. If auth cannot be derived, stop and ask the operator for the required context instead of degrading the strategy artifact.
+Before calling REST, derive `apiBase`, `companyId`, and authentication from MCP context if available, `paperclipai context show --json`, `paperclipai auth whoami --json`, and the stored board credential in `~/.paperclip/auth.json`. If auth cannot be derived, stop and ask the operator for the required context instead of degrading the strategy artifact. Never print bearer tokens.
 
 ## Strategy Plan Document
 
