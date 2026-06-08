@@ -48,11 +48,21 @@ docs/paperclip-operator/
 - `paperclip-monitor` — inspect active execution across agents, heartbeats, activity, approvals, costs, and blocked work.
 - `paperclip-admin` — handle ad hoc Paperclip reads, minor approved mutations, existing-agent admin, and company skill-library maintenance.
 - `paperclip-create-agent` — create or hire Paperclip agents through the governance-aware native workflow.
+- `growth-clarify` — run a non-mutating clarification session for shared acquisition strategy across inbound and outbound.
+- `growth-record-strategy` — record approved growth strategy into goals, durable channel/motion projects, strategy parent issues, branch parent issues, and plan documents.
+- `inbound-plan-work` — decompose a growth strategy or inbound branch into one level of backlog inbound/channel work.
+- `outbound-plan-work` — decompose a growth strategy or outbound branch into one level of backlog outbound work.
 
 ## Workflow
 
 ```text
 clarify -> record strategy -> plan work -> triage -> monitor -> recursive planning
+```
+
+Growth strategy branches after the shared strategy is recorded:
+
+```text
+growth-clarify -> growth-record-strategy -> inbound-plan-work / outbound-plan-work
 ```
 
 The suite is designed around Paperclip's native hierarchy:
@@ -71,6 +81,9 @@ Company -> Goal -> Project -> Issue -> Workspace -> Agent run
 - `docs/paperclip-operator/cli-contract.md` — `paperclipai` usage contract.
 - `docs/paperclip-operator/integration-matrix.md` — MCP/CLI/REST operation matrix.
 - `docs/paperclip-operator/paperclip-docs-index.md` — upstream Paperclip docs index.
+- `docs/growth-operator/control-plane.md` — acquisition goals, durable channel/motion projects, and branch strategy model.
+- `docs/growth-operator/workflow.md` — Growth skill workflow.
+- `docs/growth-operator/afk-readiness.md` — shared readiness rules for inbound and outbound planning.
 
 These docs are bundled inside `paperclip-setup` as templates so they can be copied into fresh projects.
 
@@ -83,3 +96,6 @@ These docs are bundled inside `paperclip-setup` as templates so they can be copi
 - `todo` means ready and actionable.
 - Plan one child-issue level at a time.
 - Use `blockedByIssueIds` for real dependencies.
+- Use goals and sub-goals for durable acquisition direction.
+- Use one project per durable inbound channel or outbound motion.
+- Use parent issues and plan documents for strategy periods, campaigns, experiments, and branch planning.

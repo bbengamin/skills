@@ -167,3 +167,43 @@ _Avoid_: making creator work startable during planning
 **creator-triage**:
 The local operator skill that classifies planned creator work for AFK readiness before delegation to Paperclip agent execution.
 _Avoid_: verification of completed creator outputs
+
+**Growth Strategy**:
+The shared acquisition strategy layer that aligns inbound and outbound around the same ICP, wedge, proof, artifact ask, offer or CTA, success signals, validation expectations, and stop conditions.
+_Avoid_: Treating inbound and outbound as unrelated strategy trees
+
+**Growth Operator Skill Suite**:
+Local operator skills that turn rough acquisition intent into Paperclip-native goals/sub-goals, durable channel or motion projects, strategy parent issues, branch parent issues, and planned inbound or outbound work items.
+_Avoid_: Generic Paperclip planning when the acquisition domain matters
+
+**Durable Channel Or Motion Project**:
+A Paperclip project for a stable acquisition surface, such as `Inbound: Ihor LinkedIn` or `Outbound: Operator walkthroughs`.
+_Avoid_: Creating a project for every short-lived campaign, message sequence, content sprint, or lead list
+
+**Growth Strategy Artifact**:
+A Paperclip-native parent issue and plan document that captures acquisition outcome, goal structure, projects, time horizon, market, ICP, wedge, inbound role, outbound role, shared proof, artifact ask, CTA, success signals, constraints, validation, and stop conditions.
+_Avoid_: Chat-only acquisition plan
+
+**Inbound Branch**:
+A strategy branch under a growth strategy artifact that plans trust-building, creator-led, content-led, or channel-led acquisition work.
+_Avoid_: Treating inbound as only content drafting
+
+**Outbound Branch**:
+A strategy branch under a growth strategy artifact that plans lead sourcing, enrichment, personalization, sequences, reply handling, warm intros, or operator walkthrough booking.
+_Avoid_: Treating outbound as fully automated sending
+
+**growth-clarify**:
+The local operator skill that runs a non-mutating clarification session for shared acquisition strategy spanning inbound and outbound.
+_Avoid_: Using creator-clarify when outbound alignment is part of the strategy
+
+**growth-record-strategy**:
+The local operator skill that records approved growth strategy into Paperclip goals/sub-goals, durable channel or motion projects, parent issues, and plan documents.
+_Avoid_: Creating inbound and outbound branches without a shared strategy artifact
+
+**inbound-plan-work**:
+The local operator skill that decomposes an approved growth strategy or inbound branch into one level of backlog, unassigned inbound/channel work items.
+_Avoid_: Making inbound work startable during planning
+
+**outbound-plan-work**:
+The local operator skill that decomposes an approved growth strategy or outbound branch into one level of backlog, unassigned outbound work items.
+_Avoid_: Sending messages, modifying CRM records, or making outbound work startable during planning

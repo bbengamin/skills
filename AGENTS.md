@@ -41,3 +41,18 @@ Shared references:
 - Use `paperclip-admin` for narrow reads, minor approved mutations, existing-agent administration, and company skill-library maintenance outside the planning chain.
 - Use `paperclip-create-agent` for creating, hiring, drafting, or provisioning new Paperclip agents.
 - Use `creator-clarify`, `creator-record-strategy`, `creator-plan-work`, and `creator-triage` for the v1 Creator Growth workflow. Defer creator verification, reflection, scheduling, and publishing skills until planned separately.
+
+## Growth Operator Skills
+
+Use the Growth operator suite when the user wants to create or revise a shared acquisition strategy that aligns inbound and outbound work before branching into channel-specific or outbound-motion-specific planning.
+
+Growth skills use Paperclip as the source of truth. Use `growth-clarify` and `growth-record-strategy` for shared acquisition strategy, goals/sub-goals, durable channel or motion projects, and strategy parent issues. Use `inbound-plan-work` for inbound/channel planning and `outbound-plan-work` for outbound planning after the shared strategy exists.
+
+Shared references:
+
+- `CONTEXT.md` — glossary only. Do not put implementation decisions here.
+- `docs/growth-operator/workflow.md` — Growth workflow and skill map.
+- `docs/growth-operator/control-plane.md` — Paperclip entity model for acquisition goals, channel/motion projects, strategy issues, and branch planning.
+- `docs/growth-operator/afk-readiness.md` — shared inbound/outbound planning readiness rules.
+- `docs/paperclip-operator/cli-contract.md` — how skills call `paperclipai`.
+- `docs/paperclip-operator/integration-matrix.md` — MCP/CLI/REST surface matrix.
