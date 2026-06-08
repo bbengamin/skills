@@ -102,13 +102,17 @@ Read these first:
    curl -fsS <api-base>/api/health
    ```
 
-   If it is reachable, show the proposed context mutation and ask for approval:
+   If it is reachable, show the proposed context mutation and ask for approval. Before any `context set`, read the current context so existing values can be preserved:
+
+   ```sh
+   paperclipai context show --json
+   ```
 
    ```sh
    paperclipai context set --api-base <api-base> --use
    ```
 
-   If the operator wants an isolated or named profile, include `--profile <name>` before `--use`.
+   If the operator wants an isolated or named profile, include `--profile <name>` before `--use`. Treat `context set` as replacing the profile's configured values rather than merging unknown existing fields: when both API base and company id are known, set them together in one command.
 
    If the API base is `http://localhost:3100`, verify the local Paperclip API is actually running:
 
@@ -137,6 +141,15 @@ Read these first:
 7. Confirm the active company scope.
 
    If no company is selected, ask the operator which company to use. Do not guess across companies.
+
+   When the operator selects a company, preserve the API base while writing the company id:
+
+   ```sh
+   paperclipai context set --api-base <api-base> --company-id <company-id> --use
+   paperclipai context show --json
+   ```
+
+   Verify the resulting profile contains both `apiBase` and `companyId`. If it does not, repair by setting both values together and read the context back again.
 
 8. Verify shared docs exist.
 

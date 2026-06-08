@@ -69,10 +69,18 @@ curl -fsS <api-base>/api/health
 After the URL is reachable, ask for approval before writing CLI context:
 
 ```sh
+paperclipai context show --json
 paperclipai context set --api-base <api-base> --use
 ```
 
-For a named or isolated profile, include `--profile <name>`. Then authenticate against that environment:
+For a named or isolated profile, include `--profile <name>`. Treat `context set` as replacing the profile's configured values rather than merging unknown existing fields. Once a company is known, preserve the API base by setting both values together:
+
+```sh
+paperclipai context set --api-base <api-base> --company-id <company-id> --use
+paperclipai context show --json
+```
+
+Verify the resulting profile contains both `apiBase` and `companyId`. Then authenticate against that environment:
 
 ```sh
 paperclipai auth login --api-base <api-base>
