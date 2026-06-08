@@ -1,0 +1,86 @@
+---
+name: creator-plan-work
+description: Split a Creator Growth strategy or campaign artifact into one level of Paperclip backlog work items. Use when planning creator strategy periods, channel campaigns, LinkedIn/content work, or creator-led distribution tasks before triage or AFK execution.
+---
+
+# Creator Plan Work
+
+Plan one child-issue level at a time from a selected creator strategy or campaign issue.
+
+Planning creates `backlog`, unassigned structure. It does not make work startable.
+
+## References
+
+Read these first:
+
+- `../../../CONTEXT.md`
+- `../../../docs/creator-operator/workflow.md`
+- `../../../docs/creator-operator/control-plane.md`
+- `../../../docs/creator-operator/afk-readiness.md`
+- `../../../docs/paperclip-operator/cli-contract.md`
+- `../../../docs/paperclip-operator/integration-matrix.md`
+
+## Process
+
+1. Identify the target creator strategy or campaign parent issue.
+2. Read the issue, plan document, parent chain, project, linked goals, blockers, and comments.
+3. Confirm the intended planning depth.
+4. Propose one level of child issues.
+5. Classify each proposed child:
+   - ready-looking
+   - planning parent
+   - needs-human
+   - blocked
+   - needs-info
+6. If more than two proposed children are unclear, pause for focused clarification before creating issues.
+7. Include the exact title, body, status, parent, project, blockers, and assignee for each issue.
+8. Ask for approval.
+9. After approval, create issues in dependency order and verify each record.
+
+## Planning Patterns
+
+Examples:
+
+- Yearly strategy -> quarterly strategy parent issues.
+- Quarterly strategy -> monthly strategy parent issues.
+- Monthly strategy -> channel/campaign parent issues.
+- LinkedIn campaign -> research, angle, draft, revision, and signal-capture work items.
+
+Create broad children as planning parents, not execution-ready issues.
+
+## Proposed Breakdown Format
+
+```markdown
+## Proposed Creator Child Issues
+
+### 1. <title>
+
+- Type: ready-looking | planning parent | needs-human | blocked | needs-info
+- Priority:
+- Status to write: backlog
+- Parent:
+- Project:
+- Blocked by:
+- Assignee: null
+- Creator/persona:
+- Channel:
+- Body:
+- Acceptance criteria:
+- Validation:
+- Stop conditions:
+```
+
+## Creation Rules
+
+- Create planned issues as `backlog` and unassigned.
+- Do not move issues to `todo`.
+- Do not assign agents.
+- Do not checkout work.
+- Do not manually invoke heartbeats.
+- Use `parentId`/native parent linkage and verify it after creation.
+- Use first-class `blockedByIssueIds` for concrete dependencies when available.
+- Do not replace plan documents or blocker links with comments unless the operator explicitly approves degraded mode.
+
+## Mutation Rule
+
+Never create child issues until the operator approves the proposed breakdown.
