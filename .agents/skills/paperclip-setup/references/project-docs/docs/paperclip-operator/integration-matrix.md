@@ -97,7 +97,7 @@ Observed MCP behavior can drift from its schema. In particular, a tool may expos
 - Use MCP issue creates only when parent linkage is known to verify for the active tool surface.
 - Create and verify one child issue at a time before continuing.
 - Create planned issues as `backlog` and unassigned only.
-- Do not move issues to `todo`, assign, checkout, or wake agents from planning.
+- Do not move issues to `todo`, assign, checkout, or manually invoke heartbeats from planning.
 - Verify `parentId`, `projectId`, `goalId`, `status`, null assignee, and `blockedByIssueIds` after each write.
 - Use REST for plan-document reads/writes or fields not exposed by MCP/CLI, including blocker links.
 - Stop on the first unrepaired structural mismatch and report partial state.
@@ -128,4 +128,4 @@ Observed MCP behavior can drift from its schema. In particular, a tool may expos
 - Mirror company conventions from existing agents, org chart, skills, adapter configuration docs, and current agent configuration examples.
 - Create managed instructions bundles for local agents instead of durable legacy prompt fields.
 - Leave timer heartbeats disabled by default; enable scheduled heartbeats only with explicit justification.
-- After creation, verify agent fields and approval state before creating keys, syncing skills, assigning work, or waking the agent.
+- After creation, verify agent fields and approval state before creating keys, syncing skills, or assigning work. Do not manually invoke another agent's heartbeat; Paperclip agents wake through their own heartbeat policy after eligible assignment.

@@ -60,7 +60,7 @@ Triage is the first phase that may recommend moving backlog work to `todo`; it s
 
 ## 5. Delegate And Monitor
 
-Delegation starts only after explicit operator intent. It may assign or checkout issues and wake agent loops when the chosen surface supports that operation.
+Delegation starts only after explicit operator intent. It may assign or checkout approved issues, then Paperclip's heartbeat loop handles agent pickup. Do not manually invoke another agent's heartbeat; Paperclip rejects cross-agent invocation and assignments are enough for eligible agents with heartbeat policy enabled.
 
 Use `paperclip-monitor` to inspect active execution. It reads dashboard, agents, issues, approvals, activity, costs, blocked work, and heartbeats.
 

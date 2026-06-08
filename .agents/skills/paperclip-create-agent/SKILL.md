@@ -7,7 +7,7 @@ description: Create or hire Paperclip agents using the native governance-aware w
 
 Create new Paperclip agents by mirroring Paperclip's native hire workflow.
 
-This is a mutating local operator skill. Inspect freely, but do not create an agent, submit a hire request, create keys, attach skills, change permissions, or wake the agent until the operator approves the exact proposal.
+This is a mutating local operator skill. Inspect freely, but do not create an agent, submit a hire request, create keys, attach skills, or change permissions until the operator approves the exact proposal.
 
 ## References
 
@@ -100,4 +100,4 @@ For `codex_local`, prefer managed instructions over legacy prompt fields. Typica
 
 ## Mutation Rule
 
-Ask before creating hires, creating direct agents, attaching desired skills, creating API keys, changing permissions, setting secrets/env bindings, enabling timer heartbeats, assigning work, or waking the agent.
+Ask before creating hires, creating direct agents, attaching desired skills, creating API keys, changing permissions, setting secrets/env bindings, enabling timer heartbeats, or assigning work. Do not manually invoke another agent's heartbeat; Paperclip agents wake through their own heartbeat policy after eligible assignment.

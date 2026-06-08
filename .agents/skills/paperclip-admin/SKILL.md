@@ -88,10 +88,10 @@ Use this skill for small approved changes such as:
 - resolving a small Paperclip record mismatch found during inspection
 - creating a single simple issue when the operator already knows the exact desired issue
 
-Do not silently turn broad work into `todo`, assign broad issues, checkout work, wake agents, or approve board gates. If a change would make work startable, call out that it crosses into triage or delegation and ask explicitly.
+Do not silently turn broad work into `todo`, assign broad issues, checkout work, manually invoke heartbeats, or approve board gates. If a change would make work startable, call out that it crosses into triage or delegation and ask explicitly.
 
 ## Mutation Rule
 
-Read freely. Ask before creating, updating, deleting, assigning, checking out, waking, approving, rejecting, installing, or attaching anything in Paperclip.
+Read freely. Ask before creating, updating, deleting, assigning, checking out, approving, rejecting, installing, or attaching anything in Paperclip. Do not manually invoke another agent's heartbeat; Paperclip rejects cross-agent heartbeat invocation and eligible assignment is enough for the agent's own heartbeat loop to pick up work.
 
 Destructive changes require especially explicit approval: delete, cancel, budget reduction, credential/runtime change, approval rejection, and agent disable/termination.

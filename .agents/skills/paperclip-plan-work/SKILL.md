@@ -78,7 +78,7 @@ Use `paperclipai context show --json`, `paperclipai auth whoami --json`, and `~/
 ## Creation Rules
 
 - Planning creates `backlog` and unassigned issues only.
-- Do not create or update `todo`, assign agents, checkout work, or wake agents from this skill.
+- Do not create or update `todo`, assign agents, checkout work, or manually invoke heartbeats from this skill.
 - Treat `todo` as operationally active; it may trigger pickup. Only `paperclip-triage` or an explicit delegation workflow may move planned work to `todo`.
 - Preserve operator intent: "plan", "break down", or "create the structure" means backlog structure, not execution.
 - Create planning parent issues as `backlog`.

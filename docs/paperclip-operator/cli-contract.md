@@ -76,7 +76,7 @@ paperclipai issue comment <issue-id> --body "..."
 
 Use CLI when MCP does not expose the needed operation and the CLI does.
 
-During planning, create issues as `backlog` and unassigned. Do not move planned work to `todo`, assign, checkout, or wake agents unless the operator has explicitly invoked triage or delegation.
+During planning, create issues as `backlog` and unassigned. Do not move planned work to `todo`, assign, checkout, or manually invoke heartbeats. Triage or delegation may make approved work startable by moving it to `todo`, assigning it, or checking it out; Paperclip's heartbeat policy handles agent pickup after assignment.
 
 ## REST Fallback
 

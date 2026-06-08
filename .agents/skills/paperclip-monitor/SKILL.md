@@ -62,7 +62,7 @@ Recommend but do not perform mutations:
 - move issue status
 - add comments
 - create blockers
-- retry or wake agents
+- retry agents or manually invoke heartbeats
 - reassign work
 - pause, resume, or terminate agents
 

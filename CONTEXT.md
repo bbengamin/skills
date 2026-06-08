@@ -101,8 +101,8 @@ The local operator skill that classifies existing Paperclip issues and decides w
 _Avoid_: ready-check as a separate skill
 
 **Delegation**:
-The explicit operator phase after triage where approved work may be assigned, checked out, or handed to AFK agent loops.
-_Avoid_: Implicit pickup during planning
+The explicit operator phase after triage where approved work may be assigned or checked out. Agent pickup is handled by Paperclip heartbeat policy after assignment.
+_Avoid_: Implicit pickup during planning, manual cross-agent heartbeat invocation
 
 **Operator Approval Boundary**:
 The rule that local operator skills report proposed Paperclip mutations first and only create or update control-plane records after the human operator approves.
