@@ -44,6 +44,42 @@ paperclipai company list --json
 paperclipai context show --json
 ```
 
+Setup is not finished just because `paperclipai` is installed. Continue until the ladder is resolved:
+
+- CLI installed and on `PATH`
+- CLI context readable
+- API base reachable
+- auth configured
+- company context selected
+
+If `paperclipai context show --json` reports the default API base `http://localhost:3100`, verify the local API before interpreting company/auth failures:
+
+```sh
+curl -fsS http://localhost:3100/api/health
+```
+
+If the health check fails, report that install is complete but the Paperclip API server is not reachable. Ask whether to start the local Paperclip API or switch the CLI context/profile to a different API base. Do not treat this as an auth failure until the API is reachable.
+
+If the CLI has no API base, an empty profile config, or only an unreachable default, ask the operator for the Paperclip environment URL before attempting auth or company commands. Verify the provided URL first:
+
+```sh
+curl -fsS <api-base>/api/health
+```
+
+After the URL is reachable, ask for approval before writing CLI context:
+
+```sh
+paperclipai context set --api-base <api-base> --use
+```
+
+For a named or isolated profile, include `--profile <name>`. Then authenticate against that environment:
+
+```sh
+paperclipai auth login --api-base <api-base>
+paperclipai company list --json
+paperclipai context show --json
+```
+
 ## MCP Coverage
 
 Use MCP when available for:
