@@ -65,7 +65,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 
 - `todo` means ready and actionable.
 - `backlog` means parked or not startable.
-- `blocked` requires a named blocker in comments or first-class `blockedByIssueIds`.
+- `blocked` requires first-class `blockedByIssueIds` for concrete issue dependencies. Comments may explain the owner and unblock action, but they do not replace blocker links unless the operator explicitly approves degraded mode.
 - Use `paperclip-plan-work` for too-broad issues.
 - Use comments to explain triage reasoning.
 

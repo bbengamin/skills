@@ -21,6 +21,8 @@ An issue is ready for AFK execution when:
 
 `backlog` means identified but not ready/startable. `todo` is the ready/actionable state.
 
+During planning, even ready-looking issues stay in `backlog` and unassigned. Readiness classification is advisory until `paperclip-triage` or an explicit delegation workflow moves the issue to `todo`.
+
 ## Triage Classes
 
 **AFK-ready**: Move or keep in `todo`. The issue can enter the agent loop.

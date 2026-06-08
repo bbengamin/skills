@@ -46,6 +46,8 @@ docs/paperclip-operator/
 - `paperclip-plan-work` — decompose a strategy artifact or parent issue into one level of child issues.
 - `paperclip-triage` — review issues for AFK readiness before delegation.
 - `paperclip-monitor` — inspect active execution across agents, heartbeats, activity, approvals, costs, and blocked work.
+- `paperclip-admin` — handle ad hoc Paperclip reads, minor approved mutations, existing-agent admin, and company skill-library maintenance.
+- `paperclip-create-agent` — create or hire Paperclip agents through the governance-aware native workflow.
 
 ## Workflow
 

@@ -28,8 +28,11 @@ Known MCP gaps:
 - no `create_project`
 - no `update_project`
 - no keyed issue-document writer such as `PUT /documents/plan`
+- no exposed `blockedByIssueIds` create/update field in observed issue tools
 - no company skill-library operations
 - agents are read-only through the exposed MCP surface
+
+Observed MCP behavior can drift from its schema. In particular, a tool may expose a `parent_issue_id` argument but still return a created issue with `parentId: null`, and a create surface may normalize new issues to `backlog`. Verify created records before trusting parent, project, status, goal, assignee, or blocker links.
 
 `list_goals` may describe itself as listing goals and projects, but observed output can contain only goal-like records. Treat project discovery as REST-required unless the actual response includes project records with stable project ids.
 
@@ -50,8 +53,9 @@ Known MCP gaps:
 | List issues | MCP `list_issues` | CLI `paperclipai issue list --json`, REST | MCP is sufficient for most triage/monitoring. |
 | Get issue detail | MCP `get_issue` | CLI `paperclipai issue get --json`, REST | Use before triage or planning. |
 | Create parent issue | MCP `create_issue` | CLI `paperclipai issue create`, REST | Include `project_id` when known. |
-| Create child issue | MCP `create_issue` with `parent_issue_id` | CLI/REST | Use one planning level at a time. |
-| Update issue lifecycle | MCP `update_issue` | CLI `paperclipai issue update`, REST | Ask for operator approval before mutation. |
+| Create child issue | MCP only after verifying `parent_issue_id` persists | CLI/REST | Create one issue, verify `parentId`, repair if possible, then continue. |
+| Update issue lifecycle | MCP `update_issue` | CLI `paperclipai issue update`, REST | Planning leaves issues in `backlog`. Only triage/delegation may move work to `todo` after approval. |
+| Write blocker links | REST for `blockedByIssueIds` | MCP/CLI only if the actual tool exposes and verifies the field | Do not replace first-class blockers with comments unless the operator approves degraded mode. |
 | Comment on issue | MCP `comment_on_issue` | CLI `paperclipai issue comment`, REST | Use comments for triage reasoning. |
 | Checkout/release issue | MCP `checkout_issue` / `release_issue` | CLI/REST | Respect checkout conflict semantics. |
 | Delete issue | MCP `delete_issue` | REST | Destructive; require explicit operator approval. |
@@ -59,7 +63,8 @@ Known MCP gaps:
 | List approvals | MCP `list_approvals` | CLI `paperclipai approval list --json`, REST | Monitoring and board-decision workflows. |
 | Resolve approvals | CLI or REST if available | none through current MCP | Current exposed MCP list is read-oriented for approvals. |
 | List agents | MCP `list_agents` | CLI `paperclipai agent list --json`, REST | Current MCP agent surface is read-only. |
-| Create/update agents | REST/CLI depending operation | Paperclip UI | Not part of initial operator suite except recommendations. |
+| Create agents / hire agents | REST `POST /api/companies/{companyId}/agent-hires` or `POST /api/companies/{companyId}/agents` | Paperclip UI | Use `paperclip-create-agent`. Inspect org/config/skills first, ask approval, create or submit hire, then verify agent and approval state. |
+| Update existing agents | REST/CLI depending operation | Paperclip UI | Use `paperclip-admin`. Inspect current agent and skills first, ask approval, then verify the updated agent. |
 | Dashboard summary | MCP `get_dashboard` | CLI `paperclipai dashboard get --json`, REST | Preferred for `paperclip-monitor`. |
 | Activity log | MCP `list_activity` | CLI `paperclipai activity list --json`, REST | Preferred for `paperclip-monitor`. |
 | Costs | MCP dashboard/cost fields | REST costs API | Use REST for detailed cost drill-down if MCP summary is insufficient. |
@@ -88,17 +93,39 @@ Known MCP gaps:
 
 **paperclip-plan-work**
 
-- Use MCP issue reads and creates.
-- Use `parent_issue_id` for child issues.
-- Use REST only for plan-document reads/writes or fields not exposed by MCP/CLI.
+- Use MCP issue reads.
+- Use MCP issue creates only when parent linkage is known to verify for the active tool surface.
+- Create and verify one child issue at a time before continuing.
+- Create planned issues as `backlog` and unassigned only.
+- Do not move issues to `todo`, assign, checkout, or wake agents from planning.
+- Verify `parentId`, `projectId`, `goalId`, `status`, null assignee, and `blockedByIssueIds` after each write.
+- Use REST for plan-document reads/writes or fields not exposed by MCP/CLI, including blocker links.
+- Stop on the first unrepaired structural mismatch and report partial state.
 
 **paperclip-triage**
 
 - Use MCP issue reads/updates/comments.
 - Use REST only for fields not exposed by MCP/CLI.
 - Recommend first, mutate after approval.
+- Triage is the phase that may recommend moving ready backlog issues to `todo`.
 
 **paperclip-monitor**
 
 - Use MCP dashboard, activity, approvals, agents, and issues first.
 - Use CLI/REST for deeper drill-down when MCP summaries are insufficient.
+
+**paperclip-admin**
+
+- Use MCP for reads when exposed.
+- Use CLI/REST for existing-agent administration, company skill-library changes, assignments, and small record repairs not exposed through MCP.
+- Ask before any mutation, especially attaching skills, changing budgets, changing runtimes, or making work startable.
+- Verify every changed record after the write.
+
+**paperclip-create-agent**
+
+- Use CLI/MCP reads for context where available, then REST for native agent creation or hire submission.
+- Prefer `/agent-hires` when governance is required or board visibility is useful; use direct `/agents` only with explicit operator approval.
+- Mirror company conventions from existing agents, org chart, skills, adapter configuration docs, and current agent configuration examples.
+- Create managed instructions bundles for local agents instead of durable legacy prompt fields.
+- Leave timer heartbeats disabled by default; enable scheduled heartbeats only with explicit justification.
+- After creation, verify agent fields and approval state before creating keys, syncing skills, assigning work, or waking the agent.

@@ -29,6 +29,8 @@ tmp/
 !.agents/skills/paperclip-plan-work/
 !.agents/skills/paperclip-triage/
 !.agents/skills/paperclip-monitor/
+!.agents/skills/paperclip-admin/
+!.agents/skills/paperclip-create-agent/
 
 # Local skill install lock until this repo intentionally adopts one.
 skills-lock.json

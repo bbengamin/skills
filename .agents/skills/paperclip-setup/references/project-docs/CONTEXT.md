@@ -81,7 +81,7 @@ The Paperclip planning structure for a body of work: goal, linked project, and p
 _Avoid_: PRD as a standalone local artifact, project-only strategy
 
 **paperclip-plan-work**:
-The local operator skill that decomposes a strategy artifact into Paperclip projects and AFK-ready issues.
+The local operator skill that decomposes a strategy artifact into one level of backlog, unassigned Paperclip issue structure. It may classify which children look ready for triage, but it must not make work startable.
 _Avoid_: to-issues
 
 **Recursive Issue Planning**:
@@ -100,6 +100,10 @@ _Avoid_: Execution-ready issue, unplanned placeholder with no next planning prom
 The local operator skill that classifies existing Paperclip issues and decides whether each one is AFK-ready, blocked, missing information, human-needed, ready to revise, ready to cancel, or done.
 _Avoid_: ready-check as a separate skill
 
+**Delegation**:
+The explicit operator phase after triage where approved work may be assigned, checked out, or handed to AFK agent loops.
+_Avoid_: Implicit pickup during planning
+
 **Operator Approval Boundary**:
 The rule that local operator skills report proposed Paperclip mutations first and only create or update control-plane records after the human operator approves.
 _Avoid_: Silent mutation, implicit lifecycle changes
@@ -111,6 +115,18 @@ _Avoid_: triage when referring to runtime observation
 **Read-Only Monitoring**:
 The rule that `paperclip-monitor` can inspect Paperclip dashboard, activity, agents, issues, approvals, costs, and blocked work without confirmation, but must ask before any mutation.
 _Avoid_: Automatic retry, automatic approval resolution, automatic reassignment
+
+**paperclip-admin**:
+The local operator skill for ad hoc Paperclip administration, including narrow reads, minor approved control-plane changes, existing-agent administration, and company skill-library maintenance.
+_Avoid_: Using planning, triage, or monitoring skills for one-off administration just because they can inspect nearby records
+
+**paperclip-create-agent**:
+The local operator skill for creating or hiring a new Paperclip agent through the native governance-aware workflow, including config discovery, org convention review, draft instructions, approval handling, creation, verification, and local CLI setup.
+_Avoid_: Treating new-agent creation as a minor admin update
+
+**Agent Provisioning**:
+The approved Paperclip create-agent operation of creating or hiring a configured AI worker with role, manager, adapter, budget, heartbeat policy, instructions bundle, and attached company skills.
+_Avoid_: Treating agent creation as issue planning, implicit delegation, or an unapproved side effect
 
 **paperclip-setup**:
 The local operator skill that establishes shared Paperclip CLI context, docs, glossary, and operating conventions for the rest of the Paperclip Operator Skill Suite.
