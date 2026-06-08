@@ -131,3 +131,39 @@ _Avoid_: Treating agent creation as issue planning, implicit delegation, or an u
 **paperclip-setup**:
 The local operator skill that establishes shared Paperclip CLI context, docs, glossary, and operating conventions for the rest of the Paperclip Operator Skill Suite.
 _Avoid_: setup-matt-pocock-skills
+
+**Creator Growth**:
+The workflow for using creator-led distribution and personal-brand content to generate trust, qualified conversations, market learning, and acquisition leverage.
+_Avoid_: Digital twin when voice/video/avatar cloning is out of scope
+
+**Creator Growth Operator Skill Suite**:
+Local operator skills that turn creator-growth intent into Paperclip-native goals, creator projects, strategy parent issues, campaign parent issues, planned work items, and AFK-readiness decisions.
+_Avoid_: Treating creator strategy as generic Paperclip administration
+
+**Creator Strategy Artifact**:
+A Paperclip-native strategy parent issue and plan document that captures creator/persona, time horizon, channels, audience, hypothesis, positioning, source material, success signals, constraints, and stop conditions.
+_Avoid_: Chat-only content plan, local-only brand brief
+
+**Creator Project**:
+A Paperclip project for one creator or persona, such as `Creator ops: Ihor`, that groups creator goals, strategy periods, channel campaigns, and execution work.
+_Avoid_: One project per short-lived channel campaign by default
+
+**Creator Campaign**:
+A channel-specific or focused content hypothesis represented as a Paperclip parent issue under a strategy period, such as `LinkedIn campaign: logistics hypothesis X`.
+_Avoid_: Permanent channel bucket, full business experiment tracker
+
+**creator-clarify**:
+The local operator skill that runs a non-mutating grilling session to turn rough creator-growth intent into a creator, channel, time-period, and campaign clarification summary.
+_Avoid_: content drafting skill
+
+**creator-record-strategy**:
+The local operator skill that records approved creator-growth intent into Paperclip goals, a creator project, strategy parent issues, campaign parent issues, or plan documents, one missing layer at a time.
+_Avoid_: creating an entire creator hierarchy without approval
+
+**creator-plan-work**:
+The local operator skill that decomposes a creator strategy or campaign artifact into one level of backlog, unassigned Paperclip work items.
+_Avoid_: making creator work startable during planning
+
+**creator-triage**:
+The local operator skill that classifies planned creator work for AFK readiness before delegation to Paperclip agent execution.
+_Avoid_: verification of completed creator outputs
