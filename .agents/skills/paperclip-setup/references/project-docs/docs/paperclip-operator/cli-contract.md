@@ -14,6 +14,36 @@ Do not silently downgrade the Paperclip model because one surface lacks coverage
 
 For the full operation-by-operation decision table, read `docs/paperclip-operator/integration-matrix.md`.
 
+## Fresh Environment Setup
+
+The Paperclip CLI executable is `paperclipai`. On a new environment, install it from npm:
+
+```sh
+npm install -g paperclipai
+```
+
+Verify the install before running operator workflows:
+
+```sh
+command -v paperclipai
+paperclipai --version
+paperclipai context show --json
+```
+
+If `paperclipai` is not found after install, check npm's global binary directory:
+
+```sh
+npm bin -g
+```
+
+Add that directory to `PATH`, then rerun verification. After the CLI is available, authenticate and select/confirm company context:
+
+```sh
+paperclipai auth login
+paperclipai company list --json
+paperclipai context show --json
+```
+
 ## MCP Coverage
 
 Use MCP when available for:
