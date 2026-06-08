@@ -64,6 +64,7 @@ Create broad children as planning parents, not execution-ready issues.
 - Linked goals:
 - Blocked by:
 - Assignee: null
+- Readiness level: O0 strategy | O1 asset-prep | O2 tool-work | O3 send-ready | O4 reply-booking
 - Market/vertical:
 - ICP/buyer/persona:
 - Wedge or painful workflow:

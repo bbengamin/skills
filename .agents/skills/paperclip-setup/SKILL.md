@@ -26,6 +26,13 @@ Read these first:
   - `references/project-docs/docs/paperclip-operator/cli-contract.md`
   - `references/project-docs/docs/paperclip-operator/integration-matrix.md`
   - `references/project-docs/docs/paperclip-operator/paperclip-docs-index.md`
+  - `references/project-docs/docs/creator-operator/workflow.md`
+  - `references/project-docs/docs/creator-operator/control-plane.md`
+  - `references/project-docs/docs/creator-operator/afk-readiness.md`
+  - `references/project-docs/docs/growth-operator/workflow.md`
+  - `references/project-docs/docs/growth-operator/control-plane.md`
+  - `references/project-docs/docs/growth-operator/afk-readiness.md`
+  - `references/project-docs/docs/growth-operator/tooling-scout.md`
 
 ## Workflow
 
@@ -163,6 +170,13 @@ Read these first:
    - `docs/paperclip-operator/cli-contract.md`
    - `docs/paperclip-operator/integration-matrix.md`
    - `docs/paperclip-operator/paperclip-docs-index.md`
+   - `docs/creator-operator/workflow.md`
+   - `docs/creator-operator/control-plane.md`
+   - `docs/creator-operator/afk-readiness.md`
+   - `docs/growth-operator/workflow.md`
+   - `docs/growth-operator/control-plane.md`
+   - `docs/growth-operator/afk-readiness.md`
+   - `docs/growth-operator/tooling-scout.md`
 
 9. If docs are missing, propose scaffolding them.
 

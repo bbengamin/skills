@@ -69,6 +69,7 @@ Create broad children as planning parents, not execution-ready issues.
 - Linked goals:
 - Blocked by:
 - Assignee: null
+- Readiness level: I0 strategy | I1 source-research | I2 asset-draft | I3 publishing-prep | I4 signal-capture
 - Channel:
 - Creator/persona:
 - Audience/ICP:

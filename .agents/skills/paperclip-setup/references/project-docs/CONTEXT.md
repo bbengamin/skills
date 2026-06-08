@@ -131,3 +131,99 @@ _Avoid_: Treating agent creation as issue planning, implicit delegation, or an u
 **paperclip-setup**:
 The local operator skill that establishes shared Paperclip CLI context, docs, glossary, and operating conventions for the rest of the Paperclip Operator Skill Suite.
 _Avoid_: setup-matt-pocock-skills
+
+**Creator Growth**:
+The workflow for using creator-led distribution and personal-brand content to generate trust, qualified conversations, market learning, and acquisition leverage.
+_Avoid_: Digital twin when voice/video/avatar cloning is out of scope
+
+**Creator Growth Operator Skill Suite**:
+Local operator skills that turn creator-growth intent into Paperclip-native goals, creator projects, strategy parent issues, campaign parent issues, planned work items, and AFK-readiness decisions.
+_Avoid_: Treating creator strategy as generic Paperclip administration
+
+**Creator Strategy Artifact**:
+A Paperclip-native strategy parent issue and plan document that captures creator/persona, time horizon, channels, audience, hypothesis, positioning, source material, success signals, constraints, and stop conditions.
+_Avoid_: Chat-only content plan, local-only brand brief
+
+**Creator Project**:
+A Paperclip project for one creator or persona, such as `Creator ops: Ihor`, that groups creator goals, strategy periods, channel campaigns, and execution work.
+_Avoid_: One project per short-lived channel campaign by default
+
+**Creator Campaign**:
+A channel-specific or focused content hypothesis represented as a Paperclip parent issue under a strategy period, such as `LinkedIn campaign: logistics hypothesis X`.
+_Avoid_: Permanent channel bucket, full business experiment tracker
+
+**creator-clarify**:
+The local operator skill that runs a non-mutating grilling session to turn rough creator-growth intent into a creator, channel, time-period, and campaign clarification summary.
+_Avoid_: content drafting skill
+
+**creator-record-strategy**:
+The local operator skill that records approved creator-growth intent into Paperclip goals, a creator project, strategy parent issues, campaign parent issues, or plan documents, one missing layer at a time.
+_Avoid_: creating an entire creator hierarchy without approval
+
+**creator-plan-work**:
+The local operator skill that decomposes a creator strategy or campaign artifact into one level of backlog, unassigned Paperclip work items.
+_Avoid_: making creator work startable during planning
+
+**creator-triage**:
+The local operator skill that classifies planned creator work for AFK readiness before delegation to Paperclip agent execution.
+_Avoid_: verification of completed creator outputs
+
+**Growth Strategy**:
+The shared acquisition strategy layer that aligns inbound and outbound around the same ICP, wedge, proof, artifact ask, offer or CTA, success signals, validation expectations, and stop conditions.
+_Avoid_: Treating inbound and outbound as unrelated strategy trees
+
+**Growth Operator Skill Suite**:
+Local operator skills that turn rough acquisition intent into Paperclip-native goals/sub-goals, durable channel or motion projects, strategy parent issues, branch parent issues, and planned inbound or outbound work items.
+_Avoid_: Generic Paperclip planning when the acquisition domain matters
+
+**Durable Channel Or Motion Project**:
+A Paperclip project for a stable acquisition surface, such as `Inbound: Ihor LinkedIn` or `Outbound: Operator walkthroughs`.
+_Avoid_: Creating a project for every short-lived campaign, message sequence, content sprint, or lead list
+
+**Growth Strategy Artifact**:
+A Paperclip-native parent issue and plan document that captures acquisition outcome, goal structure, projects, time horizon, market, ICP, wedge, inbound role, outbound role, shared proof, artifact ask, CTA, success signals, constraints, validation, and stop conditions.
+_Avoid_: Chat-only acquisition plan
+
+**Inbound Branch**:
+A strategy branch under a growth strategy artifact that plans trust-building, creator-led, content-led, or channel-led acquisition work.
+_Avoid_: Treating inbound as only content drafting
+
+**Outbound Branch**:
+A strategy branch under a growth strategy artifact that plans lead sourcing, enrichment, personalization, sequences, reply handling, warm intros, or operator walkthrough booking.
+_Avoid_: Treating outbound as fully automated sending
+
+**growth-clarify**:
+The local operator skill that runs a non-mutating clarification session for shared acquisition strategy spanning inbound and outbound.
+_Avoid_: Using creator-clarify when outbound alignment is part of the strategy
+
+**growth-record-strategy**:
+The local operator skill that records approved growth strategy into Paperclip goals/sub-goals, durable channel or motion projects, parent issues, and plan documents.
+_Avoid_: Creating inbound and outbound branches without a shared strategy artifact
+
+**inbound-plan-work**:
+The local operator skill that decomposes an approved growth strategy or inbound branch into one level of backlog, unassigned inbound/channel work items.
+_Avoid_: Making inbound work startable during planning
+
+**outbound-plan-work**:
+The local operator skill that decomposes an approved growth strategy or outbound branch into one level of backlog, unassigned outbound work items.
+_Avoid_: Sending messages, modifying CRM records, or making outbound work startable during planning
+
+**inbound-triage**:
+The local operator skill that classifies planned inbound, creator-led, content-led, or channel-led growth work for AFK readiness before delegation.
+_Avoid_: Publishing, scheduling, or approving ungrounded claims during triage
+
+**Outbound Readiness Level**:
+The level-aware readiness model used by `outbound-triage`: `O0 strategy`, `O1 asset-prep`, `O2 tool-work`, `O3 send-ready`, and `O4 reply-booking`.
+_Avoid_: Treating a lead-list task and a send-launch task as the same risk level
+
+**outbound-triage**:
+The local operator skill that classifies planned outbound work for AFK readiness by readiness level before delegation.
+_Avoid_: Sending outreach, launching campaigns, mutating CRM records, spending credits, or modifying external accounts during triage
+
+**Growth Tooling Scout**:
+A non-mutating evaluation loop for deciding whether to adopt, integrate, extend, build, or defer acquisition tooling such as enrichment, sequencing, CRM, analytics, automation, Paperclip plugins, MCP tools, or outbound platforms.
+_Avoid_: Hard-coding tool-specific behavior before the tool has been evaluated against a real growth need
+
+**growth-tooling-scout**:
+The local operator skill that runs Growth Tooling Scout and produces a recommendation, scoring table, approval gates, and smallest next action.
+_Avoid_: Creating accounts, spending credits, uploading contacts, launching campaigns, or mutating Paperclip records during tool evaluation
