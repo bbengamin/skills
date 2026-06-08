@@ -37,6 +37,7 @@ tmp/
 !.agents/skills/outbound-plan-work/
 !.agents/skills/inbound-triage/
 !.agents/skills/outbound-triage/
+!.agents/skills/growth-tooling-scout/
 
 # Local skill install lock until this repo intentionally adopts one.
 skills-lock.json

@@ -219,3 +219,11 @@ _Avoid_: Treating a lead-list task and a send-launch task as the same risk level
 **outbound-triage**:
 The local operator skill that classifies planned outbound work for AFK readiness by readiness level before delegation.
 _Avoid_: Sending outreach, launching campaigns, mutating CRM records, spending credits, or modifying external accounts during triage
+
+**Growth Tooling Scout**:
+A non-mutating evaluation loop for deciding whether to adopt, integrate, extend, build, or defer acquisition tooling such as enrichment, sequencing, CRM, analytics, automation, Paperclip plugins, MCP tools, or outbound platforms.
+_Avoid_: Hard-coding tool-specific behavior before the tool has been evaluated against a real growth need
+
+**growth-tooling-scout**:
+The local operator skill that runs Growth Tooling Scout and produces a recommendation, scoring table, approval gates, and smallest next action.
+_Avoid_: Creating accounts, spending credits, uploading contacts, launching campaigns, or mutating Paperclip records during tool evaluation

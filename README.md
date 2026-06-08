@@ -66,6 +66,7 @@ docs/paperclip-operator/
 - `outbound-plan-work` — decompose a growth strategy or outbound branch into one level of backlog outbound work.
 - `inbound-triage` — review planned inbound/channel work for level-aware AFK readiness before delegation.
 - `outbound-triage` — review planned outbound work for level-aware AFK readiness across asset prep, tool work, sending, and reply/booking support.
+- `growth-tooling-scout` — evaluate acquisition tools before adoption, integration, extension, or custom build.
 
 ## Workflow
 
@@ -98,6 +99,7 @@ Company -> Goal -> Project -> Issue -> Workspace -> Agent run
 - `docs/growth-operator/control-plane.md` — acquisition goals, durable channel/motion projects, and branch strategy model.
 - `docs/growth-operator/workflow.md` — Growth skill workflow.
 - `docs/growth-operator/afk-readiness.md` — shared readiness rules for inbound and outbound planning.
+- `docs/growth-operator/tooling-scout.md` — growth tooling evaluation and build-vs-buy rubric.
 
 These docs are bundled inside `paperclip-setup` as templates so they can be copied into fresh projects.
 
@@ -114,3 +116,4 @@ These docs are bundled inside `paperclip-setup` as templates so they can be copi
 - Use one project per durable inbound channel or outbound motion.
 - Use parent issues and plan documents for strategy periods, campaigns, experiments, and branch planning.
 - Keep outbound triage level-aware: asset preparation, tool work, sending, and reply/booking support have different approval and stop-condition requirements.
+- Scout acquisition tools before hard-coding vendor assumptions into planning or triage skills.

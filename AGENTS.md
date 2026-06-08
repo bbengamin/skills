@@ -47,7 +47,7 @@ Shared references:
 
 Use the Growth operator suite when the user wants to create or revise a shared acquisition strategy that aligns inbound and outbound work before branching into channel-specific or outbound-motion-specific planning.
 
-Growth skills use Paperclip as the source of truth. Use `growth-clarify` and `growth-record-strategy` for shared acquisition strategy, goals/sub-goals, durable channel or motion projects, and strategy parent issues. Use `inbound-plan-work` for inbound/channel planning and `outbound-plan-work` for outbound planning after the shared strategy exists. Use `inbound-triage` and `outbound-triage` for branch-specific readiness decisions before delegation.
+Growth skills use Paperclip as the source of truth. Use `growth-clarify` and `growth-record-strategy` for shared acquisition strategy, goals/sub-goals, durable channel or motion projects, and strategy parent issues. Use `inbound-plan-work` for inbound/channel planning and `outbound-plan-work` for outbound planning after the shared strategy exists. Use `inbound-triage` and `outbound-triage` for branch-specific readiness decisions before delegation. Use `growth-tooling-scout` before adopting, integrating, extending, or building acquisition tooling.
 
 Shared references:
 
@@ -55,5 +55,6 @@ Shared references:
 - `docs/growth-operator/workflow.md` — Growth workflow and skill map.
 - `docs/growth-operator/control-plane.md` — Paperclip entity model for acquisition goals, channel/motion projects, strategy issues, and branch planning.
 - `docs/growth-operator/afk-readiness.md` — shared inbound/outbound planning readiness rules.
+- `docs/growth-operator/tooling-scout.md` — growth tooling evaluation and build-vs-buy rubric.
 - `docs/paperclip-operator/cli-contract.md` — how skills call `paperclipai`.
 - `docs/paperclip-operator/integration-matrix.md` — MCP/CLI/REST surface matrix.

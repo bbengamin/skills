@@ -76,7 +76,7 @@ Use these levels when triaging outbound work:
 
 - `O0 strategy` - strategy or campaign parent readiness.
 - `O1 asset-prep` - lead-list, enrichment-spec, scoring, personalization, and draft-message assets. No sending.
-- `O2 tool-work` - approved setup or configuration in tools such as Instantly, Clay, GRINFY, or a CRM. No launch unless separately approved.
+- `O2 tool-work` - approved setup or configuration in tools such as Instantly, Clay, Grinfi, or a CRM. No launch unless separately approved.
 - `O3 send-ready` - actual outreach launch or sending readiness.
 - `O4 reply-booking` - reply classification, response drafting, booking support, and learning capture.
 
