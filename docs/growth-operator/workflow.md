@@ -3,7 +3,7 @@
 Growth Operator skills turn acquisition intent into a shared Paperclip-native strategy, then branch into inbound and outbound planning.
 
 ```text
-intent -> growth-clarify -> growth-record-strategy -> inbound-plan-work / outbound-plan-work -> triage / execution
+intent -> growth-clarify -> growth-record-strategy -> inbound-plan-work / outbound-plan-work -> inbound-triage / outbound-triage -> execution
 ```
 
 ## 1. Intent
@@ -69,7 +69,11 @@ Planning creates `backlog`, unassigned structure. It must not assign agents, che
 
 ## 5. Triage And Execution
 
-Use the appropriate triage skill before execution. Existing `creator-triage` may be used for creator/inbound work until a dedicated `inbound-triage` exists. Use generic `paperclip-triage` for outbound work until a dedicated `outbound-triage` exists.
+Use `inbound-triage` for inbound, creator-led, content-led, or channel-led work.
+
+Use `outbound-triage` for lead sourcing, enrichment, personalization, sequencing, tool setup, reply handling, and walkthrough booking work.
+
+Triage is recommendation-first. It may recommend status changes, blocker links, or comments, but it must ask for approval before mutating Paperclip.
 
 ## Deferred
 

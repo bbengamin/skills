@@ -207,3 +207,15 @@ _Avoid_: Making inbound work startable during planning
 **outbound-plan-work**:
 The local operator skill that decomposes an approved growth strategy or outbound branch into one level of backlog, unassigned outbound work items.
 _Avoid_: Sending messages, modifying CRM records, or making outbound work startable during planning
+
+**inbound-triage**:
+The local operator skill that classifies planned inbound, creator-led, content-led, or channel-led growth work for AFK readiness before delegation.
+_Avoid_: Publishing, scheduling, or approving ungrounded claims during triage
+
+**Outbound Readiness Level**:
+The level-aware readiness model used by `outbound-triage`: `O0 strategy`, `O1 asset-prep`, `O2 tool-work`, `O3 send-ready`, and `O4 reply-booking`.
+_Avoid_: Treating a lead-list task and a send-launch task as the same risk level
+
+**outbound-triage**:
+The local operator skill that classifies planned outbound work for AFK readiness by readiness level before delegation.
+_Avoid_: Sending outreach, launching campaigns, mutating CRM records, spending credits, or modifying external accounts during triage

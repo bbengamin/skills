@@ -38,7 +38,9 @@ CONTEXT.md
 docs/paperclip-operator/
 ```
 
-## Skills
+## Skill Catalog
+
+### Paperclip Operator
 
 - `paperclip-setup` — check local `paperclipai` context and shared operator docs.
 - `paperclip-clarify` — run a non-mutating clarification session.
@@ -48,10 +50,22 @@ docs/paperclip-operator/
 - `paperclip-monitor` — inspect active execution across agents, heartbeats, activity, approvals, costs, and blocked work.
 - `paperclip-admin` — handle ad hoc Paperclip reads, minor approved mutations, existing-agent admin, and company skill-library maintenance.
 - `paperclip-create-agent` — create or hire Paperclip agents through the governance-aware native workflow.
+
+### Creator Growth
+
+- `creator-clarify` — run a non-mutating creator-growth clarification session.
+- `creator-record-strategy` — record approved creator-growth strategy into goals, creator projects, parent issues, campaign issues, and plan documents.
+- `creator-plan-work` — decompose creator strategy or campaign artifacts into one level of backlog creator work.
+- `creator-triage` — review planned creator work for AFK readiness before delegation.
+
+### Growth Operator
+
 - `growth-clarify` — run a non-mutating clarification session for shared acquisition strategy across inbound and outbound.
 - `growth-record-strategy` — record approved growth strategy into goals, durable channel/motion projects, strategy parent issues, branch parent issues, and plan documents.
 - `inbound-plan-work` — decompose a growth strategy or inbound branch into one level of backlog inbound/channel work.
 - `outbound-plan-work` — decompose a growth strategy or outbound branch into one level of backlog outbound work.
+- `inbound-triage` — review planned inbound/channel work for level-aware AFK readiness before delegation.
+- `outbound-triage` — review planned outbound work for level-aware AFK readiness across asset prep, tool work, sending, and reply/booking support.
 
 ## Workflow
 
@@ -62,7 +76,7 @@ clarify -> record strategy -> plan work -> triage -> monitor -> recursive planni
 Growth strategy branches after the shared strategy is recorded:
 
 ```text
-growth-clarify -> growth-record-strategy -> inbound-plan-work / outbound-plan-work
+growth-clarify -> growth-record-strategy -> inbound-plan-work / outbound-plan-work -> inbound-triage / outbound-triage
 ```
 
 The suite is designed around Paperclip's native hierarchy:
@@ -99,3 +113,4 @@ These docs are bundled inside `paperclip-setup` as templates so they can be copi
 - Use goals and sub-goals for durable acquisition direction.
 - Use one project per durable inbound channel or outbound motion.
 - Use parent issues and plan documents for strategy periods, campaigns, experiments, and branch planning.
+- Keep outbound triage level-aware: asset preparation, tool work, sending, and reply/booking support have different approval and stop-condition requirements.

@@ -41,12 +41,13 @@ Shared references:
 - Use `paperclip-admin` for narrow reads, minor approved mutations, existing-agent administration, and company skill-library maintenance outside the planning chain.
 - Use `paperclip-create-agent` for creating, hiring, drafting, or provisioning new Paperclip agents.
 - Use `creator-clarify`, `creator-record-strategy`, `creator-plan-work`, and `creator-triage` for the v1 Creator Growth workflow. Defer creator verification, reflection, scheduling, and publishing skills until planned separately.
+- Use `growth-clarify`, `growth-record-strategy`, `inbound-plan-work`, `outbound-plan-work`, `inbound-triage`, and `outbound-triage` for shared acquisition strategy and branch-specific growth planning. Outbound triage is level-aware; it must not send outreach, launch campaigns, mutate CRM records, spend credits, or modify external accounts.
 
 ## Growth Operator Skills
 
 Use the Growth operator suite when the user wants to create or revise a shared acquisition strategy that aligns inbound and outbound work before branching into channel-specific or outbound-motion-specific planning.
 
-Growth skills use Paperclip as the source of truth. Use `growth-clarify` and `growth-record-strategy` for shared acquisition strategy, goals/sub-goals, durable channel or motion projects, and strategy parent issues. Use `inbound-plan-work` for inbound/channel planning and `outbound-plan-work` for outbound planning after the shared strategy exists.
+Growth skills use Paperclip as the source of truth. Use `growth-clarify` and `growth-record-strategy` for shared acquisition strategy, goals/sub-goals, durable channel or motion projects, and strategy parent issues. Use `inbound-plan-work` for inbound/channel planning and `outbound-plan-work` for outbound planning after the shared strategy exists. Use `inbound-triage` and `outbound-triage` for branch-specific readiness decisions before delegation.
 
 Shared references:
 

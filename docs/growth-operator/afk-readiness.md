@@ -49,11 +49,38 @@ Outbound work should additionally identify:
 
 Use these classifications:
 
-- `ready-looking` - appears specific enough for later triage.
-- `planning parent` - useful strategy branch but too broad for execution.
+- `AFK-ready` - enough context to move toward execution at the declared readiness level.
 - `needs-info` - missing required strategy, audience, artifact, output, or validation context.
 - `blocked` - blocked by another issue or unavailable input.
 - `needs-human` - requires operator judgment before execution.
+- `too-broad` - should be planned into smaller child issues.
+- `revise` - existing work item should be rewritten before execution.
+- `cancel` - no longer worth pursuing.
+- `done` - already completed.
+
+## Inbound Readiness Levels
+
+Use these levels when triaging inbound work:
+
+- `I0 strategy` - strategy or branch parent readiness.
+- `I1 source-research` - research or proof collection.
+- `I2 asset-draft` - post, newsletter, script, angle, or content asset drafting.
+- `I3 publishing-prep` - preparing a reviewed asset for publication without posting.
+- `I4 signal-capture` - summarizing inbound responses, comments, conversations, or content signals.
+
+Inbound work is not ready when publishing, scheduling, account actions, or ungrounded claims are implied but not explicitly approved.
+
+## Outbound Readiness Levels
+
+Use these levels when triaging outbound work:
+
+- `O0 strategy` - strategy or campaign parent readiness.
+- `O1 asset-prep` - lead-list, enrichment-spec, scoring, personalization, and draft-message assets. No sending.
+- `O2 tool-work` - approved setup or configuration in tools such as Instantly, Clay, GRINFY, or a CRM. No launch unless separately approved.
+- `O3 send-ready` - actual outreach launch or sending readiness.
+- `O4 reply-booking` - reply classification, response drafting, booking support, and learning capture.
+
+Outbound work is not ready above `O1 asset-prep` unless the relevant tool, account, input fields, output fields, budget or credit limits, compliance boundaries, suppression rules, and operator approval gates are explicit.
 
 ## Stop Conditions
 
@@ -65,3 +92,5 @@ Stop and ask the operator when:
 - the artifact ask or proof source is missing
 - the success signal is vague or unmeasurable
 - the work is too broad for one planning pass
+- outbound work implies sending, paid enrichment, CRM mutation, or external account use without explicit approval
+- inbound work implies posting, scheduling, or claims that are not grounded in approved source material
