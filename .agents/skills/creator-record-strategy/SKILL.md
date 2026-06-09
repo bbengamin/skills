@@ -42,6 +42,8 @@ When the approved creator clarification summary or operator prompt references a 
 
 If wiki credentials, company scope, wiki id, space slug, or page path are missing and cannot be inferred from Paperclip context, stop and ask for the missing input instead of drafting from an unfetched wiki reference.
 
+If the operator explicitly asks to publish or sync the resulting creator strategy artifact to wiki, complete the Paperclip planning-chain proposal first, then use `paperclip-wiki-manage` for the wiki mutation. Do not replace the plan document with wiki as the default source of truth.
+
 ## Entity Guidance
 
 Use goals for stable direction. Every proposed goal mutation must specify `title`, `level`, `status`, `parentId` when it is a child goal, and `ownerAgentId` only for real agent-owned goals.

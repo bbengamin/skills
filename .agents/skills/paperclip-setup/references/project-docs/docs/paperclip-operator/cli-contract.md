@@ -190,6 +190,7 @@ Known MCP gaps:
 - no company skill-library tools
 - no secret, plugin, cloud, routine, or worktree tools
 - no dedicated wiki or llm-wiki plugin bridge tools
+- no documented native `paperclipai` wiki management command
 - no dedicated project create/update or goal create/update tools in MCP 0.1.0
 
 Treat write schemas as claims to verify, not proof. After issue creation or update, read the issue back and confirm parent, project, goal, status, and blocker links before continuing with dependent mutations.
@@ -257,6 +258,18 @@ POST /api/plugins/paperclipai.plugin-llm-wiki/data/sources
 ```
 
 Prefer MCP `paperclipApiRequest` when available because these routes live under `/api` and accept JSON bodies. If MCP is unavailable or broken, use direct REST with bearer auth. Never print bearer tokens, and never substitute `/api/wiki/...` for the plugin bridge route.
+
+## llm-wiki Mutations
+
+Use `paperclip-wiki-manage` for create, update, rename, archive, delete, publish, sync, or other llm-wiki mutations. There is no documented native `paperclipai` wiki management command, no dedicated MCP wiki management tool, and no confirmed write route in this operator suite.
+
+Before any wiki mutation, identify a confirmed plugin bridge write route and schema under:
+
+```text
+/api/plugins/paperclipai.plugin-llm-wiki/data/...
+```
+
+Do not infer write routes from read routes, and do not use `/api/wiki/...`. Wiki management must read the target first, show the exact proposed JSON and markdown diff or full body, wait for explicit approval, re-fetch before writing when the target exists, stop on hash/update-time conflicts, write only through the confirmed route, and read back the page or source to verify title, path, body or source metadata, update time, and hash.
 
 ## MCP API Request Fallback
 

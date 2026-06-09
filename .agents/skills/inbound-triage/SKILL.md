@@ -63,6 +63,8 @@ When readiness depends on a Paperclip wiki URL, wiki page path, or captured wiki
 
 If the wiki reference cannot be fetched because credentials, company scope, wiki id, space slug, or page path are missing, classify the issue as `needs-info` and name the missing wiki access in `Missing readiness elements`.
 
+If triage discovers stale, missing, or incorrect wiki content, recommend `paperclip-wiki-manage` as the follow-up skill. Do not mutate wiki content from ordinary triage unless the operator explicitly switches to wiki management and approves the exact mutation.
+
 ## Readiness Levels
 
 - `I0 strategy` - strategy or branch parent readiness.

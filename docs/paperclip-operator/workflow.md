@@ -6,7 +6,7 @@ The operator workflow moves from human intent to AFK execution while keeping Pap
 clarify -> record strategy -> plan work -> triage -> delegate/monitor -> recursive planning
 ```
 
-For narrow administration requests that do not need the full planning chain, use `paperclip-admin` instead. It handles ad hoc reads, minor approved mutations, existing-agent administration, and company skill-library maintenance. For new agents, use `paperclip-create-agent`. For Paperclip llm-wiki retrieval, use `paperclip-wiki-fetch`.
+For narrow administration requests that do not need the full planning chain, use `paperclip-admin` instead. It handles ad hoc reads, minor approved mutations, existing-agent administration, and company skill-library maintenance. For new agents, use `paperclip-create-agent`. For Paperclip llm-wiki retrieval, use `paperclip-wiki-fetch`. For Paperclip llm-wiki mutations, use `paperclip-wiki-manage`.
 
 ## 0. Admin
 
@@ -16,7 +16,9 @@ Use `paperclip-create-agent` when the operator asks to create, hire, provision, 
 
 Use `paperclip-wiki-fetch` when the operator asks to read Paperclip llm-wiki page markdown, list wiki pages, list captured wiki sources, or convert a public-looking wiki SPA URL into the plugin bridge REST API request.
 
-Admin and create-agent flows may inspect freely. Any mutation still requires operator approval, and agent creation must never be a side effect of planning.
+Use `paperclip-wiki-manage` when the operator asks to create, update, rename, archive, delete, publish, sync, or otherwise mutate Paperclip llm-wiki content. Wiki management requires a confirmed plugin bridge write route, exact proposed content or diff, explicit approval, and readback verification.
+
+Admin, create-agent, and wiki flows may inspect freely. Any mutation still requires operator approval, and agent creation must never be a side effect of planning.
 
 ## 1. Clarify
 

@@ -48,6 +48,8 @@ When the parent issue, plan document, comments, or operator prompt reference a P
 
 If the wiki reference cannot be fetched because credentials, company scope, wiki id, space slug, or page path are missing, pause planning and ask for the missing input. Do not create child issues that depend on inaccessible wiki material.
 
+If the operator explicitly asks to publish, sync, or update wiki content from inbound planning output, finish the proposed breakdown first, then use `paperclip-wiki-manage` for the wiki mutation after approval.
+
 ## Planning Patterns
 
 Examples:
