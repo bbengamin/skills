@@ -38,6 +38,12 @@ Read these first:
 6. Apply only approved changes.
 7. Read back created or updated records and report identifiers.
 
+## Wiki Source Material
+
+When the approved growth clarification summary or operator prompt references a Paperclip wiki URL, wiki page path, or captured wiki source, use `paperclip-wiki-fetch` before drafting strategy, branch, campaign, or experiment plan documents. Record the fetched page title, path, update time, and hash in `Shared Proof And Source Material` when available, then use the markdown body as approved input.
+
+If wiki credentials, company scope, wiki id, space slug, or page path are missing and cannot be inferred from Paperclip context, stop and ask for the missing input instead of drafting from an unfetched wiki reference.
+
 ## Entity Guidance
 
 Use goals for stable acquisition direction. Every proposed goal mutation must specify `title`, `level`, `status`, `parentId` when it is a child goal, and `ownerAgentId` only for real agent-owned goals.

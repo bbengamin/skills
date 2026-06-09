@@ -189,6 +189,7 @@ Known MCP gaps:
 - no dedicated company list/export/import tools
 - no company skill-library tools
 - no secret, plugin, cloud, routine, or worktree tools
+- no dedicated wiki or llm-wiki plugin bridge tools
 - no dedicated project create/update or goal create/update tools in MCP 0.1.0
 
 Treat write schemas as claims to verify, not proof. After issue creation or update, read the issue back and confirm parent, project, goal, status, and blocker links before continuing with dependent mutations.
@@ -233,6 +234,30 @@ Use CLI when MCP does not expose the needed operation and the CLI does.
 
 During planning, create issues as `backlog` and unassigned. Do not move planned work to `todo`, assign, checkout, or manually invoke heartbeats. Triage or delegation may make approved work startable by moving it to `todo`, assigning it, or checking it out; Paperclip's heartbeat policy handles agent pickup after assignment.
 
+## llm-wiki Reads
+
+There is no documented native `paperclipai` wiki command, and llm-wiki is not exposed under `/api/wiki/...`. Treat public-looking wiki URLs as SPA routes only. For example:
+
+```text
+https://paperclip.right.link/RL/wiki/page/wiki/sources/rl-30-day-validation-plan.md
+```
+
+maps to page path:
+
+```text
+wiki/sources/rl-30-day-validation-plan.md
+```
+
+Use `paperclip-wiki-fetch` for the request shape, route list, and examples. It reads llm-wiki through plugin bridge routes:
+
+```text
+POST /api/plugins/paperclipai.plugin-llm-wiki/data/page-content
+POST /api/plugins/paperclipai.plugin-llm-wiki/data/pages
+POST /api/plugins/paperclipai.plugin-llm-wiki/data/sources
+```
+
+Prefer MCP `paperclipApiRequest` when available because these routes live under `/api` and accept JSON bodies. If MCP is unavailable or broken, use direct REST with bearer auth. Never print bearer tokens, and never substitute `/api/wiki/...` for the plugin bridge route.
+
 ## MCP API Request Fallback
 
 `paperclipApiRequest` is the supported fallback when CLI and dedicated MCP tools lack a needed operation. It is limited to paths under `/api` and JSON bodies. Do not silently downgrade the Paperclip model because a tool command is missing.
@@ -246,6 +271,9 @@ PATCH /projects/{projectId}
 POST /companies/{companyId}/goals
 PATCH /goals/{goalId}
 PATCH /issues/{issueId} for native fields not exposed by CLI/MCP
+POST /plugins/paperclipai.plugin-llm-wiki/data/page-content
+POST /plugins/paperclipai.plugin-llm-wiki/data/pages
+POST /plugins/paperclipai.plugin-llm-wiki/data/sources
 ```
 
 After each API request, read the record back through CLI or MCP and verify the native field changed. Do not rely on a successful response alone.

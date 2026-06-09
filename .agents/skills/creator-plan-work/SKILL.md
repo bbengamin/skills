@@ -37,6 +37,12 @@ Read these first:
 8. Ask for approval.
 9. After approval, create issues in dependency order and verify each record.
 
+## Wiki Source Material
+
+When the parent issue, plan document, comments, or operator prompt reference a Paperclip wiki URL, wiki page path, or captured wiki source, use `paperclip-wiki-fetch` before proposing creator child issues. Carry the relevant fetched source title, path, update time, hash, and proof snippets into proposed issue bodies when they affect topic, hypothesis, source material, or research targets.
+
+If the wiki reference cannot be fetched because credentials, company scope, wiki id, space slug, or page path are missing, pause planning and ask for the missing input. Do not create child issues that depend on inaccessible wiki material.
+
 ## Planning Patterns
 
 Examples:

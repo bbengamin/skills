@@ -40,6 +40,12 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 9. After approval, create issues in dependency order.
 10. For planning parent issues, ask whether to run another planning iteration on each one.
 
+## Wiki Source Material
+
+When the parent issue, plan document, comments, or operator prompt reference a Paperclip wiki URL, wiki page path, or captured wiki source, use `paperclip-wiki-fetch` before proposing child issues. Carry the relevant fetched source title, path, update time, hash, and proof snippets into proposed issue bodies or acceptance criteria when they affect the work.
+
+If the wiki reference cannot be fetched because credentials, company scope, wiki id, space slug, or page path are missing, pause planning and ask for the missing input. Do not create child issues that depend on inaccessible wiki material.
+
 ## Surface Preflight
 
 Before proposing mutations, confirm the writable surface for:
