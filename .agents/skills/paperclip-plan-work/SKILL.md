@@ -50,9 +50,9 @@ Before proposing mutations, confirm the writable surface for:
 - issue status update, only for keeping planned work in `backlog`
 - `blockedByIssueIds`
 - plan document read/write, when plan documents are involved
-- REST auth availability if MCP/CLI cannot write the required native field
+- MCP API request or direct REST availability if CLI and dedicated MCP tools cannot write the required native field
 
-Use `paperclipai context show --json`, `paperclipai auth whoami --json`, and `~/.paperclip/auth.json` only to derive REST connection details. Never print bearer tokens. If a required native field cannot be written, stop and report the missing capability. Do not replace first-class blockers, parent links, or plan documents with comments unless the operator explicitly approves that degraded mode.
+Use `paperclipai context show --json`, `paperclipai auth whoami --json`, and `~/.paperclip/auth.json` only to derive API connection details. Never print bearer tokens. If a required native field cannot be written, stop and report the missing capability. Do not replace first-class blockers, parent links, or plan documents with comments unless the operator explicitly approves that degraded mode.
 
 ## Proposed Breakdown Format
 
@@ -82,8 +82,8 @@ Use `paperclipai context show --json`, `paperclipai auth whoami --json`, and `~/
 - Treat `todo` as operationally active; it may trigger pickup. Only `paperclip-triage` or an explicit delegation workflow may move planned work to `todo`.
 - Preserve operator intent: "plan", "break down", or "create the structure" means backlog structure, not execution.
 - Create planning parent issues as `backlog`.
-- Use `parentId` to link children to the parent. If using MCP, pass `parent_issue_id` only after confirming that the exposed tool actually preserves parent linkage in the created record.
-- Use REST for `blockedByIssueIds` unless MCP/CLI exposes and verifies the field.
+- Use `parentId` or the current surface's native parent field to link children to the parent. If using MCP, confirm the exposed tool schema and verify that parent linkage persists in the created record.
+- Use MCP `paperclipApiRequest` for `blockedByIssueIds` unless CLI or a dedicated MCP issue tool exposes and verifies the field.
 - Do not assign any planning-created issue to an execution agent.
 - Add a comment explaining planning decisions when useful.
 
@@ -99,7 +99,7 @@ Paperclip does not expose an obvious multi-issue transaction through the current
    - `status` is `backlog`
    - assignee is null
    - `blockedByIssueIds` links exist when expected
-3. Repair structural mismatches through CLI/REST when possible.
+3. Repair structural mismatches through CLI, MCP, `paperclipApiRequest`, or direct REST when possible.
 4. Do not patch planned issues to `todo`; report ready-looking issues as triage candidates instead.
 5. Continue to the next issue only after verification succeeds.
 

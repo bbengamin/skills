@@ -27,7 +27,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 
 1. Confirm there is an approved clarification summary.
 2. Inspect current Paperclip context and company.
-3. List existing goals and projects. Prefer MCP for goals. Treat project list/create/update as REST-required unless an actual MCP project tool is available.
+3. List existing goals and projects using the CLI-first ladder in `integration-matrix.md`.
 4. Decide with the operator whether this is:
    - a new root goal or child goal
    - an existing goal
@@ -58,17 +58,18 @@ Read `integration-matrix.md` before choosing tools.
 
 For this skill:
 
-- Use MCP for Goal create/update only when those tools are actually exposed and verified in the current runtime; otherwise use CLI or REST.
-- Treat Project list/create/update as REST-required unless a real MCP project tool is available.
-- Use REST for the parent Issue `plan` document.
-- Do not assume `mcp__paperclip.list_goals` returns projects. If the actual response lacks project records, use REST for project discovery.
+- Use CLI first when it supports the exact native field and can verify the result.
+- Use dedicated Paperclip MCP tools when CLI lacks the operation or would require brittle parsing.
+- Use MCP `paperclipApiRequest` for project create/update, goal create/update, or native fields not exposed by CLI or dedicated MCP tools.
+- Use direct REST only when CLI and MCP are unavailable or broken.
+- Use keyed issue documents for the parent Issue `plan`; prefer MCP document tools when CLI lacks native document commands.
 
-Run a REST auth preflight before the first REST mutation:
+Before the first MCP API request or direct REST mutation:
 
-1. Derive `apiBase` and `companyId` from MCP context if available, then `paperclipai context show --json`.
+1. Derive `apiBase` and `companyId` from `paperclipai context show --json`.
 2. Run `paperclipai auth whoami --json` to confirm the active auth source.
-3. If needed, read the stored board credential shape from `~/.paperclip/auth.json`.
-4. Confirm the target endpoint is reachable with a read request before writing.
+3. If needed, inspect the stored board credential shape from `~/.paperclip/auth.json` without printing secrets.
+4. Confirm the target read path works before writing.
 
 Never print bearer tokens. If auth cannot be derived, stop and ask the operator for the required context instead of degrading the strategy artifact.
 
@@ -102,7 +103,7 @@ Recommended plan shape:
 ## Planning Notes
 ```
 
-If MCP/CLI cannot write keyed documents, use the Paperclip API and explain the endpoint used. Only embed the plan in the parent issue description as a last resort after API access is unavailable or explicitly rejected by the operator.
+If CLI cannot write keyed documents, use MCP document tools. If no dedicated MCP tool is available, use `paperclipApiRequest` and explain the path used. Only embed the plan in the parent issue description as a last resort after CLI, MCP, and API access are unavailable or explicitly rejected by the operator.
 
 ## Mutation Rule
 

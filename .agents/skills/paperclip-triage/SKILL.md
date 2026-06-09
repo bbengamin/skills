@@ -96,18 +96,12 @@ Report recommendations first. Only update status, comments, blockers, labels, or
 
 Use the narrowest Paperclip surface that can perform the native mutation:
 
-- Read/update issue lifecycle and write triage comments with MCP when available: `get_issue`, `update_issue`, and `comment_on_issue`.
-- Use CLI only when MCP does not expose the operation and `paperclipai` does.
-- Use REST for Paperclip-native fields that MCP/CLI do not expose, especially `blockedByIssueIds`.
+- Use CLI issue reads, updates, and comments first when it supports the needed fields and verification.
+- Use MCP issue tools when CLI cannot perform or verify the operation.
+- Use MCP `paperclipApiRequest` for Paperclip-native fields that CLI and dedicated MCP tools do not expose, especially `blockedByIssueIds`.
+- Use direct REST only when CLI and MCP are unavailable or broken.
 
-If MCP/CLI cannot write blocker links, use the REST fallback from `cli-contract.md`:
-
-```sh
-curl -sS -X PATCH "$PAPERCLIP_API_BASE/api/issues/$ISSUE_ID" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
-  -H "Content-Type: application/json" \
-  --data '{"blockedByIssueIds":["<blocking-issue-id>"]}'
-```
+If CLI and dedicated MCP tools cannot write blocker links, use the API fallback from `cli-contract.md`.
 
 Verify every mutation by reading the issue back. For blocker changes, confirm the returned issue contains the intended `blockedByIssueIds`; do not treat a comment-only explanation as equivalent unless the operator explicitly approved degraded mode.
 

@@ -1,6 +1,6 @@
 # Agent Skills
 
-This repository contains local operator skills for preparing and operating AFK work in Paperclip through the `paperclipai` CLI.
+This repository contains local operator skills for preparing and operating AFK work in Paperclip through the `paperclipai` CLI, Paperclip MCP fallback, and API fallback surfaces.
 
 ## Paperclip Operator Skills
 
@@ -12,8 +12,8 @@ Shared references:
 - `docs/paperclip-operator/control-plane.md` — Paperclip entities and hierarchy.
 - `docs/paperclip-operator/workflow.md` — operator workflow and skill map.
 - `docs/paperclip-operator/afk-readiness.md` — issue readiness rules.
-- `docs/paperclip-operator/cli-contract.md` — how skills call `paperclipai`.
-- `docs/paperclip-operator/integration-matrix.md` — MCP/CLI/REST surface matrix.
+- `docs/paperclip-operator/cli-contract.md` — how skills choose CLI, MCP, MCP API request, and direct REST surfaces.
+- `docs/paperclip-operator/integration-matrix.md` — CLI/MCP/API fallback surface matrix.
 - `docs/paperclip-operator/paperclip-docs-index.md` — upstream docs used by this suite.
 
 ## Creator Growth Operator Skills
@@ -28,13 +28,14 @@ Shared references:
 - `docs/creator-operator/workflow.md` — Creator Growth workflow and skill map.
 - `docs/creator-operator/control-plane.md` — Paperclip entity model for creator strategy, periods, campaigns, and work items.
 - `docs/creator-operator/afk-readiness.md` — creator work readiness rules.
-- `docs/paperclip-operator/cli-contract.md` — how skills call `paperclipai`.
-- `docs/paperclip-operator/integration-matrix.md` — MCP/CLI/REST surface matrix.
+- `docs/paperclip-operator/cli-contract.md` — how skills choose CLI, MCP, MCP API request, and direct REST surfaces.
+- `docs/paperclip-operator/integration-matrix.md` — CLI/MCP/API fallback surface matrix.
 
 ## Operating Rules
 
 - Paperclip is the source of truth for goals, projects, issues, comments, approvals, activity, assignments, and skill attachments.
 - Local operator skills may inspect Paperclip freely, but must ask before mutating the control plane.
+- `paperclip-setup` installs Paperclip MCP config project-locally by default after explicit approval; global MCP install is allowed only when the operator asks for it.
 - Prefer Paperclip-native lifecycle state over parallel local ledgers: `backlog` is parked, `todo` is ready/actionable, `blockedByIssueIds` are first-class blockers.
 - Plan recursively. Create one child-issue level at a time, and treat broad children as planning parents for later passes.
 - Keep phase boundaries strict: planning creates backlog, unassigned structure only; triage may recommend `todo`; delegation may assign or checkout approved work. Do not manually invoke another agent's heartbeat; Paperclip's heartbeat policy handles pickup after assignment.
@@ -56,5 +57,5 @@ Shared references:
 - `docs/growth-operator/control-plane.md` — Paperclip entity model for acquisition goals, channel/motion projects, strategy issues, and branch planning.
 - `docs/growth-operator/afk-readiness.md` — shared inbound/outbound planning readiness rules.
 - `docs/growth-operator/tooling-scout.md` — growth tooling evaluation and build-vs-buy rubric.
-- `docs/paperclip-operator/cli-contract.md` — how skills call `paperclipai`.
-- `docs/paperclip-operator/integration-matrix.md` — MCP/CLI/REST surface matrix.
+- `docs/paperclip-operator/cli-contract.md` — how skills choose CLI, MCP, MCP API request, and direct REST surfaces.
+- `docs/paperclip-operator/integration-matrix.md` — CLI/MCP/API fallback surface matrix.

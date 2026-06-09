@@ -1,6 +1,6 @@
 ---
 name: paperclip-setup
-description: Configure local operator assumptions for working with Paperclip through paperclipai. Use when setting up this repo, checking Paperclip CLI context, or preparing the Paperclip operator skill suite.
+description: Configure local operator assumptions for working with Paperclip through paperclipai and Paperclip MCP fallback. Use when setting up this repo, checking Paperclip CLI context, installing project-local or explicitly global MCP config, or preparing the Paperclip operator skill suite.
 ---
 
 # Paperclip Setup
@@ -85,6 +85,7 @@ Read these first:
    - API base is reachable
    - auth is configured
    - company context is selected
+   - Paperclip MCP config is installed or intentionally skipped
    - shared operator docs exist
 
    A failure at one rung should produce the next concrete command or decision needed, not a generic blocker report.
@@ -158,7 +159,62 @@ Read these first:
 
    Verify the resulting profile contains both `apiBase` and `companyId`. If it does not, repair by setting both values together and read the context back again.
 
-8. Verify shared docs exist.
+8. Verify Paperclip MCP config.
+
+   Paperclip MCP uses `@bbengamin/paperclip-mcp-server` as a fallback surface after CLI. Default to project-local Codex configuration in the current trusted project:
+
+   ```text
+   .codex/config.toml
+   ```
+
+   Use global Codex configuration only when the operator explicitly asks for global install:
+
+   ```text
+   ~/.codex/config.toml
+   ```
+
+   Inspect the intended target before proposing a change:
+
+   ```sh
+   test -f .codex/config.toml && sed -n '1,220p' .codex/config.toml
+   test -f ~/.codex/config.toml && sed -n '1,220p' ~/.codex/config.toml
+   ```
+
+   Proposed project-local TOML:
+
+   ```toml
+   [mcp_servers.paperclip]
+   command = "npx"
+   args = ["-y", "@bbengamin/paperclip-mcp-server"]
+   ```
+
+   If the operator wants explicit host-local overrides, include only the requested environment values:
+
+   ```toml
+   [mcp_servers.paperclip.env]
+   PAPERCLIP_API_URL = "<api-base>"
+   PAPERCLIP_COMPANY_ID = "<company-id>"
+   ```
+
+   Prefer token-free configuration that falls back to the active `paperclipai` profile and board auth. Do not write `PAPERCLIP_API_KEY` into project-local config. If a bearer token is required, ask the operator to use a local environment variable or user-level config.
+
+   Before writing MCP config, show:
+
+   - target scope: project-local or global
+   - target path
+   - exact TOML table
+   - whether the `mcp_servers.paperclip` entry will be created, replaced, or left unchanged
+
+   Ask for explicit approval before editing the config file. After writing, verify:
+
+   ```sh
+   sed -n '1,220p' <target-config-path>
+   npm view @bbengamin/paperclip-mcp-server version
+   ```
+
+   Then tell the operator to restart Codex or start a new thread before expecting Paperclip MCP tools to appear. Do not treat missing MCP tools in the same running thread as install failure unless a restarted session still cannot load them.
+
+9. Verify shared docs exist.
 
    Required files:
 
@@ -178,7 +234,7 @@ Read these first:
    - `docs/growth-operator/afk-readiness.md`
    - `docs/growth-operator/tooling-scout.md`
 
-9. If docs are missing, propose scaffolding them.
+10. If docs are missing, propose scaffolding them.
 
    Show the exact files that will be created or updated. Ask for approval before writing.
 
@@ -186,7 +242,7 @@ Read these first:
 
    If a target file already exists, do not overwrite it silently. Summarize the conflict and ask whether to skip, merge manually, or replace.
 
-10. Report setup status.
+11. Report setup status.
 
    Include:
 
@@ -197,9 +253,10 @@ Read these first:
    - API reachability and whether the next action is starting the local API or changing API base
    - company id, if configured
    - auth state or next auth command needed
+   - MCP install scope, target path, and whether restart/new thread is needed
    - docs created, docs skipped, or remaining missing docs
    - unresolved setup questions
 
 ## Mutation Rule
 
-This skill may read freely. Ask before changing CLI context, creating Paperclip records, installing Paperclip company skills, or editing shared docs. Creating missing shared docs from bundled templates is allowed only after operator approval.
+This skill may read freely. Ask before changing CLI context, creating Paperclip records, installing or changing Paperclip MCP config, installing Paperclip company skills, or editing shared docs. Creating missing shared docs from bundled templates is allowed only after operator approval.

@@ -1,74 +1,79 @@
 # Paperclip Integration Matrix
 
-Paperclip operator skills should choose the narrowest surface that can perform the correct Paperclip-native operation.
+Paperclip operator skills should choose the first surface in the ladder that can perform and verify the correct Paperclip-native operation.
 
 ## Priority Rule
 
 Use surfaces in this order:
 
-1. **MCP** when a matching `mcp__paperclip` tool exists.
-2. **CLI** when the operation is local/setup-oriented or MCP does not expose it.
-3. **REST API** when MCP and CLI do not expose a Paperclip-native record or mutation.
+1. **CLI** when `paperclipai` supports the exact operation and can verify it cleanly, preferably with `--json`.
+2. **MCP** when the CLI lacks the operation, lacks the required field, or would require brittle output parsing.
+3. **MCP API request** through `paperclipApiRequest` when no dedicated MCP tool exists.
+4. **REST API** only when CLI and MCP are unavailable or broken.
 
-Do not degrade the model because the first surface is missing a command. For example, if a strategy needs a Project or keyed `plan` document, use REST rather than embedding everything in an issue description.
+Do not degrade the model because an earlier surface is missing a command or field. For example, if a strategy needs a Project or keyed `plan` document and the CLI cannot write it natively, use MCP or `paperclipApiRequest` rather than embedding everything in an issue description.
 
-## Current MCP Coverage
+## Current MCP Server
 
-The currently exposed Paperclip MCP tools may cover:
+The supported MCP package is `@bbengamin/paperclip-mcp-server`. It is a thin REST-backed MCP wrapper. It reads explicit `PAPERCLIP_API_URL`, `PAPERCLIP_API_KEY`, and `PAPERCLIP_COMPANY_ID` first, then falls back to the active `paperclipai` context and auth store.
 
-- Goals: `list_goals`, and sometimes `create_goal` / `update_goal` depending on the runtime.
-- Issues: `list_issues`, `get_issue`, `create_issue`, `update_issue`, `comment_on_issue`, `checkout_issue`, `release_issue`, `delete_issue`
-- Approvals: `list_approvals`
-- Agents: `list_agents`
-- Monitoring: `get_dashboard`, `list_activity`
+Dedicated MCP tools cover:
+
+- Actor and inbox: `paperclipMe`, `paperclipInboxLite`
+- Agents: `paperclipListAgents`, `paperclipGetAgent`
+- Issues: `paperclipListIssues`, `paperclipGetIssue`, `paperclipCreateIssue`, `paperclipUpdateIssue`, `paperclipCheckoutIssue`, `paperclipReleaseIssue`
+- Comments: `paperclipListComments`, `paperclipGetComment`, `paperclipAddComment`
+- Issue documents: `paperclipListDocuments`, `paperclipGetDocument`, `paperclipListDocumentRevisions`, `paperclipUpsertIssueDocument`, `paperclipRestoreIssueDocumentRevision`
+- Projects: `paperclipListProjects`, `paperclipGetProject`
+- Goals: `paperclipListGoals`, `paperclipGetGoal`
+- Approvals: `paperclipListApprovals`, `paperclipGetApproval`, `paperclipGetApprovalIssues`, `paperclipListIssueApprovals`, `paperclipCreateApproval`, `paperclipLinkIssueApproval`, `paperclipUnlinkIssueApproval`, `paperclipApprovalDecision`, `paperclipAddApprovalComment`, `paperclipListApprovalComments`
+- Agent/user interactions: `paperclipSuggestTasks`, `paperclipAskUserQuestions`, `paperclipRequestConfirmation`, `paperclipRequestCheckboxConfirmation`
+- Heartbeat/workspace runtime: `paperclipGetHeartbeatContext`, `paperclipGetIssueWorkspaceRuntime`, `paperclipControlIssueWorkspaceServices`, `paperclipWaitForIssueWorkspaceService`
+- Escape hatch: `paperclipApiRequest`
 
 Known MCP gaps:
 
-- no dedicated `list_projects`
-- no `create_project`
-- no `update_project`
-- no keyed issue-document writer such as `PUT /documents/plan`
-- no exposed `blockedByIssueIds` create/update field in observed issue tools
-- no company skill-library operations
-- agents are read-only through the exposed MCP surface
+- no dedicated company list/export/import tools
+- no company skill-library tools
+- no secret, plugin, cloud, routine, or worktree tools
+- no dedicated project create/update tools in the published MCP list; use `paperclipApiRequest` if CLI cannot do the native operation
 
-Observed MCP behavior can drift from its schema. In particular, a tool may expose a `parent_issue_id` argument but still return a created issue with `parentId: null`, and a create surface may normalize new issues to `backlog`. Verify created records before trusting parent, project, status, goal, assignee, or blocker links.
-
-`list_goals` may describe itself as listing goals and projects, but observed output can contain only goal-like records. Treat project discovery as REST-required unless the actual response includes project records with stable project ids.
+Treat write schemas as claims to verify, not proof. After every write, read the record back and confirm parent, project, goal, status, assignee, document, approval, and blocker fields before continuing with dependent mutations.
 
 ## Operation Matrix
 
 | Operation | Preferred surface | Fallback | Notes |
 |---|---|---|---|
-| Check active Paperclip company | MCP context | CLI `paperclipai context show --json` | MCP tools target the configured active company. CLI exposes profile details. |
-| Derive REST auth | CLI auth store | `PAPERCLIP_API_KEY` env var | Use `paperclipai auth whoami --json` to verify board auth. Stored board credentials live in `~/.paperclip/auth.json`; do not print tokens. |
-| List companies | CLI | REST | No current MCP company list tool. |
-| Export/import company | CLI | REST if documented | Use CLI for backup/restore workflows. |
-| List goals | MCP `list_goals` | REST `GET /api/companies/{companyId}/goals` | Verify response shape before assuming projects are included. |
-| Create goal | MCP `create_goal` if exposed and verified | CLI `paperclipai goal create`, REST `POST /api/companies/{companyId}/goals` | Must support `level`, `status`, `parentId`, and `ownerAgentId`; verify the created record. |
-| Update goal | MCP `update_goal` if exposed and verified | CLI `paperclipai goal update`, REST `PATCH /api/goals/{goalId}` | Must support `level`, `status`, `parentId`, and `ownerAgentId`; verify the updated record. |
-| List projects | REST `GET /api/companies/{companyId}/projects` | MCP only if actual response includes projects | Treat REST as required today. |
-| Create project | REST `POST /api/companies/{companyId}/projects` | none | Required for missing planning-chain projects. |
-| Update project / link goals | REST `PATCH /api/projects/{projectId}` | none | Use `goalIds` for goal links. |
-| List issues | MCP `list_issues` | CLI `paperclipai issue list --json`, REST | MCP is sufficient for most triage/monitoring. |
-| Get issue detail | MCP `get_issue` | CLI `paperclipai issue get --json`, REST | Use before triage or planning. |
-| Create parent issue | MCP `create_issue` | CLI `paperclipai issue create`, REST | Include `project_id` when known. |
-| Create child issue | MCP only after verifying `parent_issue_id` persists | CLI/REST | Create one issue, verify `parentId`, repair if possible, then continue. |
-| Update issue lifecycle | MCP `update_issue` | CLI `paperclipai issue update`, REST | Planning leaves issues in `backlog`. Only triage/delegation may move work to `todo` after approval. |
-| Write blocker links | REST for `blockedByIssueIds` | MCP/CLI only if the actual tool exposes and verifies the field | Do not replace first-class blockers with comments unless the operator approves degraded mode. |
-| Comment on issue | MCP `comment_on_issue` | CLI `paperclipai issue comment`, REST | Use comments for triage reasoning. |
-| Checkout/release issue | MCP `checkout_issue` / `release_issue` | CLI/REST | Respect checkout conflict semantics. |
-| Delete issue | MCP `delete_issue` | REST | Destructive; require explicit operator approval. |
-| Write `plan` document | REST `PUT /api/issues/{issueId}/documents/plan` | issue description fallback only if REST unavailable or rejected | Do not claim CLI/MCP can do this unless a tool appears. |
-| List approvals | MCP `list_approvals` | CLI `paperclipai approval list --json`, REST | Monitoring and board-decision workflows. |
-| Resolve approvals | CLI or REST if available | none through current MCP | Current exposed MCP list is read-oriented for approvals. |
-| List agents | MCP `list_agents` | CLI `paperclipai agent list --json`, REST | Current MCP agent surface is read-only. |
-| Create agents / hire agents | REST `POST /api/companies/{companyId}/agent-hires` or `POST /api/companies/{companyId}/agents` | Paperclip UI | Use `paperclip-create-agent`. Inspect org/config/skills first, ask approval, create or submit hire, then verify agent and approval state. |
-| Update existing agents | REST/CLI depending operation | Paperclip UI | Use `paperclip-admin`. Inspect current agent and skills first, ask approval, then verify the updated agent. |
-| Dashboard summary | MCP `get_dashboard` | CLI `paperclipai dashboard get --json`, REST | Preferred for `paperclip-monitor`. |
-| Activity log | MCP `list_activity` | CLI `paperclipai activity list --json`, REST | Preferred for `paperclip-monitor`. |
-| Costs | MCP dashboard/cost fields | REST costs API | Use REST for detailed cost drill-down if MCP summary is insufficient. |
-| Company skill library | CLI `paperclipai skills ...` | REST skills API | MCP currently lacks skill-library tools. |
+| Check active Paperclip company | CLI `paperclipai context show --json` | MCP `paperclipMe` / `paperclipListAgents` | MCP tools use explicit env or active CLI context. CLI remains the setup authority. |
+| Derive API auth | CLI auth store | `PAPERCLIP_API_KEY` env var | Use `paperclipai auth whoami --json` to verify board auth. Stored board credentials live in `~/.paperclip/auth.json`; do not print tokens. |
+| List companies | CLI `paperclipai company list --json` | direct REST | No dedicated MCP company list tool. |
+| Export/import company | CLI `paperclipai company export/import` | direct REST if documented | Use CLI for backup/restore workflows. |
+| List goals | CLI if available with JSON | MCP `paperclipListGoals` | Verify response shape before using goal ids in mutations. |
+| Get goal | CLI if available with JSON | MCP `paperclipGetGoal` | Use MCP when CLI lacks the read. |
+| Create/update goal | CLI if available and verifies native fields | `paperclipApiRequest`, then direct REST | No dedicated goal write tool in MCP 0.1.0. Must support `level`, `status`, `parentId`, and `ownerAgentId`; verify the record. |
+| List projects | CLI if available with JSON | MCP `paperclipListProjects` | Use MCP when CLI lacks project reads. |
+| Get project | CLI if available with JSON | MCP `paperclipGetProject` | Use MCP when CLI lacks project detail. |
+| Create project | CLI if available and verifies native fields | `paperclipApiRequest`, then direct REST | Required for missing planning-chain projects. |
+| Update project / link goals | CLI if available and verifies native fields | `paperclipApiRequest`, then direct REST | Use native `goalIds` or equivalent field. |
+| List issues | CLI `paperclipai issue list --json` | MCP `paperclipListIssues` | MCP supports richer filters; use it when CLI output is insufficient. |
+| Get issue detail | CLI `paperclipai issue get --json` | MCP `paperclipGetIssue` | Use before triage or planning. |
+| Create parent issue | CLI `paperclipai issue create` if fields verify | MCP `paperclipCreateIssue` | Include project/parent/status fields when known and verify after creation. |
+| Create child issue | CLI if parent linkage verifies | MCP `paperclipCreateIssue`, then `paperclipApiRequest` repair | Create one issue, verify `parentId`, repair if possible, then continue. |
+| Update issue lifecycle/fields | CLI `paperclipai issue update` if fields verify | MCP `paperclipUpdateIssue` | Planning leaves issues in `backlog`. Only triage/delegation may move work to `todo` after approval. |
+| Write blocker links | CLI if `blockedByIssueIds` verifies | MCP `paperclipUpdateIssue`, then `paperclipApiRequest` | Do not replace first-class blockers with comments unless the operator approves degraded mode. |
+| Comment on issue | CLI `paperclipai issue comment` | MCP `paperclipAddComment` | Use comments for triage reasoning. |
+| Checkout/release issue | CLI `paperclipai issue checkout/release` | MCP `paperclipCheckoutIssue` / `paperclipReleaseIssue` | Respect checkout conflict semantics. |
+| Delete issue | direct REST only after explicit approval | none | The current CLI/MCP inspected surfaces do not expose issue delete as a normal operator command. |
+| Read/write `plan` document | CLI if available and verifies document record | MCP `paperclipGetDocument` / `paperclipUpsertIssueDocument` | Prefer keyed issue documents over issue-description fallback. |
+| List approvals | CLI `paperclipai approval list --json` | MCP `paperclipListApprovals` / `paperclipListIssueApprovals` | Monitoring and board-decision workflows. |
+| Resolve approvals | CLI `paperclipai approval approve/reject/request-revision/resubmit` | MCP `paperclipApprovalDecision` | Verify approval status after mutation. |
+| List agents | CLI `paperclipai agent list --json` | MCP `paperclipListAgents` | Use CLI for local agent setup commands. |
+| Create agents / hire agents | CLI if available and governance path verifies | `paperclipApiRequest`, then direct REST | Use `paperclip-create-agent`. Inspect org/config/skills first, ask approval, create or submit hire, then verify agent and approval state. |
+| Update existing agents | CLI depending operation | MCP reads, then `paperclipApiRequest` or direct REST | Use `paperclip-admin`. Inspect current agent and skills first, ask approval, then verify the updated agent. |
+| Dashboard summary | CLI `paperclipai dashboard get --json` | MCP if a dedicated/dashboard-equivalent tool exists, else API fallback | Preferred for `paperclip-monitor`. |
+| Activity log | CLI `paperclipai activity list --json` | `paperclipApiRequest`, then direct REST | Use CLI for ordinary monitoring. |
+| Costs | CLI/dashboard if exposed | `paperclipApiRequest`, then direct REST | Use API fallback for detailed cost drill-down if summaries are insufficient. |
+| Company skill library | CLI `paperclipai skills ...` | direct REST if documented | MCP currently lacks skill-library tools. |
 | Local CLI setup/auth/context | CLI | none | Use `paperclipai` for local environment work. |
 
 ## Skill Guidance
@@ -76,54 +81,57 @@ Observed MCP behavior can drift from its schema. In particular, a tool may expos
 **paperclip-setup**
 
 - Use CLI for local `paperclipai` path, version, context, and company list.
-- Use MCP only to verify active-company access when useful.
+- Configure and verify MCP only after CLI context/auth are usable.
 - Use bundled templates for project docs.
 
 **paperclip-clarify**
 
 - Usually no Paperclip mutation.
-- Use MCP/CLI reads only when an answer can be discovered from current Paperclip state.
+- Use CLI/MCP reads only when an answer can be discovered from current Paperclip state.
 
 **paperclip-record-strategy**
 
-- Use MCP for Goal create/update only when the current runtime exposes and correctly persists those fields; otherwise use CLI or REST.
-- Use REST for Project list/create/update.
-- Use REST for the parent Issue `plan` document.
-- Fall back to embedding the plan in the issue description only when REST is unavailable or explicitly rejected.
+- Use CLI first for reads/writes that it supports and verifies.
+- Use MCP for project reads and plan documents when CLI lacks a native operation.
+- Use `paperclipApiRequest` for project create/update or goal create/update when no CLI or dedicated MCP tool supports the required native fields.
+- Fall back to embedding the plan in the issue description only when CLI, MCP, and API access are unavailable or explicitly rejected.
 
 **paperclip-plan-work**
 
-- Use MCP issue reads.
-- Use MCP issue creates only when parent linkage is known to verify for the active tool surface.
+- Use CLI issue reads/writes first when they support the needed fields and JSON verification.
+- Use MCP issue tools when CLI lacks a native field or would require brittle parsing.
 - Create and verify one child issue at a time before continuing.
 - Create planned issues as `backlog` and unassigned only.
 - Do not move issues to `todo`, assign, checkout, or manually invoke heartbeats from planning.
 - Verify `parentId`, `projectId`, `goalId`, `status`, null assignee, and `blockedByIssueIds` after each write.
-- Use REST for plan-document reads/writes or fields not exposed by MCP/CLI, including blocker links.
+- Use MCP document tools for plan-document reads/writes when CLI lacks native document commands.
+- Use `paperclipApiRequest` for fields not exposed by CLI/MCP, including blocker links.
 - Stop on the first unrepaired structural mismatch and report partial state.
 
 **paperclip-triage**
 
-- Use MCP issue reads/updates/comments.
-- Use REST only for fields not exposed by MCP/CLI.
+- Use CLI issue reads/updates/comments first when they support the needed fields and verification.
+- Use MCP issue tools when CLI cannot perform or verify the mutation.
+- Use `paperclipApiRequest` only for fields not exposed by CLI/MCP.
 - Recommend first, mutate after approval.
 - Triage is the phase that may recommend moving ready backlog issues to `todo`.
 
 **paperclip-monitor**
 
-- Use MCP dashboard, activity, approvals, agents, and issues first.
-- Use CLI/REST for deeper drill-down when MCP summaries are insufficient.
+- Use CLI dashboard, activity, approvals, agents, and issues first.
+- Use MCP or `paperclipApiRequest` for deeper drill-down when CLI summaries are insufficient.
 
 **paperclip-admin**
 
-- Use MCP for reads when exposed.
-- Use CLI/REST for existing-agent administration, company skill-library changes, assignments, and small record repairs not exposed through MCP.
+- Use CLI for reads and writes when it supports the needed operation and verification.
+- Use MCP for reads/writes not exposed cleanly through CLI.
+- Use `paperclipApiRequest` or direct REST for small record repairs not exposed through CLI/MCP.
 - Ask before any mutation, especially attaching skills, changing budgets, changing runtimes, or making work startable.
 - Verify every changed record after the write.
 
 **paperclip-create-agent**
 
-- Use CLI/MCP reads for context where available, then REST for native agent creation or hire submission.
+- Use CLI reads for context where available, MCP reads when CLI lacks detail, then `paperclipApiRequest` or direct REST for native agent creation or hire submission.
 - Prefer `/agent-hires` when governance is required or board visibility is useful; use direct `/agents` only with explicit operator approval.
 - Mirror company conventions from existing agents, org chart, skills, adapter configuration docs, and current agent configuration examples.
 - Create managed instructions bundles for local agents instead of durable legacy prompt fields.

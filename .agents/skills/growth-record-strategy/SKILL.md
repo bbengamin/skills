@@ -132,9 +132,9 @@ When revising an existing strategy plan, update the existing plan document after
 
 ## Surface Rules
 
-Use the narrowest Paperclip surface that supports the native field. Read `integration-matrix.md` before choosing MCP, CLI, or REST.
+Use the CLI-first ladder in `integration-matrix.md`: CLI when it supports and verifies the native field, dedicated MCP tools when CLI is insufficient, `paperclipApiRequest` when no dedicated tool exists, and direct REST only when CLI and MCP are unavailable or broken.
 
-Run a REST auth preflight before the first REST mutation. Never print bearer tokens. If a native field cannot be written, stop and ask the operator instead of silently degrading the strategy artifact.
+Before the first MCP API request or direct REST mutation, derive API base and company from `paperclipai context show --json`, verify auth with `paperclipai auth whoami --json`, and never print bearer tokens. If a native field cannot be written, stop and ask the operator instead of silently degrading the strategy artifact.
 
 ## Mutation Rule
 

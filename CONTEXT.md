@@ -1,16 +1,20 @@
 # Paperclip Skills
 
-This context defines the language for skills that operate a Paperclip company through the `paperclipai` CLI.
+This context defines the language for skills that operate a Paperclip company through the `paperclipai` CLI, Paperclip MCP tools, and API fallbacks.
 
 ## Language
 
 **Paperclip**:
-The AI organisation orchestration system documented at `docs.paperclip.ing` and operated locally through the `paperclipai` CLI.
+The AI organisation orchestration system documented at `docs.paperclip.ing` and operated locally through `paperclipai`, Paperclip MCP tools, and API fallbacks.
 _Avoid_: Pepper Clip, pepper clip
 
 **paperclipai**:
 The command-line interface used to configure a Paperclip instance and operate its control plane resources such as companies, agents, issues, approvals, skills, activity, and dashboards.
 _Avoid_: Paperclip CLI when referring to the executable name
+
+**Paperclip MCP**:
+The Model Context Protocol surface for operating Paperclip control-plane records from agent hosts, used as the first fallback when a `paperclipai` command is unavailable or too brittle for a skill workflow.
+_Avoid_: Treating MCP as the local setup authority
 
 **Local Operator Skill**:
 A Codex skill that a human operator invokes locally to inspect, shape, or administer a Paperclip company through `paperclipai`.
@@ -133,7 +137,7 @@ The approved Paperclip create-agent operation of creating or hiring a configured
 _Avoid_: Treating agent creation as issue planning, implicit delegation, or an unapproved side effect
 
 **paperclip-setup**:
-The local operator skill that establishes shared Paperclip CLI context, docs, glossary, and operating conventions for the rest of the Paperclip Operator Skill Suite.
+The local operator skill that establishes shared Paperclip CLI context, project-local or explicitly global Paperclip MCP configuration, docs, glossary, and operating conventions for the rest of the Paperclip Operator Skill Suite.
 _Avoid_: setup-matt-pocock-skills
 
 **Creator Growth**:

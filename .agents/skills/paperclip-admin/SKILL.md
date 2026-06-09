@@ -44,7 +44,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 
 ## Common Reads
 
-Prefer MCP tools when exposed; otherwise use `paperclipai` with JSON output:
+Prefer `paperclipai` with JSON output when it supports the read. Use MCP reads when CLI output is insufficient or unavailable:
 
 ```sh
 paperclipai context show --json
@@ -70,9 +70,10 @@ Before proposing an existing-agent mutation:
 
 After approval, use the best available surface:
 
-- MCP only if a create/update agent tool is actually exposed.
-- `paperclipai` if it exposes the needed agent command.
-- REST API if CLI/MCP do not expose the required native fields.
+- `paperclipai` if it exposes the needed agent command and verifies the native fields.
+- MCP if a create/update agent tool is exposed or MCP reads are needed for context.
+- `paperclipApiRequest` if CLI and dedicated MCP tools do not expose the required native fields.
+- Direct REST API if CLI and MCP are unavailable or broken.
 - Paperclip UI as the final fallback when no callable surface can safely create or update agents.
 
 After update, read the agent back and verify name, role, manager, adapter, skills, budget, and heartbeat policy.
