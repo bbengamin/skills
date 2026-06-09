@@ -31,6 +31,7 @@ tmp/
 !.agents/skills/paperclip-monitor/
 !.agents/skills/paperclip-admin/
 !.agents/skills/paperclip-create-agent/
+!.agents/skills/paperclip-wiki-fetch/
 !.agents/skills/growth-clarify/
 !.agents/skills/growth-record-strategy/
 !.agents/skills/inbound-plan-work/

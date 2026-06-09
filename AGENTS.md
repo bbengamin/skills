@@ -41,6 +41,7 @@ Shared references:
 - Keep phase boundaries strict: planning creates backlog, unassigned structure only; triage may recommend `todo`; delegation may assign or checkout approved work. Do not manually invoke another agent's heartbeat; Paperclip's heartbeat policy handles pickup after assignment.
 - Use `paperclip-admin` for narrow reads, minor approved mutations, existing-agent administration, and company skill-library maintenance outside the planning chain.
 - Use `paperclip-create-agent` for creating, hiring, drafting, or provisioning new Paperclip agents.
+- Use `paperclip-wiki-fetch` when reading Paperclip llm-wiki page content, listing wiki pages or sources, or converting wiki SPA URLs into plugin bridge API requests.
 - Use `creator-clarify`, `creator-record-strategy`, `creator-plan-work`, and `creator-triage` for the v1 Creator Growth workflow. Defer creator verification, reflection, scheduling, and publishing skills until planned separately.
 - Use `growth-clarify`, `growth-record-strategy`, `inbound-plan-work`, `outbound-plan-work`, `inbound-triage`, and `outbound-triage` for shared acquisition strategy and branch-specific growth planning. Outbound triage is level-aware; it must not send outreach, launch campaigns, mutate CRM records, spend credits, or modify external accounts.
 
