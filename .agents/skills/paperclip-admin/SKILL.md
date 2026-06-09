@@ -29,6 +29,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 - Use `paperclip-plan-work` when decomposing a strategy artifact or parent issue into child issues.
 - Use `paperclip-triage` when deciding whether issues are ready for AFK execution.
 - Use `paperclip-create-agent` when creating or hiring a new Paperclip agent.
+- Use `paperclip-wiki-manage` when the request is to create, update, rename, archive, delete, publish, sync, or otherwise mutate Paperclip llm-wiki content.
 - Stay in `paperclip-admin` for narrow reads, minor edits, agent provisioning, company skill-library operations, assignment tweaks, budget/status checks, and one-off maintenance.
 
 ## Operating Loop
@@ -89,7 +90,7 @@ Use this skill for small approved changes such as:
 - resolving a small Paperclip record mismatch found during inspection
 - creating a single simple issue when the operator already knows the exact desired issue
 
-Do not silently turn broad work into `todo`, assign broad issues, checkout work, manually invoke heartbeats, or approve board gates. If a change would make work startable, call out that it crosses into triage or delegation and ask explicitly.
+Do not silently turn broad work into `todo`, assign broad issues, checkout work, manually invoke heartbeats, approve board gates, or mutate wiki content. If a change would make work startable or change llm-wiki content, call out that it crosses into triage, delegation, or wiki management and ask explicitly.
 
 ## Mutation Rule
 

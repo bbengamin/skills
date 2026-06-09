@@ -23,6 +23,8 @@ Ask one question at a time. For each question, provide your recommended answer.
 
 If the answer can be discovered from the codebase or Paperclip state, inspect that instead of asking.
 
+If the operator provides a Paperclip wiki URL, wiki page path, or captured wiki source as context, use `paperclip-wiki-fetch` to read it before asking questions that the wiki material can answer. If wiki access details are missing, ask for the minimum missing input and keep the clarification non-mutating.
+
 Do not stop after a shallow pass. A good session usually needs multiple rounds unless the input is already unusually precise. Keep grilling until each required area has either a resolved answer, a known source to inspect, or an explicit open question.
 
 Minimum bar before summary:

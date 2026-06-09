@@ -39,6 +39,14 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 7. Create or update only the approved missing parts.
 8. Report the resulting Goal, Project, Parent Issue, and plan document link or identifier.
 
+## Wiki Source Material
+
+When the approved clarification summary or operator prompt references a Paperclip wiki URL, wiki page path, or captured wiki source, use `paperclip-wiki-fetch` before drafting the planning chain or plan document. Record the fetched page title, path, update time, and hash in the plan's source notes when available, then use the markdown body as source material.
+
+If wiki credentials, company scope, wiki id, space slug, or page path are missing and cannot be inferred from Paperclip context, stop and ask for the missing input instead of drafting from an unfetched wiki reference.
+
+If the operator explicitly asks to publish or sync the resulting strategy artifact to wiki, complete the Paperclip planning-chain proposal first, then use `paperclip-wiki-manage` for the wiki mutation. Do not replace the parent issue `plan` document with wiki as the default source of truth.
+
 ## Goal Fields
 
 Paperclip goals have native `level`, `status`, `parentId`, and `ownerAgentId` fields. Do not flatten this structure into titles.

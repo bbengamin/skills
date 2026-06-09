@@ -52,6 +52,14 @@ Open only when needed:
 5. Ask for approval.
 6. Apply approved changes and verify by reading records back.
 
+## Wiki Source Material
+
+When readiness depends on a Paperclip wiki URL, wiki page path, or captured wiki source, use `paperclip-wiki-fetch` to verify the source is accessible and sufficient before classifying the issue as AFK-ready. Include the fetched title, path, update time, and hash in `Source material` or the recommendation when available.
+
+If the wiki reference cannot be fetched because credentials, company scope, wiki id, space slug, or page path are missing, classify the issue as `needs-info` and name the missing wiki access in `Missing readiness elements`.
+
+If triage discovers stale, missing, or incorrect wiki content, recommend `paperclip-wiki-manage` as the follow-up skill. Do not mutate wiki content from ordinary triage unless the operator explicitly switches to wiki management and approves the exact mutation.
+
 ## Readiness Rule
 
 Creator work is AFK-ready only when the issue gives an agent enough context to act without continuous operator supervision:

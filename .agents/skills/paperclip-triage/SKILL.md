@@ -48,6 +48,14 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 5. Wait for approval.
 6. Apply approved changes.
 
+## Wiki Source Material
+
+When readiness depends on a Paperclip wiki URL, wiki page path, or captured wiki source, use `paperclip-wiki-fetch` to verify the source is accessible and sufficient before classifying the issue as AFK-ready. Include the fetched title, path, update time, and hash in the recommendation when available.
+
+If the wiki reference cannot be fetched because credentials, company scope, wiki id, space slug, or page path are missing, classify the issue as `needs-info` and name the missing wiki access in `Missing readiness elements`.
+
+If triage discovers stale, missing, or incorrect wiki content, recommend `paperclip-wiki-manage` as the follow-up skill. Do not mutate wiki content from ordinary triage unless the operator explicitly switches to wiki management and approves the exact mutation.
+
 ## Scope Depth
 
 When triaging a parent issue, inspect its direct children. Inspect one additional child level when the operator says "child tasks", when newly planned children are present, or when a readiness decision depends on grandchildren. Do not recursively walk large trees by default; summarize deeper branches and recommend `paperclip-plan-work` for children that are still planning parents.

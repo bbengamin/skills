@@ -36,6 +36,8 @@ Known MCP gaps:
 - no dedicated company list/export/import tools
 - no company skill-library tools
 - no secret, plugin, cloud, routine, or worktree tools
+- no dedicated wiki or llm-wiki plugin bridge tools; use `paperclip-wiki-fetch` for reads or `paperclip-wiki-manage` for mutations plus `paperclipApiRequest` or direct REST
+- no documented native `paperclipai` wiki management command
 - no dedicated project create/update tools in the published MCP list; use `paperclipApiRequest` if CLI cannot do the native operation
 
 Treat write schemas as claims to verify, not proof. After every write, read the record back and confirm parent, project, goal, status, assignee, document, approval, and blocker fields before continuing with dependent mutations.
@@ -75,6 +77,11 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 | Costs | CLI/dashboard if exposed | `paperclipApiRequest`, then direct REST | Use API fallback for detailed cost drill-down if summaries are insufficient. |
 | Company skill library | CLI `paperclipai skills ...` | direct REST if documented | MCP currently lacks skill-library tools. |
 | Local CLI setup/auth/context | CLI | none | Use `paperclipai` for local environment work. |
+| Read llm-wiki page content | `paperclip-wiki-fetch` with MCP `paperclipApiRequest` | direct REST `POST /api/plugins/paperclipai.plugin-llm-wiki/data/page-content` | No documented CLI wiki command and no `/api/wiki/...` route. Extract page path from SPA URLs. |
+| List llm-wiki pages | `paperclip-wiki-fetch` with MCP `paperclipApiRequest` | direct REST `POST /api/plugins/paperclipai.plugin-llm-wiki/data/pages` | Include `companyId`, `wikiId`, and `spaceSlug` in `params`. |
+| List llm-wiki captured sources | `paperclip-wiki-fetch` with MCP `paperclipApiRequest` | direct REST `POST /api/plugins/paperclipai.plugin-llm-wiki/data/sources` | Use before choosing among captured raw sources. |
+| Create or update llm-wiki page | `paperclip-wiki-manage` via `POST /api/plugins/paperclipai.plugin-llm-wiki/actions/write-page` | direct REST with board bearer auth | Must read current state, show exact JSON and markdown diff/body, get approval, write, then read back. Use `expectedHash` for existing pages. |
+| Rename, move, archive, or delete llm-wiki page/source | `paperclip-wiki-manage` with a confirmed plugin bridge write route | `paperclipApiRequest`, then direct REST after route/schema confirmation | Destructive or path-changing operations require explicit target/action approval and readback verification. |
 
 ## Skill Guidance
 
@@ -95,6 +102,8 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 - Use MCP for project reads and plan documents when CLI lacks a native operation.
 - Use `paperclipApiRequest` for project create/update or goal create/update when no CLI or dedicated MCP tool supports the required native fields.
 - Fall back to embedding the plan in the issue description only when CLI, MCP, and API access are unavailable or explicitly rejected.
+- Use `paperclip-wiki-fetch` before drafting plan documents when approved inputs reference wiki URLs, page paths, or captured sources.
+- Use `paperclip-wiki-manage` only when the operator explicitly asks to publish or sync a strategy artifact to wiki; Paperclip plan documents remain the default source of truth.
 
 **paperclip-plan-work**
 
@@ -106,6 +115,8 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 - Verify `parentId`, `projectId`, `goalId`, `status`, null assignee, and `blockedByIssueIds` after each write.
 - Use MCP document tools for plan-document reads/writes when CLI lacks native document commands.
 - Use `paperclipApiRequest` for fields not exposed by CLI/MCP, including blocker links.
+- Use `paperclip-wiki-fetch` when parent plans, comments, or issue bodies reference wiki source material needed for child issue detail.
+- Use `paperclip-wiki-manage` only when the operator explicitly asks to publish, sync, or update wiki content from planning output.
 - Stop on the first unrepaired structural mismatch and report partial state.
 
 **paperclip-triage**
@@ -115,6 +126,8 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 - Use `paperclipApiRequest` only for fields not exposed by CLI/MCP.
 - Recommend first, mutate after approval.
 - Triage is the phase that may recommend moving ready backlog issues to `todo`.
+- Use `paperclip-wiki-fetch` when readiness depends on referenced wiki source material.
+- Recommend `paperclip-wiki-manage` for wiki content corrections, but do not mutate wiki pages from ordinary triage unless the operator explicitly switches to wiki management.
 
 **paperclip-monitor**
 
@@ -128,6 +141,7 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 - Use `paperclipApiRequest` or direct REST for small record repairs not exposed through CLI/MCP.
 - Ask before any mutation, especially attaching skills, changing budgets, changing runtimes, or making work startable.
 - Verify every changed record after the write.
+- Route wiki content mutations to `paperclip-wiki-manage` instead of treating them as generic admin edits.
 
 **paperclip-create-agent**
 

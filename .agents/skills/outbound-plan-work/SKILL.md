@@ -37,6 +37,14 @@ Read these first:
 8. Ask for approval.
 9. After approval, create issues in dependency order and verify each record.
 
+## Wiki Source Material
+
+When the parent issue, plan document, comments, or operator prompt reference a Paperclip wiki URL, wiki page path, or captured wiki source, use `paperclip-wiki-fetch` before proposing outbound child issues. Carry the relevant fetched source title, path, update time, hash, and proof snippets into proposed issue bodies when they affect market, ICP, wedge, artifact ask, offer, CTA, lead source, or personalization basis.
+
+If the wiki reference cannot be fetched because credentials, company scope, wiki id, space slug, or page path are missing, pause planning and ask for the missing input. Do not create child issues that depend on inaccessible wiki material.
+
+If the operator explicitly asks to publish, sync, or update wiki content from outbound planning output, finish the proposed breakdown first, then use `paperclip-wiki-manage` for the wiki mutation after approval.
+
 ## Planning Patterns
 
 Examples:
