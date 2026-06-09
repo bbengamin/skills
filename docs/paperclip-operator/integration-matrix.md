@@ -80,7 +80,7 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 | Read llm-wiki page content | `paperclip-wiki-fetch` with MCP `paperclipApiRequest` | direct REST `POST /api/plugins/paperclipai.plugin-llm-wiki/data/page-content` | No documented CLI wiki command and no `/api/wiki/...` route. Extract page path from SPA URLs. |
 | List llm-wiki pages | `paperclip-wiki-fetch` with MCP `paperclipApiRequest` | direct REST `POST /api/plugins/paperclipai.plugin-llm-wiki/data/pages` | Include `companyId`, `wikiId`, and `spaceSlug` in `params`. |
 | List llm-wiki captured sources | `paperclip-wiki-fetch` with MCP `paperclipApiRequest` | direct REST `POST /api/plugins/paperclipai.plugin-llm-wiki/data/sources` | Use before choosing among captured raw sources. |
-| Create or update llm-wiki page | `paperclip-wiki-manage` with a confirmed plugin bridge write route | `paperclipApiRequest`, then direct REST after route/schema confirmation | No write route is documented in this suite. Must read current state, show exact JSON and markdown diff/body, get approval, write, then read back. |
+| Create or update llm-wiki page | `paperclip-wiki-manage` via `POST /api/plugins/paperclipai.plugin-llm-wiki/actions/write-page` | direct REST with board bearer auth | Must read current state, show exact JSON and markdown diff/body, get approval, write, then read back. Use `expectedHash` for existing pages. |
 | Rename, move, archive, or delete llm-wiki page/source | `paperclip-wiki-manage` with a confirmed plugin bridge write route | `paperclipApiRequest`, then direct REST after route/schema confirmation | Destructive or path-changing operations require explicit target/action approval and readback verification. |
 
 ## Skill Guidance

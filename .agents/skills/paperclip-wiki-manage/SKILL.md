@@ -11,25 +11,41 @@ Use `paperclip-wiki-fetch` for read-only page content, page lists, source lists,
 
 ## Confirmed Route Requirement
 
-Do not guess wiki write routes. The read routes are known, but they do not prove any write route shape:
+Do not guess wiki write routes. Confirmed routes are:
 
 ```text
 POST /api/plugins/paperclipai.plugin-llm-wiki/data/page-content
 POST /api/plugins/paperclipai.plugin-llm-wiki/data/pages
 POST /api/plugins/paperclipai.plugin-llm-wiki/data/sources
+POST /api/plugins/paperclipai.plugin-llm-wiki/actions/write-page
 ```
 
-Before mutating, identify a confirmed plugin bridge write route and schema from one of:
+Use `actions/write-page` to write a markdown page. It accepts `params` with:
+
+```json
+{
+  "companyId": "<company-id>",
+  "wikiId": "default",
+  "spaceSlug": "default",
+  "path": "wiki/sources/example.md",
+  "contents": "# Example\n",
+  "expectedHash": "<optional-current-hash>",
+  "summary": "<optional-change-summary>"
+}
+```
+
+When using another wiki mutation route, identify a confirmed plugin bridge write route and schema from one of:
 
 - official Paperclip/plugin docs
 - inspected Paperclip/plugin source code
 - an operator-provided working example
 - a successful non-mutating schema/options/read probe that proves the route contract
 
-The route must be under:
+The route must be under one of:
 
 ```text
 /api/plugins/paperclipai.plugin-llm-wiki/data/...
+/api/plugins/paperclipai.plugin-llm-wiki/actions/...
 ```
 
 Never use `/api/wiki/...` and never infer write routes by renaming read routes.
@@ -48,7 +64,7 @@ Never use `/api/wiki/...` and never infer write routes by renaming read routes.
    - list pages or sources when choosing a target
    - fetch page content before editing an existing page
    - record title, path, update time, and hash when available
-4. Confirm the exact write route, HTTP method, and request schema.
+4. Confirm the exact write route, HTTP method, and request schema. For page writes, use `POST /api/plugins/paperclipai.plugin-llm-wiki/actions/write-page`.
 5. Draft the exact proposed mutation:
    - target company, wiki, space, route, and path
    - request JSON with secrets omitted

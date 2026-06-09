@@ -261,15 +261,17 @@ Prefer MCP `paperclipApiRequest` when available because these routes live under 
 
 ## llm-wiki Mutations
 
-Use `paperclip-wiki-manage` for create, update, rename, archive, delete, publish, sync, or other llm-wiki mutations. There is no documented native `paperclipai` wiki management command, no dedicated MCP wiki management tool, and no confirmed write route in this operator suite.
+Use `paperclip-wiki-manage` for create, update, rename, archive, delete, publish, sync, or other llm-wiki mutations. There is no documented native `paperclipai` wiki management command and no dedicated MCP wiki management tool.
 
-Before any wiki mutation, identify a confirmed plugin bridge write route and schema under:
+For page writes, use the confirmed plugin action route:
 
 ```text
-/api/plugins/paperclipai.plugin-llm-wiki/data/...
+POST /api/plugins/paperclipai.plugin-llm-wiki/actions/write-page
 ```
 
-Do not infer write routes from read routes, and do not use `/api/wiki/...`. Wiki management must read the target first, show the exact proposed JSON and markdown diff or full body, wait for explicit approval, re-fetch before writing when the target exists, stop on hash/update-time conflicts, write only through the confirmed route, and read back the page or source to verify title, path, body or source metadata, update time, and hash.
+It accepts a top-level `params` object with `companyId`, `wikiId`, `spaceSlug`, `path`, `contents`, optional `expectedHash`, and optional `summary`.
+
+For non-page-write mutations, identify a confirmed plugin bridge route and schema under `/api/plugins/paperclipai.plugin-llm-wiki/data/...` or `/api/plugins/paperclipai.plugin-llm-wiki/actions/...` before mutating. Do not infer write routes from read routes, and do not use `/api/wiki/...`. Wiki management must read the target first, show the exact proposed JSON and markdown diff or full body, wait for explicit approval, re-fetch before writing when the target exists, stop on hash/update-time conflicts, write only through the confirmed route, and read back the page or source to verify title, path, body or source metadata, update time, and hash.
 
 ## MCP API Request Fallback
 
