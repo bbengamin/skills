@@ -37,7 +37,7 @@ Resolve:
 Use `paperclip-record-strategy` after the clarification summary is approved. It creates or selects the missing planning chain:
 
 ```text
-Goal -> linked Project -> Parent Issue + plan document
+Goal tree -> linked Project -> Parent Issue + plan document
 ```
 
 The result is a Paperclip-native strategy artifact.

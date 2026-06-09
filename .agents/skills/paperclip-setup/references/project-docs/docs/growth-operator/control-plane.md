@@ -7,21 +7,27 @@ Growth Operator work uses Paperclip as the source of truth for acquisition strat
 Use Goals for durable direction, Projects for durable channels or motions, and parent Issues with plan documents for strategy periods, campaigns, and experiments.
 
 ```text
-Goal -> related Goal(s) -> Channel/Motion Project -> Strategy Parent Issues -> Campaign/Experiment Parent Issues -> Work Items
+Company Goal -> Team Goal(s) -> Channel/Motion Project -> Strategy Parent Issues -> Campaign/Experiment Parent Issues -> Work Items
 ```
 
 ## Goals
 
-Goals should express durable acquisition direction. They may form a related-goal tree.
+Goals should express durable acquisition direction. They must use Paperclip's native goal fields when created or revised:
+
+- `level: "company"` for the top-level acquisition outcome, usually active once approved.
+- `level: "team"` for inbound, outbound, creator, expertise, vertical, validation, channel, or motion child goals.
+- `level: "agent"` only when a specific Paperclip agent owns the goal; set `ownerAgentId`.
+- `level: "task"` rarely; prefer Issues for executable or short-lived work.
+- `parentId` for every child goal in the acquisition tree.
 
 Recommended shape:
 
 ```text
-Build repeatable acquisition
-|-- Build inbound trust engine through <creator>'s personal brand
-|   `-- Establish <creator>'s <domain> expertise brand
-`-- Build outbound engine for operator walkthroughs and validation
-    `-- Build repeatable <vertical/persona> outreach motion
+[company] Build repeatable acquisition
+|-- [team] Build inbound trust engine through <creator>'s personal brand
+|   `-- [team] Establish <creator>'s <domain> expertise brand
+`-- [team] Build outbound engine for operator walkthroughs and validation
+    `-- [team] Build repeatable <vertical/persona> outreach motion
 ```
 
 Avoid creating goals for every month, channel campaign, message sequence, lead list, or content sprint. Use issues for those.
@@ -38,7 +44,7 @@ Examples:
 - `Outbound: Operator walkthroughs`
 - `Outbound: Partnerships and warm intros`
 
-Each project should link to the durable acquisition goal and any relevant inbound, outbound, creator, expertise, vertical, or validation sub-goals.
+Each project should link to the durable acquisition company goal and any relevant inbound, outbound, creator, expertise, vertical, or validation team goals.
 
 Use a broader project such as `Growth ops: Ihor` only when the channel or motion is not yet durable enough to deserve its own project.
 

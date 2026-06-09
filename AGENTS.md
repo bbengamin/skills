@@ -47,7 +47,7 @@ Shared references:
 
 Use the Growth operator suite when the user wants to create or revise a shared acquisition strategy that aligns inbound and outbound work before branching into channel-specific or outbound-motion-specific planning.
 
-Growth skills use Paperclip as the source of truth. Use `growth-clarify` and `growth-record-strategy` for shared acquisition strategy, goals/sub-goals, durable channel or motion projects, and strategy parent issues. Use `inbound-plan-work` for inbound/channel planning and `outbound-plan-work` for outbound planning after the shared strategy exists. Use `inbound-triage` and `outbound-triage` for branch-specific readiness decisions before delegation. Use `growth-tooling-scout` before adopting, integrating, extending, or building acquisition tooling.
+Growth skills use Paperclip as the source of truth. Use `growth-clarify` and `growth-record-strategy` for shared acquisition strategy, company/team goal trees, durable channel or motion projects, and strategy parent issues. Use `inbound-plan-work` for inbound/channel planning and `outbound-plan-work` for outbound planning after the shared strategy exists. Use `inbound-triage` and `outbound-triage` for branch-specific readiness decisions before delegation. Use `growth-tooling-scout` before adopting, integrating, extending, or building acquisition tooling.
 
 Shared references:
 

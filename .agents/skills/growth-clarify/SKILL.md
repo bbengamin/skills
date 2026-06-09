@@ -1,6 +1,6 @@
 ---
 name: growth-clarify
-description: Run a non-mutating Growth Operator clarification session for acquisition strategy that may span inbound and outbound. Use when planning repeatable acquisition, aligning creator/inbound and outbound strategy, defining growth goals/sub-goals, or choosing durable channel/motion projects before creating Paperclip records.
+description: Run a non-mutating Growth Operator clarification session for acquisition strategy that may span inbound and outbound. Use when planning repeatable acquisition, aligning creator/inbound and outbound strategy, defining growth company/team goals, or choosing durable channel/motion projects before creating Paperclip records.
 ---
 
 # Growth Clarify
@@ -29,9 +29,9 @@ If the answer can be discovered from the repo or Paperclip state, inspect that i
 Keep grilling until each required area has either a resolved answer, known source to inspect, or explicit open question:
 
 - acquisition outcome
-- durable top-level goal
-- inbound and outbound sub-goals
-- expertise, vertical, channel, or motion sub-goals
+- durable company goal
+- inbound and outbound team goals
+- expertise, vertical, channel, or motion team goals
 - durable channel or motion projects
 - time horizon
 - market, vertical, ICP, buyer, and persona
@@ -56,7 +56,7 @@ Challenge over-broad intent by asking which shared market experiment, channel, o
 Use these as prompts, not a script:
 
 - What acquisition outcome should this strategy serve?
-- What durable goal and sub-goals should anchor the work?
+- What durable company goal and team goals should anchor the work?
 - Which durable channel or motion deserves a project?
 - What market, vertical, ICP, buyer, or persona is in scope first?
 - What painful workflow or wedge should inbound and outbound both reinforce?

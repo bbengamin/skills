@@ -38,8 +38,9 @@ Use `creator-record-strategy` after the operator approves a clarification summar
 
 Possible layers:
 
-- strategic goal
-- related creator goal
+- strategic company goal
+- related creator/persona team goal
+- related expertise team goal
 - creator project
 - yearly strategy parent issue
 - quarterly strategy parent issue

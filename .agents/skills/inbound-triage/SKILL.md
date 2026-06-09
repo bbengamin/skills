@@ -69,7 +69,7 @@ Open only when needed:
 
 Inbound work is AFK-ready only when the issue gives an agent enough context to act without continuous operator supervision:
 
-- related acquisition goal or sub-goal
+- related acquisition company goal or team goal
 - durable inbound channel project
 - parent strategy or campaign context
 - readiness level

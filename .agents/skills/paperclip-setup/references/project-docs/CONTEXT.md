@@ -53,8 +53,12 @@ A Paperclip-native record of board intent, such as a parent issue, project, or i
 _Avoid_: Local-only PRD, chat-only plan
 
 **Paperclip Goal**:
-An outcome statement in Paperclip that explains why work matters and anchors projects; goals are not worked directly by agents.
+An outcome statement in Paperclip that explains why work matters and anchors projects; goals are not worked directly by agents. Goals use native `level`, `status`, optional `parentId`, and optional `ownerAgentId` fields.
 _Avoid_: Task, project, issue
+
+**Paperclip Goal Level**:
+The native Paperclip goal layer: `company` for a top-level north star, `team` for durable team/domain/motion outcomes, `agent` for a goal owned by a specific agent, and `task` only for rare goal-like narrow outcomes.
+_Avoid_: Encoding hierarchy only in goal titles
 
 **Paperclip Project**:
 A concrete deliverable container in Paperclip that links to goals and groups issues, workspaces, runtime configuration, and project budget.
@@ -77,7 +81,7 @@ The local operator skill that records clarified intent into Paperclip as the str
 _Avoid_: to-prd
 
 **Planning Chain**:
-The Paperclip planning structure for a body of work: goal, linked project, and parent issue with a `plan` document; the chain may be fully new, fully existing, or partially missing.
+The Paperclip planning structure for a body of work: goal tree, linked project, and parent issue with a `plan` document; the chain may be fully new, fully existing, or partially missing.
 _Avoid_: PRD as a standalone local artifact, project-only strategy
 
 **paperclip-plan-work**:
@@ -173,7 +177,7 @@ The shared acquisition strategy layer that aligns inbound and outbound around th
 _Avoid_: Treating inbound and outbound as unrelated strategy trees
 
 **Growth Operator Skill Suite**:
-Local operator skills that turn rough acquisition intent into Paperclip-native goals/sub-goals, durable channel or motion projects, strategy parent issues, branch parent issues, and planned inbound or outbound work items.
+Local operator skills that turn rough acquisition intent into Paperclip-native company/team goal trees, durable channel or motion projects, strategy parent issues, branch parent issues, and planned inbound or outbound work items.
 _Avoid_: Generic Paperclip planning when the acquisition domain matters
 
 **Durable Channel Or Motion Project**:
@@ -197,7 +201,7 @@ The local operator skill that runs a non-mutating clarification session for shar
 _Avoid_: Using creator-clarify when outbound alignment is part of the strategy
 
 **growth-record-strategy**:
-The local operator skill that records approved growth strategy into Paperclip goals/sub-goals, durable channel or motion projects, parent issues, and plan documents.
+The local operator skill that records approved growth strategy into Paperclip company/team goal trees, durable channel or motion projects, parent issues, and plan documents.
 _Avoid_: Creating inbound and outbound branches without a shared strategy artifact
 
 **inbound-plan-work**:

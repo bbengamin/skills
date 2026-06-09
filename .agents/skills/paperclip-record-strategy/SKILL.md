@@ -8,7 +8,7 @@ description: Record clarified intent into Paperclip as a planning chain. Use aft
 Create or select the missing Paperclip planning chain:
 
 ```text
-Goal -> linked Project -> Parent Issue + plan document
+Goal tree -> linked Project -> Parent Issue + plan document
 ```
 
 ## References
@@ -29,7 +29,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 2. Inspect current Paperclip context and company.
 3. List existing goals and projects. Prefer MCP for goals. Treat project list/create/update as REST-required unless an actual MCP project tool is available.
 4. Decide with the operator whether this is:
-   - a new goal
+   - a new root goal or child goal
    - an existing goal
    - a new project under an existing goal
    - an existing project
@@ -39,13 +39,26 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 7. Create or update only the approved missing parts.
 8. Report the resulting Goal, Project, Parent Issue, and plan document link or identifier.
 
+## Goal Fields
+
+Paperclip goals have native `level`, `status`, `parentId`, and `ownerAgentId` fields. Do not flatten this structure into titles.
+
+Default mapping:
+
+- `company` for a top-level durable company outcome. Prefer an active root company goal when the goal is the company north star.
+- `team` for durable team, function, motion, channel, domain, or strategy child goals. Set `parentId` to the parent company or team goal.
+- `agent` only when a specific Paperclip agent owns the goal. Set `ownerAgentId`.
+- `task` rarely. Prefer Issues for campaigns, months, sprints, lead lists, draft work, and executable tasks.
+
+Every proposed goal mutation must show `title`, `level`, `status`, `parentId`, and `ownerAgentId` before approval.
+
 ## Surface Rules
 
 Read `integration-matrix.md` before choosing tools.
 
 For this skill:
 
-- Use MCP for Goal create/update and parent Issue create.
+- Use MCP for Goal create/update only when those tools are actually exposed and verified in the current runtime; otherwise use CLI or REST.
 - Treat Project list/create/update as REST-required unless a real MCP project tool is available.
 - Use REST for the parent Issue `plan` document.
 - Do not assume `mcp__paperclip.list_goals` returns projects. If the actual response lacks project records, use REST for project discovery.

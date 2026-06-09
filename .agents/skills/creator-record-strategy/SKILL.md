@@ -22,9 +22,9 @@ Read these first:
 1. Confirm there is an approved Creator Clarification Summary or equivalent operator-approved strategy.
 2. Inspect current Paperclip goals, projects, candidate parent issues, plan documents, and related comments.
 3. Decide which layer is missing or being revised:
-   - durable creator-growth goal
-   - related creator/persona goal
-   - related expertise goal
+   - durable creator-growth company goal
+   - related creator/persona team goal
+   - related expertise team goal
    - creator project
    - yearly strategy parent issue
    - quarterly strategy parent issue
@@ -38,11 +38,13 @@ Read these first:
 
 ## Entity Guidance
 
-Use goals for stable direction:
+Use goals for stable direction. Every proposed goal mutation must specify `title`, `level`, `status`, `parentId` when it is a child goal, and `ownerAgentId` only for real agent-owned goals.
 
-- `Build creator-led distribution as a repeatable acquisition asset`
-- `Use <creator>'s founder brand to generate trust and qualified conversations`
-- `Establish <creator>'s <domain> expertise`
+- `[company] Build creator-led distribution as a repeatable acquisition asset`
+- `[team] Use <creator>'s founder brand to generate trust and qualified conversations`
+- `[team] Establish <creator>'s <domain> expertise`
+
+Use `task` goals rarely; prefer parent issues and child issues for campaigns, content sprints, drafts, reviews, and executable creator work.
 
 Use one project per creator/persona:
 
@@ -107,4 +109,4 @@ Run a REST auth preflight before the first REST mutation. Never print bearer tok
 
 ## Mutation Rule
 
-Always present the exact proposed goals, project, issues, plan body, comments, and status changes before creating or updating Paperclip.
+Always present the exact proposed goals, including `level`, `status`, `parentId`, and `ownerAgentId`, plus project, issues, plan body, comments, and status changes before creating or updating Paperclip.

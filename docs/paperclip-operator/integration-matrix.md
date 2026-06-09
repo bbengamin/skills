@@ -14,9 +14,9 @@ Do not degrade the model because the first surface is missing a command. For exa
 
 ## Current MCP Coverage
 
-The currently exposed Paperclip MCP tools cover:
+The currently exposed Paperclip MCP tools may cover:
 
-- Goals: `list_goals`, `create_goal`, `update_goal`
+- Goals: `list_goals`, and sometimes `create_goal` / `update_goal` depending on the runtime.
 - Issues: `list_issues`, `get_issue`, `create_issue`, `update_issue`, `comment_on_issue`, `checkout_issue`, `release_issue`, `delete_issue`
 - Approvals: `list_approvals`
 - Agents: `list_agents`
@@ -45,8 +45,8 @@ Observed MCP behavior can drift from its schema. In particular, a tool may expos
 | List companies | CLI | REST | No current MCP company list tool. |
 | Export/import company | CLI | REST if documented | Use CLI for backup/restore workflows. |
 | List goals | MCP `list_goals` | REST `GET /api/companies/{companyId}/goals` | Verify response shape before assuming projects are included. |
-| Create goal | MCP `create_goal` | REST `POST /api/companies/{companyId}/goals` | Preferred for strategy recording. |
-| Update goal | MCP `update_goal` | REST `PATCH /api/goals/{goalId}` | Preferred for strategy refinement. |
+| Create goal | MCP `create_goal` if exposed and verified | CLI `paperclipai goal create`, REST `POST /api/companies/{companyId}/goals` | Must support `level`, `status`, `parentId`, and `ownerAgentId`; verify the created record. |
+| Update goal | MCP `update_goal` if exposed and verified | CLI `paperclipai goal update`, REST `PATCH /api/goals/{goalId}` | Must support `level`, `status`, `parentId`, and `ownerAgentId`; verify the updated record. |
 | List projects | REST `GET /api/companies/{companyId}/projects` | MCP only if actual response includes projects | Treat REST as required today. |
 | Create project | REST `POST /api/companies/{companyId}/projects` | none | Required for missing planning-chain projects. |
 | Update project / link goals | REST `PATCH /api/projects/{projectId}` | none | Use `goalIds` for goal links. |
@@ -86,7 +86,7 @@ Observed MCP behavior can drift from its schema. In particular, a tool may expos
 
 **paperclip-record-strategy**
 
-- Use MCP for Goal create/update and parent Issue create.
+- Use MCP for Goal create/update only when the current runtime exposes and correctly persists those fields; otherwise use CLI or REST.
 - Use REST for Project list/create/update.
 - Use REST for the parent Issue `plan` document.
 - Fall back to embedding the plan in the issue description only when REST is unavailable or explicitly rejected.

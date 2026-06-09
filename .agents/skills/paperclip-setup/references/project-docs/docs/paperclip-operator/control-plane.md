@@ -5,12 +5,21 @@ Paperclip is an AI organisation control plane. Operator skills should use these 
 ## Planning Hierarchy
 
 ```text
-Company -> Goal -> Project -> Issue -> Workspace -> Agent run
+Company -> Goal tree -> Project -> Issue -> Workspace -> Agent run
 ```
 
 **Company** is the top-level organisation. It owns the company goal, agents, issues, approvals, budgets, skills, routines, projects, and activity log.
 
-**Goal** is the why. A goal is an outcome statement. It does not get worked directly. Projects link to goals.
+**Goal** is the why. A goal is an outcome statement. It does not get worked directly. Projects link to goals. Paperclip goals have `level`, `status`, optional `parentId`, and optional `ownerAgentId`.
+
+Goal levels are native Paperclip structure:
+
+- `company` - top-level durable company outcome. Prefer an active root company goal for the main north star.
+- `team` - durable team, domain, motion, or functional outcome under a company goal.
+- `agent` - outcome owned by a specific Paperclip agent; set `ownerAgentId` when ownership is real.
+- `task` - narrow goal-like outcome. Use sparingly; most execution units should be Issues instead.
+
+Use `parentId` for goal hierarchy instead of encoding hierarchy only in titles or descriptions. Do not create goals for every campaign, month, sprint, lead list, content draft, or task unless the operator explicitly wants that level represented as a goal.
 
 **Project** is the concrete deliverable container. It groups issues, workspaces, runtime configuration, project budget, and links to one or more goals.
 

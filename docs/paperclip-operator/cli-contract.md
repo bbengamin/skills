@@ -93,8 +93,8 @@ paperclipai context show --json
 Use MCP when available for:
 
 - listing goals: `mcp__paperclip.list_goals`
-- creating goals: `mcp__paperclip.create_goal`
-- updating goals: `mcp__paperclip.update_goal`
+- creating goals: `mcp__paperclip.create_goal` when exposed by the current runtime
+- updating goals: `mcp__paperclip.update_goal` when exposed by the current runtime
 - listing, creating, updating, commenting on, checking out, and releasing issues
 - creating child issues with `parent_issue_id`
 - attaching issues to projects with `project_id` on issue creation
@@ -105,6 +105,7 @@ Use MCP when available for:
 Known MCP gaps:
 
 - project listing is ambiguous; do not rely on `list_goals` returning projects unless the actual response includes project records
+- goal create/update may be absent from a runtime even when goal read tools exist; use CLI or REST when needed
 - no exposed project create/update tool
 - no exposed keyed issue-document writer for `plan`
 - no observed create/update field for `blockedByIssueIds`
@@ -214,7 +215,7 @@ curl -sS -X PATCH "$PAPERCLIP_API_BASE/api/issues/$ISSUE_ID" \
 
 After each REST or CLI repair, read the record back and verify the native field changed. Do not rely on a successful HTTP status or command exit alone.
 
-For goals and issues, prefer MCP before REST. For projects, treat REST as required for list/create/update unless a future MCP project tool is exposed.
+For goals, prefer MCP only when the needed write tool is exposed and can persist `level`, `status`, `parentId`, and `ownerAgentId`; otherwise use CLI or REST. For issues, prefer MCP before REST after verifying parent/status behavior. For projects, treat REST as required for list/create/update unless a future MCP project tool is exposed.
 
 ## Approval Boundary
 

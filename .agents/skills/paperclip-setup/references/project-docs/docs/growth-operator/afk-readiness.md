@@ -6,7 +6,7 @@ Growth planning decides whether inbound or outbound work can later be triaged fo
 
 Any growth work item should identify:
 
-- related acquisition goal or sub-goal
+- related acquisition company goal or team goal
 - related durable channel or motion project
 - parent strategy or campaign issue
 - time horizon

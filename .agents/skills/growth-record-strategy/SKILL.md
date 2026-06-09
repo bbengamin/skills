@@ -22,9 +22,9 @@ Read these first:
 1. Confirm there is an approved Growth Clarification Summary or equivalent operator-approved strategy.
 2. Inspect current Paperclip goals, projects, candidate parent issues, plan documents, and related comments.
 3. Decide which layer is missing or being revised:
-   - durable acquisition goal
-   - inbound or outbound sub-goal
-   - expertise, vertical, channel, or motion sub-goal
+   - durable acquisition company goal
+   - inbound or outbound team goal
+   - expertise, vertical, channel, or motion team goal
    - durable channel or motion project
    - yearly strategy parent issue
    - quarterly strategy parent issue
@@ -40,15 +40,22 @@ Read these first:
 
 ## Entity Guidance
 
-Use goals for stable acquisition direction:
+Use goals for stable acquisition direction. Every proposed goal mutation must specify `title`, `level`, `status`, `parentId` when it is a child goal, and `ownerAgentId` only for real agent-owned goals.
 
 ```text
-Build repeatable acquisition
-|-- Build inbound trust engine through <creator>'s personal brand
-|   `-- Establish <creator>'s <domain> expertise brand
-`-- Build outbound engine for operator walkthroughs and validation
-    `-- Build repeatable <vertical/persona> outreach motion
+[company] Build repeatable acquisition
+|-- [team] Build inbound trust engine through <creator>'s personal brand
+|   `-- [team] Establish <creator>'s <domain> expertise brand
+`-- [team] Build outbound engine for operator walkthroughs and validation
+    `-- [team] Build repeatable <vertical/persona> outreach motion
 ```
+
+Default goal mapping:
+
+- `company` for the root acquisition north star, for example `Build repeatable acquisition`.
+- `team` for durable inbound, outbound, creator, expertise, vertical, channel, validation, or motion outcomes.
+- `agent` only when assigning ownership to a specific Paperclip agent; set `ownerAgentId`.
+- `task` rarely; prefer parent issues or child issues for campaigns, months, lead lists, sequences, content sprints, and executable work.
 
 Use projects for durable channels or motions:
 
@@ -131,4 +138,4 @@ Run a REST auth preflight before the first REST mutation. Never print bearer tok
 
 ## Mutation Rule
 
-Always present the exact proposed goals, projects, issues, plan body, comments, and status changes before creating or updating Paperclip.
+Always present the exact proposed goals, including `level`, `status`, `parentId`, and `ownerAgentId`, plus projects, issues, plan body, comments, and status changes before creating or updating Paperclip.

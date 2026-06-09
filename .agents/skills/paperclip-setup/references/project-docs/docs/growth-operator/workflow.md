@@ -23,7 +23,7 @@ Use `growth-clarify` when acquisition intent spans inbound and outbound, or when
 Resolve:
 
 - acquisition outcome
-- durable goal and sub-goals
+- durable company goal and team goals
 - durable channel or motion projects
 - market, vertical, ICP, buyer, and persona
 - wedge or painful workflow
@@ -45,9 +45,9 @@ It materializes only the next missing Paperclip layer unless the operator approv
 
 Possible layers:
 
-- durable acquisition goal
-- inbound or outbound sub-goal
-- expertise, vertical, or motion sub-goal
+- durable acquisition company goal
+- inbound or outbound team goal
+- expertise, vertical, or motion team goal
 - durable channel or motion project
 - yearly strategy parent issue
 - quarterly strategy parent issue
