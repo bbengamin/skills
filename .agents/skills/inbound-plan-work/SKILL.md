@@ -13,17 +13,17 @@ Planning creates `backlog`, unassigned structure. It does not make work startabl
 
 Read these first:
 
-- `../../../CONTEXT.md`
-- `../../../docs/growth-operator/workflow.md`
-- `../../../docs/growth-operator/control-plane.md`
-- `../../../docs/growth-operator/afk-readiness.md`
-- `../../../docs/paperclip-operator/cli-contract.md`
-- `../../../docs/paperclip-operator/integration-matrix.md`
+- `references/CONTEXT.md`
+- `references/docs/growth-operator/workflow.md`
+- `references/docs/growth-operator/control-plane.md`
+- `references/docs/growth-operator/afk-readiness.md`
+- `references/docs/paperclip-operator/cli-contract.md`
+- `references/docs/paperclip-operator/integration-matrix.md`
 
 Open creator references when the work is explicitly creator-led:
 
-- `../../../docs/creator-operator/workflow.md`
-- `../../../docs/creator-operator/control-plane.md`
+- `references/docs/creator-operator/workflow.md`
+- `references/docs/creator-operator/control-plane.md`
 
 ## Process
 

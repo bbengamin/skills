@@ -33,6 +33,10 @@ tmp/
 !.agents/skills/paperclip-create-agent/
 !.agents/skills/paperclip-wiki-fetch/
 !.agents/skills/paperclip-wiki-manage/
+!.agents/skills/creator-clarify/
+!.agents/skills/creator-record-strategy/
+!.agents/skills/creator-plan-work/
+!.agents/skills/creator-triage/
 !.agents/skills/growth-clarify/
 !.agents/skills/growth-record-strategy/
 !.agents/skills/inbound-plan-work/
@@ -43,3 +47,6 @@ tmp/
 
 # Local skill install lock until this repo intentionally adopts one.
 skills-lock.json
+
+# Generated upload archives.
+dist/

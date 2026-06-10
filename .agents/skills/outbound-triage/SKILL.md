@@ -13,15 +13,15 @@ Outbound triage is level-aware because outbound work ranges from harmless asset 
 
 Read these first:
 
-- `../../../CONTEXT.md`
-- `../../../docs/growth-operator/afk-readiness.md`
-- `../../../docs/growth-operator/control-plane.md`
-- `../../../docs/paperclip-operator/integration-matrix.md`
+- `references/CONTEXT.md`
+- `references/docs/growth-operator/afk-readiness.md`
+- `references/docs/growth-operator/control-plane.md`
+- `references/docs/paperclip-operator/integration-matrix.md`
 
 Open only when needed:
 
-- `../../../docs/paperclip-operator/control-plane.md`
-- `../../../docs/paperclip-operator/cli-contract.md`
+- `references/docs/paperclip-operator/control-plane.md`
+- `references/docs/paperclip-operator/cli-contract.md`
 
 ## Process
 

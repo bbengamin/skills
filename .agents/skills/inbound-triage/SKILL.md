@@ -11,16 +11,16 @@ Decide whether planned inbound work is ready for AFK execution at the declared r
 
 Read these first:
 
-- `../../../CONTEXT.md`
-- `../../../docs/growth-operator/afk-readiness.md`
-- `../../../docs/growth-operator/control-plane.md`
-- `../../../docs/paperclip-operator/integration-matrix.md`
+- `references/CONTEXT.md`
+- `references/docs/growth-operator/afk-readiness.md`
+- `references/docs/growth-operator/control-plane.md`
+- `references/docs/paperclip-operator/integration-matrix.md`
 
 Open only when needed:
 
-- `../../../docs/creator-operator/afk-readiness.md`
-- `../../../docs/paperclip-operator/control-plane.md`
-- `../../../docs/paperclip-operator/cli-contract.md`
+- `references/docs/creator-operator/afk-readiness.md`
+- `references/docs/paperclip-operator/control-plane.md`
+- `references/docs/paperclip-operator/cli-contract.md`
 
 ## Process
 

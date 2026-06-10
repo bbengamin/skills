@@ -11,14 +11,14 @@ Turn rough creator-growth intent into a structured clarification summary. Do not
 
 Read these first:
 
-- `../../../CONTEXT.md`
-- `../../../docs/creator-operator/workflow.md`
-- `../../../docs/creator-operator/control-plane.md`
+- `references/CONTEXT.md`
+- `references/docs/creator-operator/workflow.md`
+- `references/docs/creator-operator/control-plane.md`
 
 Open Paperclip operator references only when Paperclip lifecycle or mutation rules are needed:
 
-- `../../../docs/paperclip-operator/control-plane.md`
-- `../../../docs/paperclip-operator/workflow.md`
+- `references/docs/paperclip-operator/control-plane.md`
+- `references/docs/paperclip-operator/workflow.md`
 
 ## Process
 

@@ -58,6 +58,19 @@ Claude Code also reads project memory from `CLAUDE.md`, not `AGENTS.md`. If
 cp AGENTS.md CLAUDE.md
 ```
 
+For Claude/Cowork cloud skill import, each uploaded skill archive must be
+self-contained: `SKILL.md` at the archive root, and every referenced file inside
+that same skill folder. The tracked skills bundle their shared docs under each
+skill's `references/` folder for this reason.
+
+Build one `.skill` upload archive per skill:
+
+```sh
+scripts/package-skill-zips.sh
+```
+
+Archives are written to `dist/skills/` and are intentionally ignored by git.
+
 Install globally:
 
 ```sh

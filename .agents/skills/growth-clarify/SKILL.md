@@ -11,14 +11,14 @@ Turn rough acquisition intent into a structured Growth Clarification Summary. Do
 
 Read these first:
 
-- `../../../CONTEXT.md`
-- `../../../docs/growth-operator/workflow.md`
-- `../../../docs/growth-operator/control-plane.md`
+- `references/CONTEXT.md`
+- `references/docs/growth-operator/workflow.md`
+- `references/docs/growth-operator/control-plane.md`
 
 Open Paperclip references only when lifecycle or mutation rules are needed:
 
-- `../../../docs/paperclip-operator/control-plane.md`
-- `../../../docs/paperclip-operator/workflow.md`
+- `references/docs/paperclip-operator/control-plane.md`
+- `references/docs/paperclip-operator/workflow.md`
 
 ## Process
 

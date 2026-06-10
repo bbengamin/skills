@@ -11,9 +11,9 @@ Turn fuzzy operator intent into a structured clarification summary. Do not mutat
 
 Read these first:
 
-- `../../../CONTEXT.md`
-- `../../../docs/paperclip-operator/workflow.md`
-- `../../../docs/paperclip-operator/control-plane.md`
+- `references/CONTEXT.md`
+- `references/docs/paperclip-operator/workflow.md`
+- `references/docs/paperclip-operator/control-plane.md`
 
 If these project docs are missing, run `paperclip-setup` first to scaffold them from bundled templates.
 

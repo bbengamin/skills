@@ -11,14 +11,14 @@ Run a non-mutating tool evaluation for growth operations.
 
 Read these first:
 
-- `../../../CONTEXT.md`
-- `../../../docs/growth-operator/tooling-scout.md`
-- `../../../docs/growth-operator/control-plane.md`
+- `references/CONTEXT.md`
+- `references/docs/growth-operator/tooling-scout.md`
+- `references/docs/growth-operator/control-plane.md`
 
 Open when Paperclip lifecycle or mutation rules matter:
 
-- `../../../docs/paperclip-operator/control-plane.md`
-- `../../../docs/paperclip-operator/integration-matrix.md`
+- `references/docs/paperclip-operator/control-plane.md`
+- `references/docs/paperclip-operator/integration-matrix.md`
 
 ## Process
 

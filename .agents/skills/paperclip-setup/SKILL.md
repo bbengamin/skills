@@ -11,12 +11,12 @@ Prepare the local operator environment for the Paperclip skill suite.
 
 Read these first:
 
-- Project docs if they already exist:
-  - `../../../CONTEXT.md`
-  - `../../../docs/paperclip-operator/control-plane.md`
-  - `../../../docs/paperclip-operator/workflow.md`
-  - `../../../docs/paperclip-operator/cli-contract.md`
-  - `../../../docs/paperclip-operator/integration-matrix.md`
+- Packaged shared docs:
+  - `references/CONTEXT.md`
+  - `references/docs/paperclip-operator/control-plane.md`
+  - `references/docs/paperclip-operator/workflow.md`
+  - `references/docs/paperclip-operator/cli-contract.md`
+  - `references/docs/paperclip-operator/integration-matrix.md`
 - Bundled templates when project docs are missing:
   - `references/project-docs/AGENTS.md`
   - `references/project-docs/CLAUDE.md`

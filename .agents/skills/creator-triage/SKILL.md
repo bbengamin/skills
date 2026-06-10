@@ -11,15 +11,15 @@ Decide whether planned creator work is ready for AFK execution.
 
 Read these first:
 
-- `../../../CONTEXT.md`
-- `../../../docs/creator-operator/afk-readiness.md`
-- `../../../docs/creator-operator/control-plane.md`
-- `../../../docs/paperclip-operator/integration-matrix.md`
+- `references/CONTEXT.md`
+- `references/docs/creator-operator/afk-readiness.md`
+- `references/docs/creator-operator/control-plane.md`
+- `references/docs/paperclip-operator/integration-matrix.md`
 
 Open only when needed:
 
-- `../../../docs/paperclip-operator/control-plane.md`
-- `../../../docs/paperclip-operator/cli-contract.md`
+- `references/docs/paperclip-operator/control-plane.md`
+- `references/docs/paperclip-operator/cli-contract.md`
 
 ## Process
 

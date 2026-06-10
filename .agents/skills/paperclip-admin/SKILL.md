@@ -13,11 +13,11 @@ Use this skill for ad hoc Paperclip work that is not primarily clarification, st
 
 Read these first:
 
-- `../../../CONTEXT.md`
-- `../../../docs/paperclip-operator/control-plane.md`
-- `../../../docs/paperclip-operator/workflow.md`
-- `../../../docs/paperclip-operator/cli-contract.md`
-- `../../../docs/paperclip-operator/integration-matrix.md`
+- `references/CONTEXT.md`
+- `references/docs/paperclip-operator/control-plane.md`
+- `references/docs/paperclip-operator/workflow.md`
+- `references/docs/paperclip-operator/cli-contract.md`
+- `references/docs/paperclip-operator/integration-matrix.md`
 
 If these project docs are missing, run `paperclip-setup` first to scaffold them from bundled templates.
 

@@ -11,14 +11,14 @@ Decide whether Paperclip issues are good enough to enter the AFK agent loop.
 
 Read these first for normal triage:
 
-- `../../../CONTEXT.md`
-- `../../../docs/paperclip-operator/afk-readiness.md`
-- `../../../docs/paperclip-operator/integration-matrix.md`
+- `references/CONTEXT.md`
+- `references/docs/paperclip-operator/afk-readiness.md`
+- `references/docs/paperclip-operator/integration-matrix.md`
 
 Open the remaining references only when the issue touches that area:
 
-- `../../../docs/paperclip-operator/control-plane.md` for entity semantics, parent/child structure, blockers, comments, documents, approvals, and activity.
-- `../../../docs/paperclip-operator/cli-contract.md` for CLI/REST auth, fallback examples, and mutation verification.
+- `references/docs/paperclip-operator/control-plane.md` for entity semantics, parent/child structure, blockers, comments, documents, approvals, and activity.
+- `references/docs/paperclip-operator/cli-contract.md` for CLI/REST auth, fallback examples, and mutation verification.
 
 If these project docs are missing, run `paperclip-setup` first to scaffold them from bundled templates.
 
