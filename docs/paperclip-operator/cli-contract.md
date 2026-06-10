@@ -280,11 +280,12 @@ For non-page-write mutations, identify a confirmed plugin bridge route and schem
 Common operations that may require `paperclipApiRequest`:
 
 ```text
+GET  /companies/{companyId}/goals
+POST /companies/{companyId}/goals
+PATCH /goals/{goalId}
 GET  /companies/{companyId}/projects
 POST /companies/{companyId}/projects
 PATCH /projects/{projectId}
-POST /companies/{companyId}/goals
-PATCH /goals/{goalId}
 PATCH /issues/{issueId} for native fields not exposed by CLI/MCP
 POST /plugins/paperclipai.plugin-llm-wiki/data/page-content
 POST /plugins/paperclipai.plugin-llm-wiki/data/pages
@@ -318,13 +319,16 @@ If authentication cannot be derived, ask the operator for the missing credential
 Common direct REST operations mirror the MCP API request paths under `/api`:
 
 ```text
+GET  /api/companies/{companyId}/goals
+POST /api/companies/{companyId}/goals
+PATCH /api/goals/{goalId}
 GET  /api/companies/{companyId}/projects
 POST /api/companies/{companyId}/projects
 PATCH /api/projects/{projectId}
-POST /api/companies/{companyId}/goals
-PATCH /api/goals/{goalId}
 PATCH /api/issues/{issueId} for native fields not exposed by CLI/MCP
 ```
+
+Prefer the direct record update route for goal updates. `PATCH /api/companies/{companyId}/goals/{goalId}` may not exist even when company-scoped list and create routes do.
 
 Concrete fallback snippets:
 

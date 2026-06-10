@@ -83,6 +83,19 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 | Create or update llm-wiki page | `paperclip-wiki-manage` via `POST /api/plugins/paperclipai.plugin-llm-wiki/actions/write-page` | direct REST with board bearer auth | Must read current state, show exact JSON and markdown diff/body, get approval, write, then read back. Use `expectedHash` for existing pages. |
 | Rename, move, archive, or delete llm-wiki page/source | `paperclip-wiki-manage` with a confirmed plugin bridge write route | `paperclipApiRequest`, then direct REST after route/schema confirmation | Destructive or path-changing operations require explicit target/action approval and readback verification. |
 
+## Verified REST Shapes
+
+Use these only after the CLI and MCP API request surfaces are unavailable or broken. Prefer company-scoped create/list routes and direct record update routes where verified.
+
+| Entity | Operation | Verified REST shape | Notes |
+|---|---|---|---|
+| Goals | List | `GET /api/companies/{companyId}/goals` | Use to confirm existing goal tree before writes. |
+| Goals | Create | `POST /api/companies/{companyId}/goals` | Include native `level`, `status`, `parentId` when relevant, and `ownerAgentId` only for agent-owned goals. |
+| Goals | Update | `PATCH /api/goals/{goalId}` | Verified for reparenting. `PATCH /api/companies/{companyId}/goals/{goalId}` may return route not found. |
+| Projects | List | `GET /api/companies/{companyId}/projects` | Use to confirm existing durable channel or motion projects. |
+| Projects | Create | `POST /api/companies/{companyId}/projects` | Link goals with `goalIds` when creating or updating, then verify `goalIds` or expanded goals in readback. |
+| Projects | Update | `PATCH /api/projects/{projectId}` | Use native `goalIds` or equivalent field. |
+
 ## Skill Guidance
 
 **paperclip-setup**

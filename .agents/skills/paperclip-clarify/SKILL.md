@@ -25,7 +25,9 @@ If the answer can be discovered from the codebase or Paperclip state, inspect th
 
 If the operator provides a Paperclip wiki URL, wiki page path, or captured wiki source as context, use `paperclip-wiki-fetch` to read it before asking questions that the wiki material can answer. If wiki access details are missing, ask for the minimum missing input and keep the clarification non-mutating.
 
-Do not stop after a shallow pass. A good session usually needs multiple rounds unless the input is already unusually precise. Keep grilling until each required area has either a resolved answer, a known source to inspect, or an explicit open question.
+Do not stop after a shallow pass. A good session usually needs multiple rounds unless the input is already unusually precise. Treat "under five questions" as suspicious for fuzzy intent: before concluding, check whether you are merely accepting labels instead of understanding the work.
+
+Stay in clarification mode until you have a working model of the context and topic. Do not pivot into planning, decomposition, implementation, or Paperclip mutation just because the operator answered the first few questions.
 
 Minimum bar before summary:
 
@@ -33,6 +35,8 @@ Minimum bar before summary:
 - Ask follow-up questions when an answer contains vague words like "safe", "done", "setup", "E2E", "agent", "review", "backend", "frontend", "database", "autonomous", or "self-sufficient".
 - Challenge over-broad goals by asking what must be true for the first AFK loop to succeed.
 - Test the plan with concrete scenarios: clean checkout, missing secrets, failed E2E, schema change, flaky dependency, blocked agent, partial implementation, and reviewer rejection.
+- Pressure-test contradictions and missing context: if two answers imply different scopes, ownership, validation bars, or stop conditions, ask another question instead of smoothing it over.
+- Before summarizing, be able to restate the first concrete AFK loop, the control-plane objects it should attach to, what is explicitly out of scope, what evidence proves success, and what must stop the agent.
 - Do not produce the final summary while material ambiguity remains in outcome, scope, validation, autonomy, or stop conditions.
 
 Resolve:

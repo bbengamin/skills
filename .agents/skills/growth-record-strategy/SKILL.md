@@ -5,7 +5,7 @@ description: Materialize an approved Growth Clarification Summary into Paperclip
 
 # Growth Record Strategy
 
-Record approved growth strategy into Paperclip. Create or update only the next missing layer unless the operator approves a larger proposal.
+Record approved growth strategy into Paperclip. Create or update only the next missing layer unless the operator approves a larger exact proposal.
 
 ## References
 
@@ -20,6 +20,8 @@ Read these first:
 ## Process
 
 1. Confirm there is an approved Growth Clarification Summary or equivalent operator-approved strategy.
+   - If the operator explicitly stops clarification and asks to record strategy, first produce a concise Growth Clarification Summary from resolved answers.
+   - If the operator approves that summary, or has already approved the equivalent direction in-thread, treat it as an approved equivalent strategy.
 2. Inspect current Paperclip goals, projects, candidate parent issues, plan documents, and related comments.
 3. Decide which layer is missing or being revised:
    - durable acquisition company goal
@@ -35,8 +37,15 @@ Read these first:
    - plan document on an existing parent issue
 4. Draft the exact proposed mutation.
 5. Ask for approval before mutating Paperclip.
+   - A larger proposal may include multiple layers only when the operator approves the exact bundle.
 6. Apply only approved changes.
+   - Create records in dependency order and verify each before dependent writes.
 7. Read back created or updated records and report identifiers.
+8. For strategy parent issues created during recording, verify they remain planning records:
+   - `status` is `backlog`
+   - `assigneeAgentId` and `assigneeUserId` are null
+   - child branch planning is deferred unless separately approved
+   - no issue is moved to `todo` during record-strategy
 
 ## Wiki Source Material
 
@@ -143,6 +152,15 @@ When revising an existing strategy plan, update the existing plan document after
 Use the CLI-first ladder in `integration-matrix.md`: CLI when it supports and verifies the native field, dedicated MCP tools when CLI is insufficient, `paperclipApiRequest` when no dedicated tool exists, and direct REST only when CLI and MCP are unavailable or broken.
 
 Before the first MCP API request or direct REST mutation, derive API base and company from `paperclipai context show --json`, verify auth with `paperclipai auth whoami --json`, and never print bearer tokens. If a native field cannot be written, stop and ask the operator instead of silently degrading the strategy artifact.
+
+Before direct REST writes:
+
+- Run `paperclipai context show --json`.
+- Run `paperclipai auth whoami --json`.
+- Confirm the route with a safe GET where possible.
+- Never print bearer tokens.
+- Write one dependency at a time.
+- Read back native fields before continuing.
 
 ## Mutation Rule
 
