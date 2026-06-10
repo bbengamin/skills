@@ -114,7 +114,9 @@ The server reads explicit `PAPERCLIP_API_URL`, `PAPERCLIP_API_KEY`, and `PAPERCL
 
 ### MCP Install Scope
 
-Default to project-local MCP configuration. Write Paperclip MCP config to `.codex/config.toml` in the current trusted project unless the operator explicitly asks for a global install. Use global config only after explicit approval and write it to `~/.codex/config.toml`.
+Default to project-local MCP configuration. MCP is not required for skills to load; it is only the fallback surface for Paperclip operations that are missing from the CLI or would otherwise require brittle parsing.
+
+For Codex, write Paperclip MCP config to `.codex/config.toml` in the current trusted project unless the operator explicitly asks for a global install. Use global config only after explicit approval and write it to `~/.codex/config.toml`.
 
 Project-local default:
 
@@ -126,13 +128,34 @@ args = ["-y", "@bbengamin/paperclip-mcp-server"]
 
 Global install uses the same table in `~/.codex/config.toml`. Before writing either file, show the target path, the exact TOML table, and whether an existing `mcp_servers.paperclip` entry will be created, replaced, or left unchanged.
 
+For Claude Code, use project-local `.mcp.json` through the Claude CLI:
+
+```sh
+claude mcp add paperclip -s project -- npx -y @bbengamin/paperclip-mcp-server
+```
+
+This writes the equivalent shared project config:
+
+```json
+{
+  "mcpServers": {
+    "paperclip": {
+      "command": "npx",
+      "args": ["-y", "@bbengamin/paperclip-mcp-server"]
+    }
+  }
+}
+```
+
+Global or user-level installs are allowed only after explicit approval. Before writing either config, show the target path, the exact TOML table, Claude command, or JSON entry, and whether an existing `paperclip` MCP entry will be created, replaced, or left unchanged.
+
 After writing MCP config, verify the target file contains the expected table and verify the npm package can be resolved:
 
 ```sh
 npm view @bbengamin/paperclip-mcp-server version
 ```
 
-Then tell the operator to restart Codex or start a new thread before expecting Paperclip MCP tools to appear. Do not treat missing MCP tools in the same running thread as install failure unless the restarted session still cannot load them.
+Then tell the operator to restart Codex or Claude Code, or start a new thread/session, before expecting Paperclip MCP tools to appear. Do not treat missing MCP tools in the same running thread as install failure unless the restarted session still cannot load them.
 
 Dedicated MCP read tools:
 

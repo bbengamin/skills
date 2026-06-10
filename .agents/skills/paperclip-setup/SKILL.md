@@ -162,13 +162,21 @@ Read these first:
 
 8. Verify Paperclip MCP config.
 
-   Paperclip MCP uses `@bbengamin/paperclip-mcp-server` as a fallback surface after CLI. Default to project-local Codex configuration in the current trusted project:
+   Paperclip MCP uses `@bbengamin/paperclip-mcp-server` as a fallback surface after CLI. MCP is not required for skills to load; it is needed only when Paperclip operations need the MCP fallback surface.
+
+   For Codex, default to project-local Codex configuration in the current trusted project:
 
    ```text
    .codex/config.toml
    ```
 
-   Use global Codex configuration only when the operator explicitly asks for global install:
+   For Claude Code, default to project-local Claude MCP configuration in the current trusted project:
+
+   ```text
+   .mcp.json
+   ```
+
+   Use global or user-level configuration only when the operator explicitly asks for it:
 
    ```text
    ~/.codex/config.toml
@@ -179,14 +187,34 @@ Read these first:
    ```sh
    test -f .codex/config.toml && sed -n '1,220p' .codex/config.toml
    test -f ~/.codex/config.toml && sed -n '1,220p' ~/.codex/config.toml
+   test -f .mcp.json && sed -n '1,220p' .mcp.json
    ```
 
-   Proposed project-local TOML:
+   Proposed Codex project-local TOML:
 
    ```toml
    [mcp_servers.paperclip]
    command = "npx"
    args = ["-y", "@bbengamin/paperclip-mcp-server"]
+   ```
+
+   Proposed Claude Code project-local command:
+
+   ```sh
+   claude mcp add paperclip -s project -- npx -y @bbengamin/paperclip-mcp-server
+   ```
+
+   This writes the equivalent `.mcp.json` entry:
+
+   ```json
+   {
+     "mcpServers": {
+       "paperclip": {
+         "command": "npx",
+         "args": ["-y", "@bbengamin/paperclip-mcp-server"]
+       }
+     }
+   }
    ```
 
    If the operator wants explicit host-local overrides, include only the requested environment values:
@@ -203,17 +231,18 @@ Read these first:
 
    - target scope: project-local or global
    - target path
-   - exact TOML table
-   - whether the `mcp_servers.paperclip` entry will be created, replaced, or left unchanged
+   - exact TOML table, Claude command, or JSON entry
+   - whether the `paperclip` MCP entry will be created, replaced, or left unchanged
 
    Ask for explicit approval before editing the config file. After writing, verify:
 
    ```sh
    sed -n '1,220p' <target-config-path>
+   claude mcp get paperclip
    npm view @bbengamin/paperclip-mcp-server version
    ```
 
-   Then tell the operator to restart Codex or start a new thread before expecting Paperclip MCP tools to appear. Do not treat missing MCP tools in the same running thread as install failure unless a restarted session still cannot load them.
+   Then tell the operator to restart Codex or Claude Code, or start a new thread/session, before expecting Paperclip MCP tools to appear. Do not treat missing MCP tools in the same running thread as install failure unless a restarted session still cannot load them.
 
 9. Verify shared docs exist.
 
