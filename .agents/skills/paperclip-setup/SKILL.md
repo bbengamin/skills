@@ -19,6 +19,7 @@ Read these first:
   - `../../../docs/paperclip-operator/integration-matrix.md`
 - Bundled templates when project docs are missing:
   - `references/project-docs/AGENTS.md`
+  - `references/project-docs/CLAUDE.md`
   - `references/project-docs/CONTEXT.md`
   - `references/project-docs/docs/paperclip-operator/control-plane.md`
   - `references/project-docs/docs/paperclip-operator/workflow.md`
@@ -219,6 +220,7 @@ Read these first:
    Required files:
 
    - `AGENTS.md`
+   - `CLAUDE.md`
    - `CONTEXT.md`
    - `docs/paperclip-operator/control-plane.md`
    - `docs/paperclip-operator/workflow.md`

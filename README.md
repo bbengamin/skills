@@ -18,6 +18,46 @@ Install all Paperclip operator skills into the current project:
 npx skills add bbengamin/skills --all
 ```
 
+When running from inside an agent, the installer may auto-detect that agent and skip
+the interactive client picker. To install for both Claude Code and Codex explicitly,
+use:
+
+```sh
+npx skills add bbengamin/skills --skill '*' --agent claude-code codex -y
+```
+
+Or install every skill into every supported agent target:
+
+```sh
+npx skills add bbengamin/skills --all
+```
+
+The `claude-code` target writes Claude-compatible project skills under:
+
+```text
+.claude/skills/
+```
+
+The `codex` and universal-agent targets write Codex-compatible project skills under:
+
+```text
+.agents/skills/
+```
+
+If a project was already installed for Codex only, reinstall into Claude Code:
+
+```sh
+npx skills add bbengamin/skills --skill '*' --agent claude-code -y
+```
+
+Claude Code also reads project memory from `CLAUDE.md`, not `AGENTS.md`. If
+`paperclip-setup` has not scaffolded it yet, create a Claude memory file alongside
+`AGENTS.md`:
+
+```sh
+cp AGENTS.md CLAUDE.md
+```
+
 Install globally:
 
 ```sh
@@ -34,6 +74,7 @@ After installing in a fresh project, run `paperclip-setup`. It checks your `pape
 
 ```text
 AGENTS.md
+CLAUDE.md
 CONTEXT.md
 docs/paperclip-operator/
 ```
