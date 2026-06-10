@@ -1,0 +1,31 @@
+{
+  "name": "paperclip-operator-skills",
+  "version": "1.0.0",
+  "description": "Paperclip operator skills for planning, triage, monitoring, creator growth, and acquisition workflows.",
+  "author": {
+    "name": "bbengamin"
+  },
+  "skills": [
+    "./.agents/skills/paperclip-setup",
+    "./.agents/skills/paperclip-clarify",
+    "./.agents/skills/paperclip-record-strategy",
+    "./.agents/skills/paperclip-plan-work",
+    "./.agents/skills/paperclip-triage",
+    "./.agents/skills/paperclip-monitor",
+    "./.agents/skills/paperclip-admin",
+    "./.agents/skills/paperclip-create-agent",
+    "./.agents/skills/paperclip-wiki-fetch",
+    "./.agents/skills/paperclip-wiki-manage",
+    "./.agents/skills/creator-clarify",
+    "./.agents/skills/creator-record-strategy",
+    "./.agents/skills/creator-plan-work",
+    "./.agents/skills/creator-triage",
+    "./.agents/skills/growth-clarify",
+    "./.agents/skills/growth-record-strategy",
+    "./.agents/skills/growth-tooling-scout",
+    "./.agents/skills/inbound-plan-work",
+    "./.agents/skills/inbound-triage",
+    "./.agents/skills/outbound-plan-work",
+    "./.agents/skills/outbound-triage"
+  ]
+}

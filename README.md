@@ -4,6 +4,9 @@ Local operator skills for preparing and operating AFK work in Paperclip through 
 
 These skills help a human operator turn fuzzy intent into Paperclip-native goals, projects, parent issues, plans, child issues, triage decisions, and monitoring reports while keeping Paperclip as the source of truth.
 
+The repo also includes a `.claude-plugin/plugin.json` manifest so Claude Code can
+discover the tracked skills when installing from the GitHub repository.
+
 ## Install
 
 List available skills:
