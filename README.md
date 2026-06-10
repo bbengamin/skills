@@ -15,21 +15,19 @@ List available skills:
 npx skills add bbengamin/skills --list
 ```
 
-Install all Paperclip operator skills into the current project:
-
-```sh
-npx skills add bbengamin/skills --all
-```
-
-When running from inside an agent, the installer may auto-detect that agent and skip
-the interactive client picker. To install for both Claude Code and Codex explicitly,
-use:
+Install all Paperclip operator skills for Claude Code and Codex in the current
+project:
 
 ```sh
 npx skills add bbengamin/skills --skill '*' --agent claude-code codex -y
 ```
 
-Or install every skill into every supported agent target:
+When running from inside an agent, the installer may auto-detect that agent and skip
+the interactive client picker. Passing `--agent claude-code codex` keeps the
+install scoped to the two supported local clients this suite is usually used with.
+
+Only use `--all` if you intentionally want every skill installed into every
+supported agent target:
 
 ```sh
 npx skills add bbengamin/skills --all
