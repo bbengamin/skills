@@ -79,6 +79,16 @@ After approval, use the best available surface:
 
 After update, read the agent back and verify name, role, manager, adapter, skills, budget, and heartbeat policy.
 
+For managed instruction bundle reads/writes, do not rely only on `paperclipai agent --help`: some installed CLI versions expose only `list`, `get`, and `local-cli` even though the REST API supports instructions bundles. Dedicated MCP currently has no instructions-bundle tool. After approval, use `paperclipApiRequest` or direct REST for:
+
+- `GET /api/agents/{agentId}/instructions-bundle`
+- `PATCH /api/agents/{agentId}/instructions-bundle`
+- `GET /api/agents/{agentId}/instructions-bundle/file?path=AGENTS.md`
+- `PUT /api/agents/{agentId}/instructions-bundle/file`
+- `DELETE /api/agents/{agentId}/instructions-bundle/file?path=...`
+
+Before writing instructions, read the current file, present the exact diff or no-op verification plan, and get approval. After writing, read back and verify exact content, byte size, bundle mode, entry file, and touched file path. Be careful not to add or remove final newlines unless that is part of the approved change.
+
 ## Minor Mutations
 
 Use this skill for small approved changes such as:
@@ -86,6 +96,7 @@ Use this skill for small approved changes such as:
 - editing an issue title, description, priority, label, assignee, or lifecycle state
 - commenting on an issue
 - attaching or detaching a company skill from an agent
+- reading or updating a managed agent instructions bundle after explicit approval
 - adjusting an agent budget or pause/resume setting
 - resolving a small Paperclip record mismatch found during inspection
 - creating a single simple issue when the operator already knows the exact desired issue

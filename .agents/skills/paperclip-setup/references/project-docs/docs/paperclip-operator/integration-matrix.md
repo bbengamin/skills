@@ -34,6 +34,7 @@ Dedicated MCP tools cover:
 Known MCP gaps:
 
 - no dedicated company list/export/import tools
+- no dedicated agent update or agent instructions-bundle tools; use `paperclipApiRequest` or direct REST for managed instruction bundle reads/writes when the CLI lacks the command
 - no company skill-library tools
 - no secret, plugin, cloud, routine, or worktree tools
 - no dedicated wiki or llm-wiki plugin bridge tools; use `paperclip-wiki-fetch` for reads or `paperclip-wiki-manage` for mutations plus `paperclipApiRequest` or direct REST
@@ -72,6 +73,7 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 | List agents | CLI `paperclipai agent list --json` | MCP `paperclipListAgents` | Use CLI for local agent setup commands. |
 | Create agents / hire agents | CLI if available and governance path verifies | `paperclipApiRequest`, then direct REST | Use `paperclip-create-agent`. Inspect org/config/skills first, ask approval, create or submit hire, then verify agent and approval state. |
 | Update existing agents | CLI depending operation | MCP reads, then `paperclipApiRequest` or direct REST | Use `paperclip-admin`. Inspect current agent and skills first, ask approval, then verify the updated agent. |
+| Read/update managed agent instructions | CLI `paperclipai agent instructions-bundle*` if available | `paperclipApiRequest`, then direct REST | Current installed CLI versions may expose only `agent list/get/local-cli`; dedicated MCP has no instructions-bundle tool. REST supports `GET/PATCH /api/agents/{agentId}/instructions-bundle` and file-level `GET/PUT/DELETE /api/agents/{agentId}/instructions-bundle/file?path=...`. Ask approval before writes and read back exact content, size, and entry file. |
 | Dashboard summary | CLI `paperclipai dashboard get --json` | MCP if a dedicated/dashboard-equivalent tool exists, else API fallback | Preferred for `paperclip-monitor`. |
 | Activity log | CLI `paperclipai activity list --json` | `paperclipApiRequest`, then direct REST | Use CLI for ordinary monitoring. |
 | Costs | CLI/dashboard if exposed | `paperclipApiRequest`, then direct REST | Use API fallback for detailed cost drill-down if summaries are insufficient. |
