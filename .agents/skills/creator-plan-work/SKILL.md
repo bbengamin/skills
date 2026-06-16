@@ -53,8 +53,11 @@ Examples:
 - Quarterly strategy -> monthly strategy parent issues.
 - Monthly strategy -> channel/campaign parent issues.
 - LinkedIn campaign -> research, angle, draft, revision, and signal-capture work items.
+- LinkedIn campaign calendar -> one `backlog` `creator-post` issue per planned post, each with `targetSlotAt`, `draftWindow`, `channel: LinkedIn`, `postizMode: create-draft-only`, source refs, brief, acceptance criteria, and final-URL done definition.
 
 Create broad children as planning parents, not execution-ready issues.
+
+When planning campaign posts, do not move future posts to `todo` and do not assign Creator Drafter. Future posts are queued in `backlog`; the Creator Queue Steward routine promotes due `creator-post` issues later.
 
 ## Proposed Breakdown Format
 
@@ -72,6 +75,10 @@ Create broad children as planning parents, not execution-ready issues.
 - Assignee: null
 - Creator/persona:
 - Channel:
+- Labels:
+- targetSlotAt:
+- draftWindow:
+- postizMode:
 - Body:
 - Acceptance criteria:
 - Validation:
@@ -81,6 +88,7 @@ Create broad children as planning parents, not execution-ready issues.
 ## Creation Rules
 
 - Create planned issues as `backlog` and unassigned.
+- Add the `creator-post` label to individual campaign post issues that should enter the scheduled drafting queue.
 - Do not move issues to `todo`.
 - Do not assign agents.
 - Do not checkout work.

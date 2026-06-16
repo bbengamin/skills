@@ -75,6 +75,10 @@ Creator work is AFK-ready only when the issue gives an agent enough context to a
 - stop conditions
 - no unresolved first-class blockers
 
+Individual scheduled post issues also need the `creator-post` label, `targetSlotAt` with timezone, `draftWindow` or enough context to use the `24h` default, `postizMode: create-draft-only`, and a done definition requiring the operator to record the final LinkedIn URL in Paperclip.
+
+Do not triage an entire future campaign post calendar into `todo`. Future post issues should stay `backlog` until the Creator Queue Steward routine promotes them when `draftOpenAt = targetSlotAt - draftWindow` has arrived.
+
 ## Recommendation Format
 
 ```markdown
@@ -96,9 +100,12 @@ Creator work is AFK-ready only when the issue gives an agent enough context to a
 
 - `todo` means ready and actionable.
 - `backlog` means parked or not startable.
+- `backlog` with `creator-post` and complete queue fields means queued for future promotion by Creator Queue Steward.
 - `blocked` requires first-class blocker links for concrete issue dependencies when supported.
 - Use `creator-plan-work` for too-broad creator strategy or campaign issues.
 - Use comments to explain triage reasoning.
+
+If a future `creator-post` issue appears in `todo` before its draft window opens, recommend returning it to `backlog` rather than drafting early.
 
 ## Mutation Rule
 

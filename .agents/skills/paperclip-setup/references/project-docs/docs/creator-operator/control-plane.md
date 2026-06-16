@@ -67,6 +67,38 @@ Examples:
 
 Campaigns may capture lightweight signals and learnings, but v1 does not own full business experiment tracking.
 
+## Scheduled Post Queue
+
+Individual campaign post tasks use Paperclip as the queue. Plan all known posts up front as child issues under the campaign parent, but keep future post work in `backlog` until it is inside its draft window.
+
+Use the `creator-post` label on every individual post issue that should enter the Creator Drafter queue:
+
+- Label: `creator-post`
+- Label id: `043f348f-1e22-4fe8-bb6f-8bcbde18e4c6`
+
+Required issue fields or clearly parseable body lines:
+
+- `creator`: creator/persona for the post
+- `channel`: `LinkedIn`
+- `targetSlotAt`: intended review or publish slot as an ISO timestamp with timezone
+- `draftWindow`: how far before `targetSlotAt` the draft should be prepared; default `24h` only when the rest of the issue is complete
+- `postizMode`: `create-draft-only`
+- `sourceRefs`: source issue, plan document, wiki page, notes, transcript, or other approved source material
+- `brief`: topic, angle, audience, claim boundaries, and CTA
+- `acceptanceCriteria`: what a good draft must satisfy
+- `doneDefinition`: final LinkedIn URL is manually recorded in Paperclip by the operator
+
+Queue lifecycle:
+
+- Future individual post issues stay `backlog`, labelled `creator-post`, unassigned or assigned only if the queue policy explicitly allows it.
+- The Creator Queue Steward routine scans `backlog` `creator-post` issues hourly, computes `draftOpenAt = targetSlotAt - draftWindow`, and promotes due posts to `todo`.
+- The steward assigns promoted posts to Creator Drafter.
+- Creator Drafter drafts the post and creates a Postiz review-only draft.
+- Multiple post issues may sit in `in_review` at the same time.
+- Publishing and scheduling remain manual in v1; the operator records the final LinkedIn URL in Paperclip.
+
+Do not move every planned future post to `todo`. A too-early post in `todo` is expected to be returned to `backlog`, which can strand it unless the queue steward later promotes it.
+
 ## Work Items
 
 Executable work items should be small enough for one AFK loop.
@@ -78,6 +110,50 @@ Examples:
 - draft a bounded LinkedIn post
 - revise a draft from operator feedback
 - summarize creator-channel signals
+
+### Campaign Post Task Template
+
+Use this shape when planning individual LinkedIn campaign posts:
+
+```markdown
+# <Campaign>: LinkedIn post for <targetSlotAt date/topic>
+
+Labels: creator-post
+Status: backlog
+Assignee: null
+Parent: <campaign parent issue>
+Project: <creator project>
+
+## Queue
+
+- creator: <creator/persona>
+- channel: LinkedIn
+- targetSlotAt: <YYYY-MM-DDTHH:mm:ssZ or timezone-qualified ISO timestamp>
+- draftWindow: 24h
+- postizMode: create-draft-only
+
+## Brief
+
+- audience:
+- topic/angle:
+- sourceRefs:
+- claim boundaries:
+- CTA:
+
+## Acceptance Criteria
+
+- Draft is grounded in the listed source material.
+- Draft is suitable for LinkedIn and in the creator's voice.
+- Unsupported claims, private details, and invented numbers are avoided or flagged.
+- Postiz handoff is draft-only.
+
+## Done Definition
+
+- Creator Drafter has produced the Paperclip `draft` document.
+- Postiz has a review-only draft, or Paperclip records `postizStatus: handoff_failed`.
+- Operator manually reviews/publishes in Postiz.
+- Operator records the final LinkedIn URL in Paperclip.
+```
 
 ## Mutation Rule
 

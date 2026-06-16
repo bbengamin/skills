@@ -114,6 +114,7 @@ docs/paperclip-operator/
 - `creator-record-strategy` — record approved creator-growth strategy into goals, creator projects, parent issues, campaign issues, and plan documents.
 - `creator-plan-work` — decompose creator strategy or campaign artifacts into one level of backlog creator work.
 - `creator-triage` — review planned creator work for AFK readiness before delegation.
+- `postiz-draft-handoff` — create review-only Postiz draft handoffs from approved Creator Drafter issues; never schedule, publish, promote, delete, manage accounts, or run analytics.
 
 ### Growth Operator
 
@@ -172,5 +173,7 @@ These docs are bundled inside `paperclip-setup` as templates so they can be copi
 - Use goals and sub-goals for durable acquisition direction.
 - Use one project per durable inbound channel or outbound motion.
 - Use parent issues and plan documents for strategy periods, campaigns, experiments, and branch planning.
+- Treat Postiz as a review/publish surface for creator drafts, while Paperclip remains the source of truth for plan, issue lifecycle, draft text, handoff metadata, and final published URLs.
+- Plan creator campaign posts up front as `backlog` issues labelled `creator-post`; the Creator Queue Steward routine promotes only due posts to `todo` for Creator Drafter.
 - Keep outbound triage level-aware: asset preparation, tool work, sending, and reply/booking support have different approval and stop-condition requirements.
 - Scout acquisition tools before hard-coding vendor assumptions into planning or triage skills.

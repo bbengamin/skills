@@ -63,6 +63,8 @@ Examples:
 
 Planning creates `backlog`, unassigned structure. It must not assign agents, checkout work, or move issues to `todo`.
 
+For campaign post calendars, planning may create all known individual post issues at once, but each post must remain `backlog` and carry the `creator-post` label plus queue fields such as `targetSlotAt`, `draftWindow`, `channel: LinkedIn`, and `postizMode: create-draft-only`. The Creator Queue Steward routine, not ordinary planning, promotes due posts to `todo` when `targetSlotAt - draftWindow` has arrived.
+
 ## 5. Triage
 
 Use `creator-triage` to decide whether planned creator work is ready for AFK execution.
@@ -72,6 +74,13 @@ Creator work is ready only when an agent has enough creator, channel, strategy, 
 ## 6. AFK Execution
 
 AFK execution is handled by Paperclip assignment and heartbeat policy after work is triaged and delegated. Creator Growth skills do not manually invoke another agent's heartbeat.
+
+For scheduled creator posts, AFK execution has two steps:
+
+- Creator Queue Steward runs on a schedule and promotes due `creator-post` issues from `backlog` to `todo`, assigning Creator Drafter.
+- Creator Drafter creates the Paperclip draft and a Postiz `type: "draft"` handoff for operator review.
+
+The Creator Drafter must not publish or schedule. Postiz is a review surface in v1; the operator manually publishes and records the final LinkedIn URL in Paperclip.
 
 ## Deferred
 

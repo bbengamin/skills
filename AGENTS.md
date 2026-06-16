@@ -45,6 +45,8 @@ Shared references:
 - Use `paperclip-wiki-fetch` when reading Paperclip llm-wiki page content, listing wiki pages or sources, or converting wiki SPA URLs into plugin bridge API requests.
 - Use `paperclip-wiki-manage` when creating, updating, renaming, archiving, deleting, or otherwise mutating Paperclip llm-wiki content. Wiki management must use confirmed plugin bridge write routes, explicit approval, and readback verification.
 - Use `creator-clarify`, `creator-record-strategy`, `creator-plan-work`, and `creator-triage` for the v1 Creator Growth workflow. Defer creator verification, reflection, scheduling, and publishing skills until planned separately.
+- For scheduled creator campaigns, create individual post issues as `backlog` with the `creator-post` label, `targetSlotAt`, `draftWindow`, LinkedIn channel, and `postizMode: create-draft-only`; the Creator Queue Steward routine promotes due posts to `todo` and assigns Creator Drafter.
+- Use `postiz-draft-handoff` only after creator post work is approved for draft handoff. It may create Postiz drafts for operator review, but must not schedule, publish, promote, delete, manage accounts, or run analytics.
 - Use `growth-clarify`, `growth-record-strategy`, `inbound-plan-work`, `outbound-plan-work`, `inbound-triage`, and `outbound-triage` for shared acquisition strategy and branch-specific growth planning. Outbound triage is level-aware; it must not send outreach, launch campaigns, mutate CRM records, spend credits, or modify external accounts.
 
 ## Growth Operator Skills
