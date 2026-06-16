@@ -13,7 +13,7 @@ Use this skill for read-only wiki retrieval. Do not use `/api/wiki/...`; llm-wik
 
 Identify these values before calling the API:
 
-- Paperclip API base URL, for example `https://paperclip.right.link`
+- Paperclip API base URL, for example `https://your-paperclip-host.example.com`
 - bearer token in an environment variable such as `TOKEN`
 - `companyId`
 - `wikiId`, usually `default`
@@ -23,7 +23,7 @@ Identify these values before calling the API:
 If a user gives a public-looking wiki URL, treat it as an SPA route and extract the page path from it. For example:
 
 ```text
-https://paperclip.right.link/RL/wiki/page/wiki/sources/rl-30-day-validation-plan.md
+https://your-paperclip-host.example.com/<company-slug>/wiki/page/wiki/sources/rl-30-day-validation-plan.md
 ```
 
 maps to:
@@ -57,7 +57,7 @@ Send JSON with a top-level `params` object:
 ```json
 {
   "params": {
-    "companyId": "0f54ac28-6909-4c63-afec-14321af7c21b",
+    "companyId": "<company-id>",
     "wikiId": "default",
     "spaceSlug": "default",
     "path": "wiki/sources/rl-30-day-validation-plan.md"
@@ -75,10 +75,10 @@ Fetch page content:
 curl -s -X POST \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  "https://paperclip.right.link/api/plugins/paperclipai.plugin-llm-wiki/data/page-content" \
+  "https://your-paperclip-host.example.com/api/plugins/paperclipai.plugin-llm-wiki/data/page-content" \
   -d '{
     "params": {
-      "companyId": "0f54ac28-6909-4c63-afec-14321af7c21b",
+      "companyId": "<company-id>",
       "wikiId": "default",
       "spaceSlug": "default",
       "path": "wiki/sources/rl-30-day-validation-plan.md"
@@ -92,10 +92,10 @@ List pages:
 curl -s -X POST \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  "https://paperclip.right.link/api/plugins/paperclipai.plugin-llm-wiki/data/pages" \
+  "https://your-paperclip-host.example.com/api/plugins/paperclipai.plugin-llm-wiki/data/pages" \
   -d '{
     "params": {
-      "companyId": "0f54ac28-6909-4c63-afec-14321af7c21b",
+      "companyId": "<company-id>",
       "wikiId": "default",
       "spaceSlug": "default"
     }
@@ -108,10 +108,10 @@ List captured sources:
 curl -s -X POST \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  "https://paperclip.right.link/api/plugins/paperclipai.plugin-llm-wiki/data/sources" \
+  "https://your-paperclip-host.example.com/api/plugins/paperclipai.plugin-llm-wiki/data/sources" \
   -d '{
     "params": {
-      "companyId": "0f54ac28-6909-4c63-afec-14321af7c21b",
+      "companyId": "<company-id>",
       "wikiId": "default",
       "spaceSlug": "default"
     }

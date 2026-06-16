@@ -152,6 +152,20 @@ Company -> Goal -> Project -> Issue -> Workspace -> Agent run
 
 These docs are bundled inside `paperclip-setup` as templates so they can be copied into fresh projects.
 
+## Security Scan Notes
+
+These skills are scanned on skills.sh. Two recurring findings are known and accepted:
+
+- **Socket alert on `paperclip-setup`** — flags `npm install -g paperclipai`. This is
+  the official first-party Paperclip CLI; the alert is expected for any global package
+  install and is not a vulnerability.
+- **Generative "critical" ratings on mutation/admin skills** — these skills create
+  agents, mutate Paperclip control-plane state, and delegate autonomous work by design.
+  Mutations are gated behind explicit operator approval (see the Principles below). The
+  non-mutating clarifier skills (`growth-clarify`, `paperclip-clarify`) rate as safe.
+
+No live secrets or internal hostnames ship in the skills; API examples use placeholders.
+
 ## Principles
 
 - Paperclip is the source of truth.

@@ -52,7 +52,9 @@ Read these first:
    npm --version
    ```
 
-   If Node.js and npm are present, tell the operator to install the CLI globally:
+   If Node.js and npm are present, tell the operator to install the CLI globally.
+   `paperclipai` is the official first-party Paperclip CLI; supply-chain scanners
+   flag this global install as they would any package install:
 
    ```sh
    npm install -g paperclipai

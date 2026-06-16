@@ -308,7 +308,7 @@ If the reviewer agent exists but is `status: "error"`, record that the control-p
 There is no documented native `paperclipai` wiki command, and llm-wiki is not exposed under `/api/wiki/...`. Treat public-looking wiki URLs as SPA routes only. For example:
 
 ```text
-https://paperclip.right.link/RL/wiki/page/wiki/sources/rl-30-day-validation-plan.md
+https://your-paperclip-host.example.com/<company-slug>/wiki/page/wiki/sources/rl-30-day-validation-plan.md
 ```
 
 maps to page path:
