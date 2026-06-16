@@ -10,7 +10,7 @@ For narrow administration requests that do not need the full planning chain, use
 
 ## 0. Admin
 
-Use `paperclip-admin` when the operator asks to check something, make a small control-plane change, update an existing agent, inspect or attach company skills, adjust assignments, or perform one-off maintenance.
+Use `paperclip-admin` when the operator asks to check something, make a small control-plane change, update an existing agent, inspect or attach company skills, adjust assignments or reviewer gates, or perform one-off maintenance.
 
 Use `paperclip-create-agent` when the operator asks to create, hire, provision, draft, or configure a new Paperclip agent. Agent creation follows Paperclip's native governance-aware hire workflow: inspect context and org conventions, draft role/config/instructions, ask for approval, create or submit the hire, verify the record, then set up local CLI/runtime access only after creation is valid.
 
@@ -60,11 +60,11 @@ Use `paperclip-triage` to decide whether existing issues are good enough for AFK
 
 It classifies issues as AFK-ready, needs-info, blocked, needs-human, too-broad, revise, cancel, or done.
 
-Triage is the first phase that may recommend moving backlog work to `todo`; it still waits for approval before mutating lifecycle, blockers, labels, comments, or assignees.
+Triage is the first phase that may recommend moving backlog work to `todo`; it still waits for approval before mutating lifecycle, blockers, labels, comments, assignees, or reviewer gates.
 
 ## 5. Delegate And Monitor
 
-Delegation starts only after explicit operator intent. It may assign or checkout approved issues, then Paperclip's heartbeat loop handles agent pickup. Do not manually invoke another agent's heartbeat; Paperclip rejects cross-agent invocation and assignments are enough for eligible agents with heartbeat policy enabled.
+Delegation starts only after explicit operator intent. It may assign or checkout approved issues, and it may attach required reviewers through `executionPolicy.stages[].participants`. Paperclip's heartbeat loop handles agent pickup. Do not manually invoke another agent's heartbeat; Paperclip rejects cross-agent invocation and assignments are enough for eligible agents with heartbeat policy enabled.
 
 Use `paperclip-monitor` to inspect active execution. It reads dashboard, agents, issues, approvals, activity, costs, blocked work, and heartbeats.
 

@@ -217,7 +217,7 @@ Known MCP gaps:
 - no documented native `paperclipai` wiki management command
 - no dedicated project create/update or goal create/update tools in MCP 0.1.0
 
-Treat write schemas as claims to verify, not proof. After issue creation or update, read the issue back and confirm parent, project, goal, status, and blocker links before continuing with dependent mutations.
+Treat write schemas as claims to verify, not proof. After issue creation or update, read the issue back and confirm parent, project, goal, status, blocker links, and execution policy before continuing with dependent mutations.
 
 ## Discovery
 
@@ -257,7 +257,51 @@ paperclipai issue comment <issue-id> --body "..."
 
 Use CLI when MCP does not expose the needed operation and the CLI does.
 
-During planning, create issues as `backlog` and unassigned. Do not move planned work to `todo`, assign, checkout, or manually invoke heartbeats. Triage or delegation may make approved work startable by moving it to `todo`, assigning it, or checking it out; Paperclip's heartbeat policy handles agent pickup after assignment.
+During planning, create issues as `backlog` and unassigned. Do not move planned work to `todo`, assign, attach reviewer gates, checkout, or manually invoke heartbeats. Triage or delegation may make approved work startable by moving it to `todo`, assigning it, attaching required reviewers, or checking it out; Paperclip's heartbeat policy handles agent pickup after assignment.
+
+## Issue Reviewers
+
+The native issue reviewer field is the issue `executionPolicy`, specifically `executionPolicy.stages[].participants` on a stage with `type: "review"`. The UI reviewer control maps to that participant list. Do not write `reviewRequest` when the operator asks to set a reviewer unless you have just verified that the target Paperclip environment maps it to the UI-backed reviewer field.
+
+Common reviewer write:
+
+```json
+{
+  "executionPolicy": {
+    "mode": "normal",
+    "commentRequired": true,
+    "stages": [
+      {
+        "type": "review",
+        "approvalsNeeded": 1,
+        "participants": [
+          {
+            "type": "agent",
+            "agentId": "<reviewer-agent-id>"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Use CLI or dedicated MCP only if the surface can write and verify `executionPolicy`. Otherwise use `paperclipApiRequest` or direct REST:
+
+```text
+PATCH /issues/{issueId}
+```
+
+with JSON containing the `executionPolicy` object above. After writing, read the issue back and verify:
+
+- `executionPolicy.mode`
+- `executionPolicy.commentRequired`
+- `executionPolicy.stages[].type`
+- `executionPolicy.stages[].approvalsNeeded`
+- `executionPolicy.stages[].participants[].type`
+- `executionPolicy.stages[].participants[].agentId` or native user id
+
+If the reviewer agent exists but is `status: "error"`, record that the control-plane reviewer assignment is correct but runtime review execution may still be blocked until the agent's runtime error is cleared.
 
 ## llm-wiki Reads
 
@@ -311,6 +355,7 @@ GET  /companies/{companyId}/projects
 POST /companies/{companyId}/projects
 PATCH /projects/{projectId}
 PATCH /issues/{issueId} for native fields not exposed by CLI/MCP
+PATCH /issues/{issueId} with executionPolicy for issue reviewers
 GET  /agents/{agentId}/instructions-bundle
 PATCH /agents/{agentId}/instructions-bundle
 GET  /agents/{agentId}/instructions-bundle/file?path=AGENTS.md
@@ -393,6 +438,12 @@ curl -sS -X PATCH "$PAPERCLIP_API_BASE/api/issues/$ISSUE_ID" \
   -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
   -H "Content-Type: application/json" \
   --data '{"blockedByIssueIds":["<blocking-issue-id>"]}'
+
+# Set an agent reviewer through the native execution policy.
+curl -sS -X PATCH "$PAPERCLIP_API_BASE/api/issues/$ISSUE_ID" \
+  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+  -H "Content-Type: application/json" \
+  --data '{"executionPolicy":{"mode":"normal","commentRequired":true,"stages":[{"type":"review","approvalsNeeded":1,"participants":[{"type":"agent","agentId":"<reviewer-agent-id>"}]}]}}'
 
 # Clear an accidental assignee after planning.
 curl -sS -X PATCH "$PAPERCLIP_API_BASE/api/issues/$ISSUE_ID" \

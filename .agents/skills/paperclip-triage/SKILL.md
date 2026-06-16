@@ -35,6 +35,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
    - plan document
    - comments
    - assignee, if present
+   - reviewer gates in `executionPolicy.stages[].participants`, if review is required
 3. Classify the issue:
    - AFK-ready
    - needs-info
@@ -73,6 +74,7 @@ When triaging a parent issue, inspect its direct children. Inspect one additiona
 - Missing readiness elements:
 - Proposed comment:
 - Proposed blocker links:
+- Proposed reviewer gate:
 - Follow-up skill:
 ```
 
@@ -98,7 +100,7 @@ For large issue trees, use compact mode:
 
 ## Mutation Rule
 
-Report recommendations first. Only update status, comments, blockers, labels, or assignees after operator approval.
+Report recommendations first. Only update status, comments, blockers, labels, assignees, or reviewer gates after operator approval.
 
 ## Apply Approved Changes
 
@@ -106,11 +108,11 @@ Use the narrowest Paperclip surface that can perform the native mutation:
 
 - Use CLI issue reads, updates, and comments first when it supports the needed fields and verification.
 - Use MCP issue tools when CLI cannot perform or verify the operation.
-- Use MCP `paperclipApiRequest` for Paperclip-native fields that CLI and dedicated MCP tools do not expose, especially `blockedByIssueIds`.
+- Use MCP `paperclipApiRequest` for Paperclip-native fields that CLI and dedicated MCP tools do not expose, especially `blockedByIssueIds` and `executionPolicy`.
 - Use direct REST only when CLI and MCP are unavailable or broken.
 
 If CLI and dedicated MCP tools cannot write blocker links, use the API fallback from `cli-contract.md`.
 
-Verify every mutation by reading the issue back. For blocker changes, confirm the returned issue contains the intended `blockedByIssueIds`; do not treat a comment-only explanation as equivalent unless the operator explicitly approved degraded mode.
+Verify every mutation by reading the issue back. For blocker changes, confirm the returned issue contains the intended `blockedByIssueIds`; do not treat a comment-only explanation as equivalent unless the operator explicitly approved degraded mode. For reviewer gates, confirm the returned issue contains the intended `executionPolicy.stages[].participants`; do not treat `reviewRequest` as equivalent unless the target environment has verified mapping.
 
 If comment history is not exposed by the current issue detail surface, inspect the activity/comment surface if available. If comments still cannot be read, state that limitation in the recommendation and proceed from the visible issue fields instead of blocking the whole triage.

@@ -30,7 +30,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 - Use `paperclip-triage` when deciding whether issues are ready for AFK execution.
 - Use `paperclip-create-agent` when creating or hiring a new Paperclip agent.
 - Use `paperclip-wiki-manage` when the request is to create, update, rename, archive, delete, publish, sync, or otherwise mutate Paperclip llm-wiki content.
-- Stay in `paperclip-admin` for narrow reads, minor edits, agent provisioning, company skill-library operations, assignment tweaks, budget/status checks, and one-off maintenance.
+- Stay in `paperclip-admin` for narrow reads, minor edits, agent provisioning, company skill-library operations, assignment or reviewer-gate tweaks, budget/status checks, and one-off maintenance.
 
 ## Operating Loop
 
@@ -94,6 +94,7 @@ Before writing instructions, read the current file, present the exact diff or no
 Use this skill for small approved changes such as:
 
 - editing an issue title, description, priority, label, assignee, or lifecycle state
+- setting or clearing an issue reviewer gate through `executionPolicy.stages[].participants`
 - commenting on an issue
 - attaching or detaching a company skill from an agent
 - reading or updating a managed agent instructions bundle after explicit approval
@@ -101,7 +102,18 @@ Use this skill for small approved changes such as:
 - resolving a small Paperclip record mismatch found during inspection
 - creating a single simple issue when the operator already knows the exact desired issue
 
-Do not silently turn broad work into `todo`, assign broad issues, checkout work, manually invoke heartbeats, approve board gates, or mutate wiki content. If a change would make work startable or change llm-wiki content, call out that it crosses into triage, delegation, or wiki management and ask explicitly.
+Do not silently turn broad work into `todo`, assign broad issues, attach reviewer gates to broad issues, checkout work, manually invoke heartbeats, approve board gates, or mutate wiki content. If a change would make work startable or change llm-wiki content, call out that it crosses into triage, delegation, or wiki management and ask explicitly.
+
+## Reviewer Gates
+
+When the operator asks to set an issue reviewer, use Paperclip's native issue execution policy:
+
+- write `executionPolicy.stages[].participants` on a stage with `type: "review"`
+- include `approvalsNeeded` for the review stage
+- include `commentRequired: true` when reviewer comments are required
+- do not write `reviewRequest` unless the target environment has just been verified to map it to the UI reviewer field
+
+After writing, read the issue back and verify the reviewer participant is present. If the selected reviewer agent has `status: "error"`, report that assignment is correct but runtime review execution may still need the agent error cleared.
 
 ## Mutation Rule
 

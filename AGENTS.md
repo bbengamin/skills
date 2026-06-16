@@ -37,6 +37,7 @@ Shared references:
 - Local operator skills may inspect Paperclip freely, but must ask before mutating the control plane.
 - `paperclip-setup` installs Paperclip MCP config project-locally by default after explicit approval; global MCP install is allowed only when the operator asks for it.
 - Prefer Paperclip-native lifecycle state over parallel local ledgers: `backlog` is parked, `todo` is ready/actionable, `blockedByIssueIds` are first-class blockers.
+- Paperclip issue reviewers are native execution-policy review stages: use `executionPolicy.stages[].participants`, not `reviewRequest`, and verify the field after mutation.
 - Plan recursively. Create one child-issue level at a time, and treat broad children as planning parents for later passes.
 - Keep phase boundaries strict: planning creates backlog, unassigned structure only; triage may recommend `todo`; delegation may assign or checkout approved work. Do not manually invoke another agent's heartbeat; Paperclip's heartbeat policy handles pickup after assignment.
 - Use `paperclip-admin` for narrow reads, minor approved mutations, existing-agent administration, and company skill-library maintenance outside the planning chain.

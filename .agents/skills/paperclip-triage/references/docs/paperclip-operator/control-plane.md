@@ -23,7 +23,7 @@ Use `parentId` for goal hierarchy instead of encoding hierarchy only in titles o
 
 **Project** is the concrete deliverable container. It groups issues, workspaces, runtime configuration, project budget, and links to one or more goals.
 
-**Issue** is the executable work object. It has status, priority, description, comments, parent/child relationships, blockers, labels, assignees, documents, approvals, and activity.
+**Issue** is the executable work object. It has status, priority, description, comments, parent/child relationships, blockers, labels, assignees, documents, approvals, execution policy, and activity.
 
 **Parent Issue** is an issue that owns child issues. When paired with a `plan` document, it can serve as the strategy artifact for a body of work.
 
@@ -44,6 +44,35 @@ Use `parentId` for goal hierarchy instead of encoding hierarchy only in titles o
 **Approval** is a board-review gate. Common types include CEO strategy approval, hire approval, budget override, and general board approval.
 
 **Budget** is an enforced spending cap at company, agent, or project scope.
+
+## Issue Review Gates
+
+Paperclip's issue reviewer UI is backed by `executionPolicy.stages[].participants`, not `reviewRequest`.
+
+To require an agent reviewer, set an issue `executionPolicy` with `mode: "normal"`, `commentRequired: true` when the reviewer must leave a comment, and a `review` stage:
+
+```json
+{
+  "executionPolicy": {
+    "mode": "normal",
+    "commentRequired": true,
+    "stages": [
+      {
+        "type": "review",
+        "approvalsNeeded": 1,
+        "participants": [
+          {
+            "type": "agent",
+            "agentId": "<reviewer-agent-id>"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Use `type: "user"` with the native user id for human reviewers when supported by the target Paperclip environment. Read the issue back after writing and verify the reviewer appears in `executionPolicy.stages[].participants`. Do not treat a `reviewRequest` field as equivalent unless current Paperclip API documentation explicitly says it is mapped by that environment.
 
 ## Issue Lifecycle
 

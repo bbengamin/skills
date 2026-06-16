@@ -41,7 +41,7 @@ Known MCP gaps:
 - no documented native `paperclipai` wiki management command
 - no dedicated project create/update tools in the published MCP list; use `paperclipApiRequest` if CLI cannot do the native operation
 
-Treat write schemas as claims to verify, not proof. After every write, read the record back and confirm parent, project, goal, status, assignee, document, approval, and blocker fields before continuing with dependent mutations.
+Treat write schemas as claims to verify, not proof. After every write, read the record back and confirm parent, project, goal, status, assignee, document, approval, blocker, and execution policy fields before continuing with dependent mutations.
 
 ## Operation Matrix
 
@@ -64,6 +64,7 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 | Create child issue | CLI if parent linkage verifies | MCP `paperclipCreateIssue`, then `paperclipApiRequest` repair | Create one issue, verify `parentId`, repair if possible, then continue. |
 | Update issue lifecycle/fields | CLI `paperclipai issue update` if fields verify | MCP `paperclipUpdateIssue` | Planning leaves issues in `backlog`. Only triage/delegation may move work to `todo` after approval. |
 | Write blocker links | CLI if `blockedByIssueIds` verifies | MCP `paperclipUpdateIssue`, then `paperclipApiRequest` | Do not replace first-class blockers with comments unless the operator approves degraded mode. |
+| Set issue reviewer gate | CLI or MCP only if `executionPolicy` verifies | `paperclipApiRequest`, then direct REST | The UI reviewer field maps to `executionPolicy.stages[].participants` on a `type: "review"` stage. Do not use `reviewRequest` unless the environment has verified mapping. |
 | Comment on issue | CLI `paperclipai issue comment` | MCP `paperclipAddComment` | Use comments for triage reasoning. |
 | Checkout/release issue | CLI `paperclipai issue checkout/release` | MCP `paperclipCheckoutIssue` / `paperclipReleaseIssue` | Respect checkout conflict semantics. |
 | Delete issue | direct REST only after explicit approval | none | The current CLI/MCP inspected surfaces do not expose issue delete as a normal operator command. |
@@ -84,6 +85,19 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 | List llm-wiki captured sources | `paperclip-wiki-fetch` with MCP `paperclipApiRequest` | direct REST `POST /api/plugins/paperclipai.plugin-llm-wiki/data/sources` | Use before choosing among captured raw sources. |
 | Create or update llm-wiki page | `paperclip-wiki-manage` via `POST /api/plugins/paperclipai.plugin-llm-wiki/actions/write-page` | direct REST with board bearer auth | Must read current state, show exact JSON and markdown diff/body, get approval, write, then read back. Use `expectedHash` for existing pages. |
 | Rename, move, archive, or delete llm-wiki page/source | `paperclip-wiki-manage` with a confirmed plugin bridge write route | `paperclipApiRequest`, then direct REST after route/schema confirmation | Destructive or path-changing operations require explicit target/action approval and readback verification. |
+
+## Verified REST Shapes
+
+Use these only after the CLI and MCP API request surfaces are unavailable or broken. Prefer company-scoped create/list routes and direct record update routes where verified.
+
+| Entity | Operation | Verified REST shape | Notes |
+|---|---|---|---|
+| Goals | List | `GET /api/companies/{companyId}/goals` | Use to confirm existing goal tree before writes. |
+| Goals | Create | `POST /api/companies/{companyId}/goals` | Include native `level`, `status`, `parentId` when relevant, and `ownerAgentId` only for agent-owned goals. |
+| Goals | Update | `PATCH /api/goals/{goalId}` | Verified for reparenting. `PATCH /api/companies/{companyId}/goals/{goalId}` may return route not found. |
+| Projects | List | `GET /api/companies/{companyId}/projects` | Use to confirm existing durable channel or motion projects. |
+| Projects | Create | `POST /api/companies/{companyId}/projects` | Link goals with `goalIds` when creating or updating, then verify `goalIds` or expanded goals in readback. |
+| Projects | Update | `PATCH /api/projects/{projectId}` | Use native `goalIds` or equivalent field. |
 
 ## Skill Guidance
 
@@ -128,6 +142,7 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 - Use `paperclipApiRequest` only for fields not exposed by CLI/MCP.
 - Recommend first, mutate after approval.
 - Triage is the phase that may recommend moving ready backlog issues to `todo`.
+- Use `executionPolicy.stages[].participants` for recommended issue reviewer gates, and verify the field after mutation.
 - Use `paperclip-wiki-fetch` when readiness depends on referenced wiki source material.
 - Recommend `paperclip-wiki-manage` for wiki content corrections, but do not mutate wiki pages from ordinary triage unless the operator explicitly switches to wiki management.
 
@@ -142,6 +157,7 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 - Use MCP for reads/writes not exposed cleanly through CLI.
 - Use `paperclipApiRequest` or direct REST for small record repairs not exposed through CLI/MCP.
 - Ask before any mutation, especially attaching skills, changing budgets, changing runtimes, or making work startable.
+- For reviewer assignment changes, patch and verify issue `executionPolicy.stages[].participants`; do not use `reviewRequest` as the reviewer source of truth.
 - Verify every changed record after the write.
 - Route wiki content mutations to `paperclip-wiki-manage` instead of treating them as generic admin edits.
 

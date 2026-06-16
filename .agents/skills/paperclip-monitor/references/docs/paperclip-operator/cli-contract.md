@@ -210,13 +210,14 @@ Escape hatch:
 Known MCP gaps:
 
 - no dedicated company list/export/import tools
+- no dedicated agent update or agent instructions-bundle tools
 - no company skill-library tools
 - no secret, plugin, cloud, routine, or worktree tools
 - no dedicated wiki or llm-wiki plugin bridge tools
 - no documented native `paperclipai` wiki management command
 - no dedicated project create/update or goal create/update tools in MCP 0.1.0
 
-Treat write schemas as claims to verify, not proof. After issue creation or update, read the issue back and confirm parent, project, goal, status, and blocker links before continuing with dependent mutations.
+Treat write schemas as claims to verify, not proof. After issue creation or update, read the issue back and confirm parent, project, goal, status, blocker links, and execution policy before continuing with dependent mutations.
 
 ## Discovery
 
@@ -256,7 +257,51 @@ paperclipai issue comment <issue-id> --body "..."
 
 Use CLI when MCP does not expose the needed operation and the CLI does.
 
-During planning, create issues as `backlog` and unassigned. Do not move planned work to `todo`, assign, checkout, or manually invoke heartbeats. Triage or delegation may make approved work startable by moving it to `todo`, assigning it, or checking it out; Paperclip's heartbeat policy handles agent pickup after assignment.
+During planning, create issues as `backlog` and unassigned. Do not move planned work to `todo`, assign, attach reviewer gates, checkout, or manually invoke heartbeats. Triage or delegation may make approved work startable by moving it to `todo`, assigning it, attaching required reviewers, or checking it out; Paperclip's heartbeat policy handles agent pickup after assignment.
+
+## Issue Reviewers
+
+The native issue reviewer field is the issue `executionPolicy`, specifically `executionPolicy.stages[].participants` on a stage with `type: "review"`. The UI reviewer control maps to that participant list. Do not write `reviewRequest` when the operator asks to set a reviewer unless you have just verified that the target Paperclip environment maps it to the UI-backed reviewer field.
+
+Common reviewer write:
+
+```json
+{
+  "executionPolicy": {
+    "mode": "normal",
+    "commentRequired": true,
+    "stages": [
+      {
+        "type": "review",
+        "approvalsNeeded": 1,
+        "participants": [
+          {
+            "type": "agent",
+            "agentId": "<reviewer-agent-id>"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Use CLI or dedicated MCP only if the surface can write and verify `executionPolicy`. Otherwise use `paperclipApiRequest` or direct REST:
+
+```text
+PATCH /issues/{issueId}
+```
+
+with JSON containing the `executionPolicy` object above. After writing, read the issue back and verify:
+
+- `executionPolicy.mode`
+- `executionPolicy.commentRequired`
+- `executionPolicy.stages[].type`
+- `executionPolicy.stages[].approvalsNeeded`
+- `executionPolicy.stages[].participants[].type`
+- `executionPolicy.stages[].participants[].agentId` or native user id
+
+If the reviewer agent exists but is `status: "error"`, record that the control-plane reviewer assignment is correct but runtime review execution may still be blocked until the agent's runtime error is cleared.
 
 ## llm-wiki Reads
 
@@ -310,12 +355,36 @@ GET  /companies/{companyId}/projects
 POST /companies/{companyId}/projects
 PATCH /projects/{projectId}
 PATCH /issues/{issueId} for native fields not exposed by CLI/MCP
+PATCH /issues/{issueId} with executionPolicy for issue reviewers
+GET  /agents/{agentId}/instructions-bundle
+PATCH /agents/{agentId}/instructions-bundle
+GET  /agents/{agentId}/instructions-bundle/file?path=AGENTS.md
+PUT  /agents/{agentId}/instructions-bundle/file
+DELETE /agents/{agentId}/instructions-bundle/file?path=AGENTS.md
 POST /plugins/paperclipai.plugin-llm-wiki/data/page-content
 POST /plugins/paperclipai.plugin-llm-wiki/data/pages
 POST /plugins/paperclipai.plugin-llm-wiki/data/sources
 ```
 
 After each API request, read the record back through CLI or MCP and verify the native field changed. Do not rely on a successful response alone.
+
+### Managed Agent Instructions
+
+Some Paperclip versions expose managed agent instructions in the CLI as `paperclipai agent instructions-bundle`, `instructions-bundle:update`, `instructions-file:get`, `instructions-file:put`, and `instructions-file:delete`. The currently installed CLI in an operator environment may still expose only `agent list`, `agent get`, and `agent local-cli`; do not conclude the API lacks support from that CLI help output alone.
+
+Dedicated MCP tools currently read agents but do not expose instructions-bundle commands. Use `paperclipApiRequest` for these `/api` routes when available, then direct REST if MCP is unavailable:
+
+```text
+GET    /api/agents/{agentId}/instructions-bundle
+PATCH  /api/agents/{agentId}/instructions-bundle
+GET    /api/agents/{agentId}/instructions-bundle/file?path=AGENTS.md
+PUT    /api/agents/{agentId}/instructions-bundle/file
+DELETE /api/agents/{agentId}/instructions-bundle/file?path=AGENTS.md
+```
+
+`PATCH /instructions-bundle` updates bundle metadata such as `mode`, `rootPath`, `entryFile`, and `clearLegacyPromptTemplate`. `PUT /instructions-bundle/file` accepts JSON with `path`, `content`, and optional `clearLegacyPromptTemplate`.
+
+Agent instruction writes are behavior-changing mutations. Read the current file first, present the exact proposed diff or no-op verification plan, get approval, write only the approved content, then read back and verify exact content, byte size, bundle `mode`, `entryFile`, and the touched file path. Avoid extraction commands that add or remove final newlines unless that newline change is intentional.
 
 ## Direct REST Fallback
 
@@ -349,6 +418,8 @@ GET  /api/companies/{companyId}/projects
 POST /api/companies/{companyId}/projects
 PATCH /api/projects/{projectId}
 PATCH /api/issues/{issueId} for native fields not exposed by CLI/MCP
+GET  /api/agents/{agentId}/instructions-bundle
+PUT  /api/agents/{agentId}/instructions-bundle/file
 ```
 
 Prefer the direct record update route for goal updates. `PATCH /api/companies/{companyId}/goals/{goalId}` may not exist even when company-scoped list and create routes do.
@@ -367,6 +438,12 @@ curl -sS -X PATCH "$PAPERCLIP_API_BASE/api/issues/$ISSUE_ID" \
   -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
   -H "Content-Type: application/json" \
   --data '{"blockedByIssueIds":["<blocking-issue-id>"]}'
+
+# Set an agent reviewer through the native execution policy.
+curl -sS -X PATCH "$PAPERCLIP_API_BASE/api/issues/$ISSUE_ID" \
+  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+  -H "Content-Type: application/json" \
+  --data '{"executionPolicy":{"mode":"normal","commentRequired":true,"stages":[{"type":"review","approvalsNeeded":1,"participants":[{"type":"agent","agentId":"<reviewer-agent-id>"}]}]}}'
 
 # Clear an accidental assignee after planning.
 curl -sS -X PATCH "$PAPERCLIP_API_BASE/api/issues/$ISSUE_ID" \
