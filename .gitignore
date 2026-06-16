@@ -26,6 +26,7 @@ tmp/
 !.agents/skills/paperclip-setup/
 !.agents/skills/paperclip-clarify/
 !.agents/skills/paperclip-record-strategy/
+!.agents/skills/paperclip-source-capture/
 !.agents/skills/paperclip-plan-work/
 !.agents/skills/paperclip-triage/
 !.agents/skills/paperclip-monitor/

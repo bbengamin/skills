@@ -100,6 +100,7 @@ docs/paperclip-operator/
 - `paperclip-setup` — check local `paperclipai` context and shared operator docs.
 - `paperclip-clarify` — run a non-mutating clarification session.
 - `paperclip-record-strategy` — create or select the Paperclip planning chain: Goal, Project, Parent Issue, and `plan` document.
+- `paperclip-source-capture` — capture raw brain-dump source material into a Paperclip issue's raw-log document and distill it into anonymized, tagged, post-ready snippets for reuse.
 - `paperclip-plan-work` — decompose a strategy artifact or parent issue into one level of child issues.
 - `paperclip-triage` — review issues for AFK readiness before delegation.
 - `paperclip-monitor` — inspect active execution across agents, heartbeats, activity, approvals, costs, and blocked work.
