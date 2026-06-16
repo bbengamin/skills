@@ -61,7 +61,7 @@ Possible layers:
 
 Use branch-specific planning skills after the shared strategy exists.
 
-Use `inbound-plan-work` for creator-led, content-led, channel-led, or trust-building work.
+Use `inbound-plan-work` for personal-brand, content-led, channel-led, or trust-building work.
 
 Use `outbound-plan-work` for lead sourcing, enrichment, personalization, sequencing, reply handling, and walkthrough booking work.
 
@@ -69,7 +69,7 @@ Planning creates `backlog`, unassigned structure. It must not assign agents, che
 
 ## 5. Triage And Execution
 
-Use `inbound-triage` for inbound, creator-led, content-led, or channel-led work.
+Use `inbound-triage` for inbound, personal-brand, content-led, or channel-led work.
 
 Use `outbound-triage` for lead sourcing, enrichment, personalization, sequencing, tool setup, reply handling, and walkthrough booking work.
 

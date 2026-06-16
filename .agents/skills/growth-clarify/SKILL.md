@@ -1,6 +1,6 @@
 ---
 name: growth-clarify
-description: Run a non-mutating Growth Operator clarification session for acquisition strategy that may span inbound and outbound. Use when planning repeatable acquisition, aligning creator/inbound and outbound strategy, defining growth company/team goals, or choosing durable channel/motion projects before creating Paperclip records.
+description: Run a non-mutating Growth Operator clarification session for acquisition strategy that may span inbound and outbound. Use when planning repeatable acquisition, aligning inbound and outbound strategy, defining growth company/team goals, or choosing durable channel/motion projects before creating Paperclip records.
 ---
 
 # Growth Clarify

@@ -23,7 +23,7 @@ Any growth work item should identify:
 
 Inbound work should additionally identify:
 
-- creator/persona
+- author/persona
 - channel
 - audience
 - positioning or story

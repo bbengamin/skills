@@ -1,6 +1,6 @@
 ---
 name: inbound-plan-work
-description: Split a shared growth strategy or inbound branch artifact into one level of Paperclip backlog work items for inbound, creator-led, or channel-led acquisition. Use when planning LinkedIn, newsletter, YouTube, content, personal-brand, or trust-building work after growth-record-strategy.
+description: Split a shared growth strategy or inbound branch artifact into one level of Paperclip backlog work items for inbound, personal-brand, content-led, or channel-led acquisition. Use when planning LinkedIn, newsletter, YouTube, content, personal-brand, or trust-building work after growth-record-strategy.
 ---
 
 # Inbound Plan Work
@@ -19,11 +19,6 @@ Read these first:
 - `references/docs/growth-operator/afk-readiness.md`
 - `references/docs/paperclip-operator/cli-contract.md`
 - `references/docs/paperclip-operator/integration-matrix.md`
-
-Open creator references when the work is explicitly creator-led:
-
-- `references/docs/creator-operator/workflow.md`
-- `references/docs/creator-operator/control-plane.md`
 
 ## Process
 
@@ -79,7 +74,7 @@ Create broad children as planning parents, not execution-ready issues.
 - Assignee: null
 - Readiness level: I0 strategy | I1 source-research | I2 asset-draft | I3 publishing-prep | I4 signal-capture
 - Channel:
-- Creator/persona:
+- Author/persona:
 - Audience/ICP:
 - Wedge or story:
 - Source material/proof:

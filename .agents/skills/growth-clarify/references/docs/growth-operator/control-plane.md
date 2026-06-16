@@ -15,7 +15,7 @@ Company Goal -> Team Goal(s) -> Channel/Motion Project -> Strategy Parent Issues
 Goals should express durable acquisition direction. They must use Paperclip's native goal fields when created or revised:
 
 - `level: "company"` for the top-level acquisition outcome, usually active once approved.
-- `level: "team"` for inbound, outbound, creator, expertise, vertical, validation, channel, or motion child goals.
+- `level: "team"` for inbound, outbound, expertise, vertical, validation, channel, or motion child goals.
 - `level: "agent"` only when a specific Paperclip agent owns the goal; set `ownerAgentId`.
 - `level: "task"` rarely; prefer Issues for executable or short-lived work.
 - `parentId` for every child goal in the acquisition tree.
@@ -24,8 +24,8 @@ Recommended shape:
 
 ```text
 [company] Build repeatable acquisition
-|-- [team] Build inbound trust engine through <creator>'s personal brand
-|   `-- [team] Establish <creator>'s <domain> expertise brand
+|-- [team] Build inbound trust engine through <person>'s personal brand
+|   `-- [team] Establish <person>'s <domain> expertise brand
 `-- [team] Build outbound engine for operator walkthroughs and validation
     `-- [team] Build repeatable <vertical/persona> outreach motion
 ```
@@ -44,7 +44,7 @@ Examples:
 - `Outbound: Operator walkthroughs`
 - `Outbound: Partnerships and warm intros`
 
-Each project should link to the durable acquisition company goal and any relevant inbound, outbound, creator, expertise, vertical, or validation team goals.
+Each project should link to the durable acquisition company goal and any relevant inbound, outbound, expertise, vertical, or validation team goals.
 
 Use a broader project such as `Growth ops: Ihor` only when the channel or motion is not yet durable enough to deserve its own project.
 

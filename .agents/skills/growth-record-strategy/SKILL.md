@@ -61,8 +61,8 @@ Use goals for stable acquisition direction. Every proposed goal mutation must sp
 
 ```text
 [company] Build repeatable acquisition
-|-- [team] Build inbound trust engine through <creator>'s personal brand
-|   `-- [team] Establish <creator>'s <domain> expertise brand
+|-- [team] Build inbound trust engine through <person>'s personal brand
+|   `-- [team] Establish <person>'s <domain> expertise brand
 `-- [team] Build outbound engine for operator walkthroughs and validation
     `-- [team] Build repeatable <vertical/persona> outreach motion
 ```
@@ -70,7 +70,7 @@ Use goals for stable acquisition direction. Every proposed goal mutation must sp
 Default goal mapping:
 
 - `company` for the root acquisition north star, for example `Build repeatable acquisition`.
-- `team` for durable inbound, outbound, creator, expertise, vertical, channel, validation, or motion outcomes.
+- `team` for durable inbound, outbound, expertise, vertical, channel, validation, or motion outcomes.
 - `agent` only when assigning ownership to a specific Paperclip agent; set `ownerAgentId`.
 - `task` rarely; prefer parent issues or child issues for campaigns, months, lead lists, sequences, content sprints, and executable work.
 

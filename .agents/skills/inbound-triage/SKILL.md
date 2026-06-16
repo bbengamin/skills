@@ -1,6 +1,6 @@
 ---
 name: inbound-triage
-description: Triage inbound Growth Operator Paperclip issues for AFK readiness. Use when reviewing inbound, creator-led, channel-led, LinkedIn, newsletter, YouTube, content, trust-building, publishing-prep, or inbound signal-capture work before delegation.
+description: Triage inbound Growth Operator Paperclip issues for AFK readiness. Use when reviewing inbound, personal-brand, content-led, channel-led, LinkedIn, newsletter, YouTube, content, trust-building, publishing-prep, or inbound signal-capture work before delegation.
 ---
 
 # Inbound Triage
@@ -18,7 +18,6 @@ Read these first:
 
 Open only when needed:
 
-- `references/docs/creator-operator/afk-readiness.md`
 - `references/docs/paperclip-operator/control-plane.md`
 - `references/docs/paperclip-operator/cli-contract.md`
 
@@ -34,7 +33,7 @@ Open only when needed:
    - description
    - acceptance criteria
    - inbound readiness level
-   - creator/persona
+   - author/persona
    - channel and campaign context
    - audience or ICP
    - wedge, positioning, story, and claims
@@ -81,7 +80,7 @@ Inbound work is AFK-ready only when the issue gives an agent enough context to a
 - durable inbound channel project
 - parent strategy or campaign context
 - readiness level
-- creator/persona
+- author/persona
 - channel
 - audience or ICP
 - wedge, story, positioning, or hypothesis
@@ -106,7 +105,7 @@ Inbound work is not ready when publishing, scheduling, external account actions,
 - Current status:
 - Recommended status:
 - Missing readiness elements:
-- Creator/channel context:
+- Author/channel context:
 - Source/proof status:
 - Publishing/account-action boundary:
 - Proposed comment:
