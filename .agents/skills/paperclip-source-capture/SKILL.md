@@ -1,159 +1,88 @@
 ---
 name: paperclip-source-capture
-description: Capture raw founder, builder, or creator source material into a Paperclip issue's raw-log document, then distill it into anonymized, tagged, post-ready snippets. Use when someone wants to brain-dump, record ideas, or dump source material for content that other agents will reuse later.
+description: Capture a creator's raw brain-dump into their LLM Wiki space as a no-task raw source, then run guided ingest into structured, durable wiki pages. Use when someone wants to dump ideas, record content source material, or brief a space that other agents will later read with wiki-ask. Operator/privileged path — bypasses the shared Wiki Maintainer.
 ---
 
 # Paperclip Source Capture
 
-Run a two-stage material capture loop on a Paperclip issue, storing everything in keyed issue documents so any agent that later picks up the issue can read it:
+Run a creator's source-capture loop directly against their LLM Wiki space:
 
 ```text
-Dump (raw, dated)  ->  Distill (anonymized, tagged snippets)  ->  reused by campaigns/posts
+Raw dump (raw/, no task)  ->  guided ingest (structured wiki/ pages, no maintainer)  ->  reused via wiki-ask
 ```
 
-This skill captures and distills only. It does not plan, publish, schedule, or take any platform action.
+This skill **captures and ingests only**. It never publishes, schedules, posts, or anonymizes. Anonymization happens later, at publish time, in the agent that drafts the public artifact.
 
-## Why issue documents, not the wiki
+## Why this skill (and not the default wiki flow)
 
-Captured material lives in the issue's own keyed documents (`paperclipUpsertIssueDocument` / `paperclipGetDocument`), not in the llm-wiki. Normal worker agents cannot read llm-wiki content through an agent-safe route today (the plugin stream bridge is board/UI-only; granting wiki tools to worker agents is too broad). An issue's documents, by contrast, are part of the context an assigned agent reads at checkout/heartbeat. So issue documents are the only store reliably readable by the agent that later reuses the material. Do not move this store to the wiki unless an agent-safe wiki read route exists and the operator approves the change.
+The wiki's default file-upload path creates a per-file ingest **operation issue** and hands it to the shared **Wiki Maintainer** agent. That leaves task trace and can't be tuned per creator. This skill instead writes straight to the space through the **no-task** plugin routes (verified below), so the operator owns the loop end to end and the Maintainer is never invoked.
+
+Relationship to the company `wiki-ask` / `wiki-contribute` skills (worker-agent path):
+- `wiki-contribute` deposits to the **default** space and walks away for the Maintainer to curate. This skill is the **operator** equivalent aimed at a **creator's own space**, and it does the ingest itself.
+- `wiki-ask` is how a downstream agent (e.g. a post writer) later **reads** the space. Reference it by name; it lives in the company skill library.
 
 ## References
 
 Read these first:
 
 - `references/CONTEXT.md`
-- `references/docs/paperclip-operator/control-plane.md`
-- `references/docs/paperclip-operator/workflow.md`
-- `references/docs/paperclip-operator/cli-contract.md`
+- `references/docs/paperclip-operator/cli-contract.md` (wiki route sections)
 - `references/docs/paperclip-operator/integration-matrix.md`
 
-If these project docs are missing, run `paperclip-setup` first to scaffold them from bundled templates.
+## Inputs (resolve before any write)
 
-## Capture Target
+- **`spaceSlug`** — required. **Prompt the creator for it every run.** Never assume a default. Confirm it exists with the spaces route; if it does not, stop and ask the operator to create it (a space is board-created; see Route Contract).
+- **`companyId`**, **`wikiId`** (`default`) — derive from `paperclipai context show --json`. Use the creator's own company.
 
-This skill is not hardcoded to one person or issue. Resolve the target before any read or write:
+Echo the resolved `spaceSlug` + `companyId` back before writing.
 
-- **Capture issue** — the Paperclip issue that owns the material loop. Take an explicit issue id or identifier from the operator when given.
-- **Raw-log document key** — default `founder-log`.
-- **Distilled-material document key** — default `founder-material`.
+## Modes
 
-Resolution order:
+### Raw capture (verbatim, lossless, no task)
 
-1. If the operator names an issue, use it. Confirm it exists with `paperclipGetIssue` and read its `documentSummaries` to see which keyed documents are present.
-2. If the operator does not name an issue, list candidate capture issues (e.g. issues titled like a material capture loop in the relevant project) and ask which one. Do not guess.
-3. If the chosen issue has no raw-log or material document yet, propose creating them from the templates in **Document Formats** below, and create them only after approval.
-4. If no capture issue exists at all, propose creating one (`backlog`, unassigned) to own the loop, then propose its two documents. Create only after approval.
+The safety net. Saving raw is consented by invoking the skill — do it immediately, do not editorialize.
 
-Always echo the resolved issue identifier and document keys back before mutating.
+1. **On invocation**, write the creator's first message verbatim as a raw source via the capture route. Rough is fine; preserve voice; do not edit or anonymize.
+2. Use a clear `title` (it becomes the filename stem) and `metadata` (`{capturedBy, context}`).
+3. The route writes the file under the space's `raw/` and returns `{sourceId, rawPath, hash}`. Report `rawPath`.
+4. **After guided ingest finishes, prompt:** "Dump the whole conversation to the raw file?" On approval, write the full transcript as a second raw source. This step is explicit-approval, not automatic.
 
-## Process
+### Guided ingest (clarify-style, structured, no maintainer)
 
-1. Resolve the **Capture Target** (issue + log key + material key).
-2. Read the current raw-log and material documents with `paperclipGetDocument`. Never write blind over an existing document.
-3. Pick the mode the operator wants: **Dump**, **Distill**, or both.
-4. Draft the exact new document body (full body, not a vague summary of the change).
-5. Present the proposed change and wait for approval (see **Mutation Rule**).
-6. Write only the approved body with `paperclipUpsertIssueDocument`.
-7. Read the document back and verify the new revision contains the intended content.
-8. Report the issue, document key, new revision number, and a one-line summary of what was added.
+Turn the raw dump into durable, cited pages — behaving like `paperclip-clarify` / `record-strategy`.
 
-## Dump Mode
+1. Read existing space content first (pages + sources routes) so you extend rather than clobber.
+2. Ask the creator clarifying questions to organize the raw into durable knowledge.
+3. Draft structured pages into the wiki categories: `wiki/sources/`, `wiki/concepts/`, `wiki/entities/`, `wiki/synthesis/` (subdirs are conventional; add categories as the domain needs).
+4. **Present each proposed page (path + full body) and get approval**, then write it via the `write-page` action (no task). Use `expectedHash` when updating an existing page; re-read and stop on hash conflict.
+5. Keep the wiki internal and rich. **Do not anonymize here** — that is the publish-stage agent's job.
+6. Read each page back and verify path, title, and hash before reporting done.
 
-Capture raw material with minimal friction and zero editorializing.
+## Route Contract (verified)
 
-- Accept whatever the contributor provides: pasted text, transcript, rough bullets, links, half-formed ideas. Rough is fine and expected.
-- **Preserve the raw voice. Do not rewrite, polish, summarize, or anonymize in this mode.** The raw log is the unfiltered source.
-- Prepend a new dated entry to the top of the raw-log body (newest first), using the entry format in **Document Formats**.
-- Use the contributor-supplied date if given, otherwise today's date in `YYYY-MM-DD`. Add a short human label.
-- Keep the document's header/banner and the `<!-- Append ... -->` guide comment intact; insert the new entry directly beneath the guide comment, above any existing entries.
-- The raw log is internal. It carries a "do not publish verbatim" banner. Never treat raw-log text as publishable output.
+All routes are on the LLM Wiki plugin. Two path forms:
+- **Direct REST / curl** (bearer auth): `{API}/api/plugins/paperclipai.plugin-llm-wiki/...`
+- **MCP `paperclipApiRequest`** (board/operator): **drop the leading `/api`** — it is added by the MCP. (Passing `/api/...` yields `/api/api/...` → 404.)
 
-## Distill Mode
+Operator skills run as **board**, so they may call board and board-or-agent routes.
 
-Promote new raw entries into anonymized, tagged, post-ready snippets in the material document. This mode carries operator judgment — slow down here.
+| Purpose | Method + path (REST form) | Body | Task? |
+|---|---|---|---|
+| List spaces | `GET …/api/plugins/…llm-wiki/api/spaces?companyId=&wikiId=default` | — | no |
+| Create space (board) | `POST …/api/plugins/…llm-wiki/api/spaces` | `{companyId,wikiId,slug,displayName,folderMode,accessScope}` | no |
+| **Raw capture** | `POST …/api/plugins/…llm-wiki/api/sources` | `{companyId,wikiId,spaceSlug,sourceType:"text",title,contents,url?,metadata?}` | **none** ✅ |
+| **Write page** | `POST …/api/plugins/…llm-wiki/actions/write-page` | `{companyId,params:{wikiId,spaceSlug,path,contents,expectedHash?,summary?}}` | **none** ✅ |
+| List raw sources | `POST …/api/plugins/…llm-wiki/data/sources` | `{params:{companyId,wikiId,spaceSlug,limit?}}` | no |
+| List pages | `POST …/api/plugins/…llm-wiki/data/pages` | `{params:{companyId,wikiId,spaceSlug,includeRaw?}}` | no |
+| Read page body | `POST …/api/plugins/…llm-wiki/data/page-content` | `{params:{companyId,wikiId,spaceSlug,path}}` | no |
+| List operations (audit) | `GET …/api/plugins/…llm-wiki/api/operations?companyId=&wikiId=&spaceSlug=` | — | no |
 
-- Read the raw-log entries that are not yet represented in the material document. Work from the raw source, not from memory.
-- For each distillable idea, produce one snippet in the format in **Document Formats**: anonymized text, supporting post angle(s), a confidence flag, and a source pointer back to the raw-log date/label.
-- Number snippets continuously (`S<n>`); continue from the highest existing number in the material document. Do not renumber existing snippets.
-- **Anonymization is a hard rule.** A distilled snippet must contain none of:
-  - client, customer, carrier, partner, or employer names
-  - named internal systems or products
-  - exact volumes, revenue figures, counts, or dates that pin down a specific deal
-  - combinations of details that together identify a real person or company even when each detail alone seems safe
-- Keep the founder/builder voice. Distilled material is natural first-person reflection, not product marketing.
-- Set `Confidence`:
-  - `solid` — the underlying raw material clearly supports the claim.
-  - `thin` — plausible but under-supported; flag it so downstream drafting treats it carefully.
-  - `unsupported` — the angle is interesting but the raw log does not actually back it; keep it flagged, do not present it as fact.
+**Do not use** `…/api/file-as-page` for ingest — it writes the page but also creates a (done) `file-as-page` **operation issue**, leaving the trace this skill exists to avoid. Use `actions/write-page`.
 
-### Stop Conditions
-
-Stop and ask the operator instead of writing when:
-
-- a snippet could identify a real person or company even after your anonymization pass,
-- the raw material is too thin to support the claim a snippet would make, or
-- distillation is drifting into salesy positioning rather than honest founder/builder reflection.
-
-When in doubt, leave the idea in the raw log and flag it rather than publishing a risky snippet to the material document.
-
-## Document Formats
-
-Honor these formats exactly so downstream agents and existing tooling can parse the store. When creating a fresh capture issue's documents, seed them with these templates.
-
-Raw-log document (default key `founder-log`):
-
-```markdown
-# <Raw log title>
-
-> INTERNAL RAW SOURCE. Dated dumps of <whose> founder/builder story and updates. Rough is fine. Distilled, anonymized snippets live in the `<material-key>` document. Do not publish anything from this document verbatim.
-
-<!-- Append new entries below, newest first, as: ## YYYY-MM-DD — short label -->
-
-## YYYY-MM-DD — short label
-
-<raw, unedited dump>
-```
-
-Distilled-material document (default key `founder-material`):
-
-```markdown
-# <Material title> (distilled, anonymized, tagged)
-
-Post-ready snippets distilled from the `<log-key>` document. Anonymization is a hard rule: no client/customer/carrier names, named systems, exact volumes, or identifying combinations. Each snippet is tagged with the post angle(s) it can support and flagged if thin or unsupported. Campaign bundles cite from here.
-
-<!-- Snippet format:
-### S<n> — <short label>
-- Snippet: <anonymized, post-ready text>
-- Angle(s): <post angle tags>
-- Confidence: solid | thin | unsupported
-- Source: <log-key> <date/label>
--->
-
-### S<n> — <short label>
-- Snippet: <anonymized, post-ready text>
-- Angle(s): <post angle tags>
-- Confidence: solid | thin | unsupported
-- Source: <log-key> <date/label>
-```
-
-## Surface Rules
-
-Read `cli-contract.md` and `integration-matrix.md` before choosing tools. For this skill:
-
-- Reads — prefer CLI `paperclipai issue get --json` for the issue; use MCP `paperclipGetIssue`, `paperclipListDocuments`, and `paperclipGetDocument` for documents and their revisions.
-- Writes — keyed issue documents are the store. Use MCP `paperclipUpsertIssueDocument` (and `paperclipCreateIssue` only when creating a new capture issue) when the CLI lacks native document commands.
-- Use `paperclipApiRequest` only for an operation missing from both CLI and dedicated MCP tools, and direct REST only when CLI and MCP are unavailable or broken.
-- Never embed the captured material anywhere other than the issue's keyed documents. Do not duplicate it into the issue description, a comment, a local file, or the wiki as the source of truth.
-- Never print bearer tokens. If auth cannot be derived, stop and ask for context rather than degrading the capture.
+`captureWikiSource` and `writeWikiPage` are verified to create no operation, comment, event, or wakeup.
 
 ## Mutation Rule
 
-Writing to a capture document mutates the control plane. Always:
-
-1. Read the current document body first.
-2. Present the full proposed new body (or the exact entry/snippet being prepended) in chat as plain text.
-3. Wait for explicit operator approval.
-4. Write only the approved body.
-5. Read the document back and verify the new revision before reporting done.
-
-Read-only inspection of capture issues and documents does not need approval.
+- Raw capture of the creator's own input is consented by invocation — write it immediately.
+- Every structured-page write and the full-conversation dump require **explicit approval**: present the exact path + body, write only what is approved, then read back and verify.
+- Never anonymize, publish, or call the Wiki Maintainer from this skill. Never print bearer tokens.

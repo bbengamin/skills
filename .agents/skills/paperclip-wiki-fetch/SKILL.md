@@ -17,7 +17,7 @@ Identify these values before calling the API:
 - bearer token in an environment variable such as `TOKEN`
 - `companyId`
 - `wikiId`, usually `default`
-- `spaceSlug`, usually `default`
+- `spaceSlug` — `default` unless a specific space is named; list spaces with the `api/spaces` route
 - page `path`, for example `wiki/sources/rl-30-day-validation-plan.md`
 
 If a user gives a public-looking wiki URL, treat it as an SPA route and extract the page path from it. For example:
@@ -34,21 +34,37 @@ wiki/sources/rl-30-day-validation-plan.md
 
 Do not include the company slug prefix, `/wiki/page/`, query string, or fragment in the `path`.
 
+## Path forms
+
+The plugin mounts two surfaces. Get the prefix right or every call 404s:
+
+- **Generic data bridge** (read): `/api/plugins/paperclipai.plugin-llm-wiki/data/<key>`, JSON body `{ "params": { ... } }`.
+- **Scoped REST routes**: `/api/plugins/paperclipai.plugin-llm-wiki/api/<route>` (note the extra `/api` segment), flat JSON body or query string.
+
+**MCP gotcha:** when calling through MCP `paperclipApiRequest`, **omit the leading `/api`** (the MCP prepends it). Passing `/api/plugins/...` becomes `/api/api/plugins/...` → `404 API route not found`. Direct REST / curl uses the full `/api/plugins/...` path with a bearer token.
+
 ## Routes
 
-Use these plugin bridge routes:
+Read via the data bridge (`{ "params": { ... } }` body):
 
 ```text
-POST /api/plugins/paperclipai.plugin-llm-wiki/data/page-content
-POST /api/plugins/paperclipai.plugin-llm-wiki/data/pages
-POST /api/plugins/paperclipai.plugin-llm-wiki/data/sources
+POST /api/plugins/paperclipai.plugin-llm-wiki/data/page-content   # page markdown body + title, pageType, updatedAt, hash
+POST /api/plugins/paperclipai.plugin-llm-wiki/data/pages          # list wiki pages (optional includeRaw)
+POST /api/plugins/paperclipai.plugin-llm-wiki/data/sources        # list captured raw sources (rawPath, title, status)
 ```
 
-`data/page-content` returns the page markdown body plus metadata such as title, page type, update time, and hash.
+Scoped REST reads (query string, not `params`):
 
-`data/pages` lists wiki pages.
+```text
+GET  /api/plugins/paperclipai.plugin-llm-wiki/api/spaces?companyId=<id>&wikiId=default      # list wiki spaces
+GET  /api/plugins/paperclipai.plugin-llm-wiki/api/operations?companyId=<id>&spaceSlug=<s>   # list ingest/query/lint operations
+```
 
-`data/sources` lists captured raw sources.
+All read routes are `board-or-agent`.
+
+## Spaces
+
+The wiki is partitioned into **spaces** (slug-prefixed folders under the wiki root). `spaceSlug` defaults to `default`, but per-creator/per-team spaces exist (e.g. `creator-jane`, with `pathPrefix: spaces/<slug>`). List them with the `api/spaces` route. Pass the intended `spaceSlug` on every read; omitting it targets `default`. Paths inside a space are relative (`wiki/sources/foo.md`, `raw/...`), not prefixed with `spaces/<slug>`.
 
 ## Request Shape
 

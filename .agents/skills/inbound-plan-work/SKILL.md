@@ -45,6 +45,14 @@ If the wiki reference cannot be fetched because credentials, company scope, wiki
 
 If the operator explicitly asks to publish, sync, or update wiki content from inbound planning output, finish the proposed breakdown first, then use `paperclip-wiki-manage` for the wiki mutation after approval.
 
+### Creator source spaces
+
+When planning content posts for a specific creator, their raw and distilled source material may live in a dedicated **creator wiki space** (captured via `paperclip-source-capture`, e.g. `spaceSlug: creator-jane`). Pull from it when proposing post issues:
+
+- As the operator, read the space directly with `paperclip-wiki-fetch` using the creator's `spaceSlug` (list pages/sources, read the relevant `wiki/...` pages), and carry the supporting angle, story, and proof into `Source material/proof`.
+- For the executing draft agent, reference the company `wiki-ask` skill in the issue body and name the creator's `spaceSlug`, so the agent retrieves cited detail and voice at draft time.
+- Do not anonymize source material during planning. Note in `Stop conditions` that the draft/publish stage must strip client/carrier names and identifying detail before any public post.
+
 ## Planning Patterns
 
 Examples:

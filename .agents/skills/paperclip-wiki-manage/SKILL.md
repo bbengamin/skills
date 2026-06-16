@@ -9,30 +9,44 @@ Manage Paperclip llm-wiki content only through confirmed `paperclipai.plugin-llm
 
 Use `paperclip-wiki-fetch` for read-only page content, page lists, source lists, and SPA URL path conversion. Use this skill only for wiki mutations.
 
+## Path forms and the MCP gotcha
+
+- **Action bridge** (write): `/api/plugins/paperclipai.plugin-llm-wiki/actions/<key>`, body `{ "companyId": "...", "params": { ... } }`.
+- **Scoped REST** (write): `/api/plugins/paperclipai.plugin-llm-wiki/api/<route>` (extra `/api` segment), flat JSON body.
+
+When calling through MCP `paperclipApiRequest`, **omit the leading `/api`** — the MCP prepends it; `/api/plugins/...` becomes `/api/api/...` → `404`. Direct REST / curl uses the full `/api/plugins/...` path with a bearer token.
+
 ## Confirmed Route Requirement
 
-Do not guess wiki write routes. Confirmed routes are:
+Do not guess wiki write routes. Verified routes (each confirmed to create **no operation/task** unless noted):
 
 ```text
-POST /api/plugins/paperclipai.plugin-llm-wiki/data/page-content
-POST /api/plugins/paperclipai.plugin-llm-wiki/data/pages
-POST /api/plugins/paperclipai.plugin-llm-wiki/data/sources
-POST /api/plugins/paperclipai.plugin-llm-wiki/actions/write-page
+POST /api/plugins/paperclipai.plugin-llm-wiki/actions/write-page   # write/replace a page directly — NO task ✅
+POST /api/plugins/paperclipai.plugin-llm-wiki/api/sources          # capture a raw source into raw/ — NO task ✅
+POST /api/plugins/paperclipai.plugin-llm-wiki/api/spaces           # create a space (board)
 ```
 
-Use `actions/write-page` to write a markdown page. It accepts `params` with:
+**Avoid `…/api/file-as-page`**: it writes a page but also creates a (auto-completed) `file-as-page` **operation issue**, leaving task trace. For a clean direct page write use `actions/write-page`.
+
+Use `actions/write-page` to write a markdown page. Verified body shape:
 
 ```json
 {
   "companyId": "<company-id>",
-  "wikiId": "default",
-  "spaceSlug": "default",
-  "path": "wiki/sources/example.md",
-  "contents": "# Example\n",
-  "expectedHash": "<optional-current-hash>",
-  "summary": "<optional-change-summary>"
+  "params": {
+    "wikiId": "default",
+    "spaceSlug": "<space-slug>",
+    "path": "wiki/sources/example.md",
+    "contents": "# Example\n",
+    "expectedHash": "<optional-current-hash>",
+    "summary": "<optional-change-summary>"
+  }
 }
 ```
+
+Use `api/sources` to deposit a raw source (the same primitive the `wiki-contribute` skill uses). Flat body `{companyId, wikiId, spaceSlug, sourceType:"text", title, contents, url?, metadata?}`; returns `{sourceId, rawPath, hash}`. This lands in the space's `raw/` with status `captured` and does **not** trigger the Wiki Maintainer.
+
+**Spaces:** writes target a `spaceSlug` (default `default`; per-creator/team spaces exist, e.g. `creator-jane`). List them via the fetch skill's `api/spaces` route. Paths inside a space are relative (`wiki/...`, `raw/...`).
 
 When using another wiki mutation route, identify a confirmed plugin bridge write route and schema from one of:
 
