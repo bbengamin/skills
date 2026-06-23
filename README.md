@@ -106,6 +106,7 @@ docs/paperclip-operator/
 - `paperclip-monitor` — inspect active execution across agents, heartbeats, activity, approvals, costs, and blocked work.
 - `paperclip-admin` — handle ad hoc Paperclip reads, minor approved mutations, existing-agent admin, and company skill-library maintenance.
 - `paperclip-create-agent` — create or hire Paperclip agents through the governance-aware native workflow.
+- `paperclip-skill-authoring` — create or review Paperclip company skills with valid `SKILL.md` frontmatter, workflow guidance, validation, and repair steps.
 - `paperclip-wiki-fetch` — fetch llm-wiki page content, page lists, and captured sources through the plugin bridge API.
 - `paperclip-wiki-manage` — create, update, rename, archive, or delete llm-wiki content through confirmed plugin bridge write routes with strict approval and verification.
 
