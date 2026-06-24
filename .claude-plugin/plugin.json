@@ -15,6 +15,7 @@
     "./.agents/skills/paperclip-monitor",
     "./.agents/skills/paperclip-admin",
     "./.agents/skills/paperclip-create-agent",
+    "./.agents/skills/paperclip-skill-authoring",
     "./.agents/skills/paperclip-wiki-fetch",
     "./.agents/skills/paperclip-wiki-manage",
     "./.agents/skills/growth-clarify",
