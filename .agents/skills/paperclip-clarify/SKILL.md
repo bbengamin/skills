@@ -19,13 +19,26 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 
 ## Process
 
-Ask one question at a time. For each question, provide your recommended answer.
+Run this as a Paperclip-specific grilling session.
+
+Walk the decision tree one branch at a time, resolving dependencies before dependent decisions. For example, do not clarify issue scope before the outcome is stable, do not clarify autonomy before the blast radius is known, and do not clarify validation before success criteria are concrete.
+
+Ask exactly one question at a time, wait for the operator's answer, then choose the next highest-leverage branch. For each question, provide your recommended answer so the operator can accept, edit, or reject it quickly. Never bundle multiple questions into one turn.
 
 If the answer can be discovered from the codebase or Paperclip state, inspect that instead of asking.
 
 If the operator provides a Paperclip wiki URL, wiki page path, or captured wiki source as context, use `paperclip-wiki-fetch` to read it before asking questions that the wiki material can answer. If wiki access details are missing, ask for the minimum missing input and keep the clarification non-mutating.
 
 Do not stop after a shallow pass. A good session usually needs multiple rounds unless the input is already unusually precise. Treat "under five questions" as suspicious for fuzzy intent: before concluding, check whether you are merely accepting labels instead of understanding the work.
+
+Maintain a lightweight decision ledger as you go:
+
+- **Established**: facts and decisions that are resolved enough to plan against.
+- **Assumptions**: recommended answers the operator has not explicitly confirmed.
+- **Open branches**: load-bearing decisions still unresolved.
+- **Contradictions**: answers that imply incompatible scope, ownership, validation, autonomy, or stop conditions.
+
+Use the ledger to choose the next question. If an answer resolves one branch but exposes a dependency, follow the dependency before moving laterally.
 
 Stay in clarification mode until you have a working model of the context and topic. Do not pivot into planning, decomposition, implementation, or Paperclip mutation just because the operator answered the first few questions.
 
@@ -37,6 +50,7 @@ Minimum bar before summary:
 - Test the plan with concrete scenarios: clean checkout, missing secrets, failed E2E, schema change, flaky dependency, blocked agent, partial implementation, and reviewer rejection.
 - Pressure-test contradictions and missing context: if two answers imply different scopes, ownership, validation bars, or stop conditions, ask another question instead of smoothing it over.
 - Before summarizing, be able to restate the first concrete AFK loop, the control-plane objects it should attach to, what is explicitly out of scope, what evidence proves success, and what must stop the agent.
+- Before summarizing, review the decision ledger. Every load-bearing branch must be established, intentionally listed as an open question, or downgraded to a non-blocking assumption.
 - Do not produce the final summary while material ambiguity remains in outcome, scope, validation, autonomy, or stop conditions.
 
 Resolve:

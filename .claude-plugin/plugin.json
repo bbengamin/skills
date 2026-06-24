@@ -23,6 +23,7 @@
     "./.agents/skills/inbound-plan-work",
     "./.agents/skills/inbound-triage",
     "./.agents/skills/outbound-plan-work",
-    "./.agents/skills/outbound-triage"
+    "./.agents/skills/outbound-triage",
+    "./.agents/skills/twenty-admin"
   ]
 }

@@ -22,13 +22,26 @@ Open Paperclip references only when lifecycle or mutation rules are needed:
 
 ## Process
 
-Ask one question at a time. For each question, provide your recommended answer.
+Run this as a Growth-specific grilling session.
+
+Walk the acquisition decision tree one branch at a time, resolving dependencies before dependent decisions. For example, do not clarify channel roles before the market and wedge are stable, do not clarify proof asks before the painful workflow is concrete, do not clarify artifact asks before the offer is clear, and do not clarify branch planning before the shared strategy is stable.
+
+Ask exactly one question at a time, wait for the operator's answer, then choose the next highest-leverage branch. For each question, provide your recommended answer so the operator can accept, edit, or reject it quickly. Never bundle multiple questions into one turn.
 
 If the answer can be discovered from the repo or Paperclip state, inspect that instead of asking.
 
 If the operator provides a Paperclip wiki URL, wiki page path, or captured wiki source as proof or source material, use `paperclip-wiki-fetch` to read it before asking questions that the wiki material can answer. If wiki access details are missing, ask for the minimum missing input and keep the clarification non-mutating.
 
 Do not stop after a shallow pass. A good growth strategy session usually needs multiple rounds unless the operator arrives with a precise strategy artifact. Treat "under five questions" as suspicious for fuzzy intent: before concluding, check whether you are merely accepting labels instead of understanding the market, motion, offer, and acquisition system.
+
+Maintain a lightweight decision ledger as you go:
+
+- **Established**: facts and decisions that are resolved enough to plan against.
+- **Assumptions**: recommended answers the operator has not explicitly confirmed.
+- **Open branches**: load-bearing decisions still unresolved.
+- **Contradictions**: answers that imply incompatible markets, buyers, wedges, channel roles, proof requirements, goals, approvals, or stop conditions.
+
+Use the ledger to choose the next question. If an answer resolves one branch but exposes a dependency, follow the dependency before moving laterally.
 
 Stay in clarification mode until you have a working model of the context and topic. Do not pivot into recording, campaign planning, branch planning, tooling, or Paperclip mutation just because the operator answered the first few questions.
 
@@ -63,6 +76,7 @@ Minimum bar before summary:
 - Ask follow-up questions when an answer contains vague words like "growth", "acquisition", "inbound", "outbound", "ICP", "vertical", "operators", "founders", "proof", "content", "leads", "walkthroughs", "campaign", "repeatable", or "validation".
 - Pressure-test contradictions and missing context: if two answers imply different markets, buyers, offers, channel roles, proof requirements, goals, or stop conditions, ask another question instead of smoothing it over.
 - Before summarizing, be able to restate the durable goal shape, market/ICP, painful workflow, inbound role, outbound role, offer/CTA, first concrete market experiment or AFK loop, non-goals, success evidence, and stop conditions.
+- Before summarizing, review the decision ledger. Every load-bearing branch must be established, intentionally listed as an open question, or downgraded to a non-blocking assumption.
 - Do not produce the final summary while material ambiguity remains in market, ICP, wedge, channel roles, offer, scope, validation, approvals, or stop conditions.
 
 ## Question Bank
