@@ -1,119 +1,152 @@
 ---
 name: twenty-admin
-description: Operate Twenty CRM (the sales system of record) directly as the operator agent. Use when the user wants to read or write Twenty data — query people/companies/campaigns/opportunities by identity, idempotent match-or-create, non-destructive updates, schema/metadata inspection. Self-contained: it knows where the Twenty MCP lives and how to drive it. Reads freely; asks before any mutation; never touches SDR-owned structures; no outreach or deletes without explicit approval.
+description: Twenty CRM operator skill for Right.Link. Use when the user wants to inspect or mutate Twenty CRM records, run identity-based match-or-create, audit Twenty schema/metadata, draft a Twenty execution company skill, or map Paperclip outbound-engine issues to safe CRM operations. Reads freely; dry-runs before writes; asks before every Twenty or Paperclip mutation.
 ---
 
 # Twenty Admin
 
-Operate Twenty CRM directly through the approved MCP, with the connection details, access pattern, object model, and guardrails baked in so the operator never has to re-explain them.
+Operate Twenty CRM, the Right.Link sales system of record, through the approved MCP. Keep every run predictable: connect, learn exact tool schemas, inspect current state, dry-run any intended write, ask for approval, execute only the approved change, then read back.
 
-Twenty is the **system of record for sales/CRM** at Right.Link. It is shared with live SDR work, so the default posture is: read freely, treat writes as risky, and stay strictly additive and non-destructive.
+Twenty is shared with live sales work. Default to additive, non-destructive changes. Never send outreach, spend enrichment credits, delete records, or modify owner-specific structures unless the operator explicitly approves that exact action.
 
-## When To Use
+## Branches
 
-- Reading or writing Twenty records (people, companies, campaigns, opportunities, notes, tasks).
-- Identity-based lookup and idempotent match-or-create.
-- Inspecting Twenty object/field metadata (schema audit, gap mapping).
+Use this skill for:
+
+- Twenty reads: look up people, companies, campaigns, opportunities, notes, tasks, or metadata.
+- Twenty writes: create, update, or match-or-create CRM records after an approved dry-run.
+- Schema audits: inspect object/field metadata and identify safe additive extensions.
+- Execution-skill drafting: draft or revise Paperclip company skills that teach engine agents how to use Twenty safely, such as RL-438.
 
 Route elsewhere when:
-- The request is Paperclip control-plane work → `paperclip-admin` and the paperclip suite.
-- It is outbound planning/triage/strategy → the `outbound-*` / `growth-*` skills (those plan work; this one executes Twenty reads/writes).
-- It involves sending outreach, enrichment spend, or sequencing → those are gated and belong to the dedicated channel tools (grinfi/instantly/Clay), not routine CRM ops here.
 
-## Where Twenty Lives (no need to ask)
+- The request mutates Paperclip issues, agents, company skills, assignments, or approvals: use `paperclip-admin`.
+- The request creates or installs a Paperclip company skill in the library: use `paperclip-admin` after this skill drafts the content.
+- The request plans or triages outbound work: use `outbound-plan-work`, `outbound-triage`, or the shared growth skills.
+- The request sends outreach, launches sequences, enriches/spends credits, or changes external channel tools: use the dedicated channel skill or tool flow.
 
-Twenty is exposed through the **metamcp** aggregator under the `twenty` namespace. Tools are named `mcp__metamcp__twenty__*`.
+## Operating Loop
 
-- MCP server `metamcp` in `.mcp.json`: native SSE to `https://metamcp.dev.right.link/metamcp/sales/sse` with an `Authorization: Bearer <token>` header (token already in the file).
-- The same metamcp server also exposes `grinfi`, `instantly`, `composio`, `Postiz` namespaces.
+1. Confirm connectivity with `mcp__metamcp__twenty__list_object_metadata_names`.
+   Done when the object list returns or the failure is reported with the current MCP config state.
+2. Load exact operation schemas from the catalog.
+   Done when every operation you intend to call has been learned with `learn_tools`.
+3. Inspect current state before changing anything.
+   Done when the target records, identity keys, relevant metadata, and guarded fields are known or explicitly unavailable.
+4. For read-only work, answer with records, record ids, uncertainty, and source operation names.
+   Done when the user can tell what was read and what remains unknown.
+5. For mutating work, produce a dry-run.
+   Done when each target record is classified as `would-create`, `would-update`, `collision-skip`, or `blocked`, with field-level diffs.
+6. Ask for approval before any create, update, upsert, metadata change, action, delete, Paperclip mutation, or external-account effect.
+   Done only when the operator approves the exact action.
+7. Execute only the approved operation.
+   Done when no extra records, fields, tools, or side effects are included.
+8. Read back and verify.
+   Done when every changed record is fetched again and the expected fields, ids, and guarded non-changes are confirmed.
 
-If the `mcp__metamcp__twenty__*` tools are not present:
-1. `claude mcp list` — confirm `metamcp` shows `✔ Connected`.
-2. If it failed: the entry must be native SSE with a Bearer header — **not** `mcp-proxy` (that package is a stdio→SSE *server* wrapper and will treat the URL as a command to spawn). Correct shape:
-   ```json
-   "metamcp": { "type": "sse", "url": "https://metamcp.dev.right.link/metamcp/sales/sse", "headers": { "Authorization": "Bearer <token>" } }
-   ```
-3. Config changes need a Claude Code restart / new session before tools appear.
+## Twenty MCP
 
-## Access Pattern (meta-tool indirection)
+Twenty is exposed through the `metamcp` aggregator under the `twenty` namespace. Tools are named `mcp__metamcp__twenty__*`.
 
-Twenty is driven through a small set of meta-tools — do not guess concrete tool names:
+The MCP server is `metamcp` in `.mcp.json`, using native SSE:
 
-1. `mcp__metamcp__twenty__list_object_metadata_names` — quick connectivity + object list.
-2. `mcp__metamcp__twenty__get_tool_catalog` — browse operations by category (start here; the catalog is the source of truth).
-3. `mcp__metamcp__twenty__learn_tools` — get the exact input schema for the operations you intend to run (pass all needed names in one call).
-4. `mcp__metamcp__twenty__execute_tool` — run an operation by exact name with arguments matching the learned schema.
+```json
+"metamcp": {
+  "type": "sse",
+  "url": "https://metamcp.dev.right.link/metamcp/sales/sse",
+  "headers": { "Authorization": "Bearer <token>" }
+}
+```
 
-Built-in Twenty playbooks are available via `list_skills` / `load_skills` (e.g. `data-manipulation`, `metadata-building`); load them when a task matches.
+If Twenty tools are missing:
 
-## Object Model & Identity
+1. Run `claude mcp list` and confirm `metamcp` is connected.
+2. If it failed, verify the entry is native SSE with a Bearer header.
+3. Do not configure it through `mcp-proxy`; that package is a stdio-to-SSE server wrapper and treats the URL as a command.
+4. After config changes, restart Claude Code or start a new session before expecting tools to appear.
 
-Workspace has ~22 objects. Core for outbound: `people`, `companies`, `campaigns`, `opportunities`, `notes`, `tasks`.
+## Tool Pattern
 
-Identity keys for a Person (precedence order):
+Use the meta-tool layer. Do not guess concrete operation schemas.
+
+1. `mcp__metamcp__twenty__list_object_metadata_names` for connectivity and object names.
+2. `mcp__metamcp__twenty__get_tool_catalog` to browse available operations by category.
+3. `mcp__metamcp__twenty__learn_tools` to fetch exact input schemas for every intended operation in one call.
+4. `mcp__metamcp__twenty__execute_tool` to run an operation by exact learned name and schema.
+
+Load Twenty built-in playbooks through `list_skills` / `load_skills` when the catalog shows a matching playbook, especially `data-manipulation` or `metadata-building`.
+
+## Core Model
+
+Workspace objects include about 22 object types. Core outbound objects are `people`, `companies`, `campaigns`, `opportunities`, `notes`, and `tasks`.
+
+Person identity precedence:
+
 1. `linkedinLink.primaryLinkUrl`
 2. `emails.primaryEmail`
 
-Two records are the same person if either key matches. Person also has `companyId` and a direct `campaignId` relation.
+Two Person records are the same person if either key matches. Person also has `companyId` and a direct `campaignId` relation.
 
-**Do-not-touch (SDR-owned), pending the RL-434 audit:** custom Person relations `interestedInId`, `notInterestedInId`, `n5050Id`, and any existing campaign structure the SDRs rely on. Never write these without explicit approval. Run a fresh `get_object_metadata` / `get_field_metadata` audit to finalize the list before non-trivial writes.
+Before non-trivial writes, run a fresh `get_object_metadata` / `get_field_metadata` audit. Treat fields or relations with unclear ownership, existing workflow semantics, or populated values as guarded until the operator confirms they are safe to modify.
 
-## Operation Vocabulary
+## Query Rules
 
-Per object, DATABASE_CRUD operations follow a fixed naming pattern:
-`find_many_<plural>`, `find_one_<singular>`, `group_by_<plural>`, `create_one_<singular>`, `create_many_<plural>`, `update_one_<singular>`, `update_many_<plural>`, `upsert_many_<plural>`, `delete_one_<singular>`, `delete_many_<plural>`.
-
-Other categories: METADATA (`get_object_metadata`, `get_field_metadata`, `create_field_metadata`, `create_many_relation_fields`, …), ACTION (`send_email`, `draft_email`, `search_help_center`, `navigate_app`), WEBHOOK, VIEW, DASHBOARD, LOGIC_FUNCTION.
-
-## Query Syntax Essentials
-
-- `select` is **required** on `find_*` (use `"*"` for all, or list fields). MANY_TO_ONE relations are read via their FK column (e.g. `companyId`).
-- Filter fields are **top-level keys**, each its own operator object — e.g. `{ "emails": { "primaryEmail": { "eq": "a@b.com" } } }`. Do NOT wrap in a `filter` object; do NOT put a bare `eq`/`ilike` at the top level.
-- Combine with `and` / `or` / `not` arrays.
-- `orderBy`: scalar `[{ "employees": "DescNullsLast" }]`; composite `[{ "name": { "firstName": "AscNullsFirst" } }]` — never dot-notation.
+- `select` is required on `find_*`; use `"*"` or an explicit field list.
+- MANY_TO_ONE relations are read through the foreign key column, for example `companyId`.
+- Filter fields are top-level keys with operator objects, for example `{ "emails": { "primaryEmail": { "eq": "a@b.com" } } }`.
+- Do not wrap filters in a `filter` object.
+- Do not put bare `eq`, `ilike`, or similar operators at the top level.
+- Use `and`, `or`, and `not` arrays for compound filters.
+- `orderBy` uses scalar or composite objects, not dot notation.
 
 ## Idempotent Match-Or-Create
 
 For each input record:
-1. `find_many_<object>` by identity key(s), with `select`.
-2. 0 matches → `create_one_<object>`.
-3. 1 match → `update_one_<object>` by `id`, additive only.
-4. >1 match → do not write; report a duplicate collision for human resolution.
 
-`upsert_many_<object>` (max 20/call) matches only on **unique-constrained** fields. Standard email/linkedin fields are not unique by default, so use upsert for identity dedup only after confirming a backing unique constraint (an additive metadata change from the audit).
+1. Query by all available identity keys with `find_many_<object>` and explicit `select`.
+2. If zero matches, classify as `would-create`.
+3. If one match, classify as `would-update` by id, additive only.
+4. If more than one match, classify as `collision-skip` and do not write.
 
-## Operating Loop
+Use `upsert_many_<object>` only after confirming the match field has a backing unique constraint. Standard email and LinkedIn fields are not unique by default.
 
-1. Confirm connectivity (`list_object_metadata_names`).
-2. Inspect current Twenty state before changing anything (metadata + `find_*`).
-3. Decide read-only vs mutating.
-4. Read-only → answer directly with records + uncertainty.
-5. Mutating → present the exact planned change (per-record would-create / would-update + field diff) and wait for approval.
-6. Apply only the approved change.
-7. Read the record back (`find_one_*`) and verify the written fields.
-8. Report what changed, record ids, and anything still needing attention.
+## Mutations
 
-## Mutation & Approval Boundary
+Read freely. Ask before any create, update, upsert, delete, schema change, action, Paperclip mutation, outreach, enrichment, or credit-spending operation.
 
-Read freely. Ask before any create / update / upsert. Default writes to **dry-run** (resolve and show the planned diff) and execute live only after approval.
+Especially explicit approval is required for:
 
-Especially explicit approval required for: any `delete_*`; writes onto or near SDR-owned objects/fields; overwriting a populated field or shrinking a multi-value field; any METADATA/schema change; any ACTION that contacts a person or spends credits (`send_email`, `draft_email`, enrichment).
+- any `delete_*`
+- overwriting a populated field
+- shrinking or removing values from a multi-value field
+- writes onto or near guarded objects or fields
+- any METADATA/schema change
+- any ACTION that contacts a person, drafts email, sends email, navigates an external app, or spends credits
+- creating, updating, installing, or attaching a Paperclip company skill
 
-Never silently overwrite, delete, or touch SDR structures. When identity is ambiguous, stop and ask.
+When identity is ambiguous, stop. Report the collision and ask the operator how to resolve it.
 
-## Common Reads
+## Execution-Skill Drafting
 
-- `list_object_metadata_names` — objects in the workspace.
-- `get_tool_catalog` (categories: `["DATABASE_CRUD"]`, `["METADATA"]`) — available ops.
-- `find_many_people` with `select` and an identity filter — look up a contact.
-- `get_object_metadata` / `get_field_metadata` — schema audit / gap mapping.
+When drafting a Paperclip company skill for Twenty execution work, such as RL-438:
 
-## Common Writes (after approval)
+1. Read the related Paperclip issue and blockers through `paperclip-admin` rules.
+2. Draft only the company-skill content locally unless the operator approves a Paperclip mutation.
+3. Keep the execution skill narrower than this operator skill: it should teach engine agents the CRM operations they need, not Paperclip administration.
+4. Include dry-run, idempotency, identity precedence, guarded-field handling, approval boundaries, readback verification, and no-outreach/no-credit-spend constraints.
+5. If the draft depends on unresolved schema details, mark those as blocked assumptions instead of inventing fields.
 
-- `create_one_person` / `update_one_person` — additive golden-record write via match-or-create.
-- `upsert_many_people` — batch idempotent write, only when a unique key backs the identity field.
-- `create_field_metadata` — additive, namespaced field for the extension plan (audit/extension work, not routine ops).
+Do not install, attach, or update the Paperclip company skill library from this branch. That is a Paperclip mutation and must route through `paperclip-admin` with explicit approval.
 
 ## Output
 
-After any operation, report: objects + identity keys processed; counts read; per-record matched-updated(id) / created(id) / collision-skipped with field diff; dry-run vs live; unique-constraint relied on if upsert used; errors, missing fields, and do-not-touch violations avoided.
+Report the operational facts:
+
+- objects and identity keys processed
+- tool operations used
+- counts read
+- per-record result: `matched-updated(id)`, `created(id)`, `collision-skipped`, or `blocked`
+- dry-run versus live write
+- field diffs and guarded fields left unchanged
+- unique constraint relied on, if any upsert was used
+- errors, missing fields, unresolved blockers, and follow-up decisions
