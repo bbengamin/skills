@@ -48,9 +48,24 @@ tmp/
 !.agents/skills/outbound-triage/
 !.agents/skills/growth-tooling-scout/
 !.agents/skills/twenty-admin/
+!.agents/skills/outreach-clarify/
+!.agents/skills/outreach-record-run/
+!.agents/skills/outreach-source/
+!.agents/skills/outreach-enrich/
+!.agents/skills/outreach-assemble/
+!.agents/skills/outreach-push/
+!.agents/skills/outreach-resolve/
+!.agents/skills/outreach-gate/
+!.agents/skills/outreach-review/
 
 # Local skill install lock until this repo intentionally adopts one.
 skills-lock.json
 
 # Generated upload archives.
 dist/
+!.agents/skills/twenty-engine-sync/
+!.agents/skills/eligibility-gate/
+
+# Python bytecode
+__pycache__/
+*.pyc

@@ -119,6 +119,25 @@ docs/paperclip-operator/
 - `inbound-triage` — review planned inbound/channel work for level-aware AFK readiness before delegation.
 - `outbound-triage` — review planned outbound work for level-aware AFK readiness across asset prep, tool work, sending, and reply/booking support.
 
+### Outreach Operator
+
+Operator-driven outbound-engine pipeline. Paperclip owns the run intent (the Run Record); Twenty owns the lead data. Per-person work delegates to the shared engine skills.
+
+- `outreach-clarify` — pin the config of one concrete run (campaign, ICP filters, stage scope, tools, caps, QA gates). Non-mutating.
+- `outreach-record-run` — materialize the approved run spec into a Paperclip Run Record and initialize its checkpoint.
+- `outreach-source` — filtered sourcing (Apollo via composio, or import) into idempotent Twenty ingest.
+- `outreach-resolve` — identity match and golden-record merge over the sourced segment, with fuzzy-match human QA.
+- `outreach-enrich` — per-lead Ralph worker: one lead per run through a cheapest-first provider waterfall.
+- `outreach-gate` — apply the per-person eligibility verdict and dedup, TTL, suppression, and routing.
+- `outreach-assemble` — build the omnichannel segment and grounded personalization assets.
+- `outreach-push` — create the list in the wired sending tool (Instantly/Grinfi) and attach it to a campaign; activation is operator-gated.
+- `outreach-review` — pull reply and campaign signal, capture outcomes, and write the kill/continue signal back to Paperclip.
+
+### Outbound Engine (shared, model-invoked)
+
+- `twenty-engine-sync` — the shared read/write authority for Twenty: identity, idempotent match-or-create, golden-record merge, fuzzy-QA handoff, suppression/routing. Additive, dry-run first.
+- `eligibility-gate` — the shared deterministic per-person verdict (reuse / re-enrich / source / suppress / skip) and routing. Decision-only.
+
 ## Workflow
 
 ```text
@@ -129,6 +148,12 @@ Growth strategy branches after the shared strategy is recorded:
 
 ```text
 growth-clarify -> growth-record-strategy -> inbound-plan-work / outbound-plan-work -> inbound-triage / outbound-triage
+```
+
+The outbound-engine run pipeline continues after outbound triage:
+
+```text
+outreach-clarify -> outreach-record-run -> [ source -> resolve -> enrich -> gate -> assemble -> push ] -> outreach-review
 ```
 
 The suite is designed around Paperclip's native hierarchy:
