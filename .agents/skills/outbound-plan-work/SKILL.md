@@ -26,12 +26,14 @@ Read these first:
 2. Read the issue, plan document, parent chain, project, linked goals, blockers, and comments.
 3. Confirm the intended planning depth.
 4. Propose one level of child issues.
-5. Classify each proposed child:
+5. Classify each proposed child into exactly one of:
    - ready-looking
    - planning parent
    - needs-human
    - blocked
    - needs-info
+
+   Done when every proposed child carries exactly one type.
 6. If more than two proposed children are unclear, pause for focused clarification before creating issues.
 7. Include the exact title, body, status, parent, project, blockers, and assignee for each issue.
 8. Ask for approval.

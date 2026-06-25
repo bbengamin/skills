@@ -36,7 +36,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
    - comments
    - assignee, if present
    - reviewer gates in `executionPolicy.stages[].participants`, if review is required
-3. Classify the issue:
+3. Classify each in-scope issue into exactly one of:
    - AFK-ready
    - needs-info
    - blocked
@@ -45,7 +45,9 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
    - revise
    - cancel
    - done
-4. Recommend exact changes.
+
+   Done when every issue in scope carries exactly one classification.
+4. Recommend exact changes. Done when each non-AFK-ready issue names the specific missing element or mutation that would make it ready.
 5. Wait for approval.
 6. Apply approved changes.
 

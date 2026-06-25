@@ -28,12 +28,14 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 2. Read the issue, parent chain, project, plan document, blockers, and comments.
 3. Run a Paperclip surface preflight.
 4. Propose one level of child issues.
-5. Classify each proposed child:
+5. Classify each proposed child into exactly one of:
    - ready-looking
    - planning parent
    - needs-human
    - blocked
    - needs-info
+
+   Done when every proposed child carries exactly one type.
 6. If more than two proposed children are `needs-human`, `blocked`, `needs-info`, or broad planning parents, pause for a focused Q&A/grilling pass before creating issues.
 7. Include the exact title, body, status, parent, project, goal, blocker links, and assignee that will be written for each issue.
 8. Show the proposed breakdown and ask for approval.
