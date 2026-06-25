@@ -34,8 +34,8 @@ For per-item judgment work with no bulk tool to trust (enrich, fuzzy-match revie
 1. Read one unhandled lead from Twenty (the segment member whose stage field is unset).
 2. Do exactly that one lead's work.
 3. Write the result back to Twenty through `twenty-engine-sync`; record provider, confidence, and cost where the stage produces them.
-4. Checkpoint counts; emit a completion sigil.
-5. The driver re-invokes for the next lead until the segment is drained or a cap or stop condition trips.
+4. Checkpoint counts; emit the completion sigil (see below).
+5. A driver re-invokes for the next lead until the segment is drained or a cap or stop condition trips.
 
 Per-unit isolation keeps each iteration's context small and the loop crash-safe: a dropped run resumes by re-reading "the next unhandled lead".
 
@@ -51,6 +51,20 @@ Stage runners orchestrate; they do not reimplement the engine.
 - `twenty-engine-sync` performs all Twenty reads and writes: query by identity, idempotent match-or-create, golden-record merge, fuzzy-match handoff to human QA, and suppression or routing writes. It is additive and dry-run-first, with no sending and no credit spend.
 
 Stage runners never write Twenty directly and never send. The operator owns batch scope, caps, checkpoints, and QA gates.
+
+## Completion Sigil And Driver
+
+A Ralph per-unit stage ends each invocation with one machine-readable sigil line so an external driver can advance without reading the whole transcript:
+
+```text
+RALPH: stage=<stage> unit=<id> status=<ok|unreachable|skipped|drained|stopped> spend=<cost> remaining=<n>
+```
+
+- `remaining` is how many segment units still need this stage; `0` means drained.
+- `status=drained` means there was no unit left to process this invocation; `status=stopped` means a cap or stop condition halted the stage.
+- `spend` is the cost or credits this unit consumed (0 when none).
+
+The driver is external and stateless: each iteration is a fresh agent invocation, which is what keeps per-unit context small and avoids context rot. The bundled `scripts/ralph-run.sh` re-invokes the worker for one unit at a time and stops when `remaining=0`, `status` is `drained` or `stopped`, the iteration cap is hit, or accumulated `spend` reaches the budget. The worker owns one unit and the checkpoint; the driver owns the loop and the caps.
 
 ## QA Gate
 

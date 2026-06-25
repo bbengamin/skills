@@ -63,8 +63,10 @@ Ordering and stop rule:
 End each invocation with one sigil line so a driver can advance:
 
 ```text
-ENRICH-ONE: lead=<id> status=<enriched|unreachable|skipped|drained> spend=<cost> remaining=<n>
+RALPH: stage=enrich unit=<lead-id> status=<ok|unreachable|skipped|drained|stopped> spend=<cost> remaining=<n>
 ```
+
+`ok` means the lead reached its required keys; `unreachable` means the waterfall or per-lead cap was exhausted first; `skipped` is a gate reuse/skip/suppress; `drained` means no lead was left; `stopped` means a run-level cap or stop condition halted the stage. A driver (`scripts/ralph-run.sh`) re-invokes this skill until `remaining=0` or a stop token.
 
 ## Boundaries
 
