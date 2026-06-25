@@ -87,7 +87,7 @@ Person identity precedence:
 
 Two Person records are the same person if either key matches. Person also has `companyId`, plus the engine fields `activeCampaignMembershipId` (the one-active-campaign-per-person pointer) and a `campaignMemberships` collection.
 
-The engine golden-record schema (identity keys, dedup, suppression, routing) is documented in the `twenty-engine-sync` execution skill. This operator skill owns schema/metadata work and audits; it defers record-level engine read/write to that skill.
+The engine golden-record schema (identity keys, resolution, dedup/merge, suppression, routing) is documented in the `twenty-engine-sync` execution skill. This operator skill owns schema/metadata work and audits; it defers record-level engine read/write to that skill.
 
 Before non-trivial writes, run a fresh `get_object_metadata` / `get_field_metadata` audit. Treat fields or relations with unclear ownership, existing workflow semantics, or populated values as guarded until the operator confirms they are safe to modify.
 
@@ -132,7 +132,7 @@ When identity is ambiguous, stop. Report the collision and ask the operator how 
 
 ## Execution-Skill Drafting
 
-The outbound golden-record execution skill `twenty-engine-sync` is already drafted and installed in the company skill library — it covers query, idempotent match-or-create, additive writes, suppression, and routing. Revise it rather than re-drafting; create a new execution skill only for a genuinely separate capability.
+The outbound golden-record execution skill `twenty-engine-sync` is already drafted and installed in the company skill library — it covers query, identity resolution, idempotent match-or-create, additive writes, golden-record merge/survivorship, fuzzy->QA routing, suppression, and routing. Revise it rather than re-drafting; create a new execution skill only for a genuinely separate capability.
 
 When drafting or revising a Paperclip company skill for Twenty execution work:
 
