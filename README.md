@@ -72,6 +72,8 @@ scripts/package-skill-zips.sh
 
 Archives are written to `dist/skills/` and are intentionally ignored by git.
 
+Scripts that should ship with a skill live inside that skill's folder (for example the Ralph loop driver at `.agents/skills/outreach-enrich/scripts/ralph-run.sh`), so `npx skills add` installs them with the skill. The repo-root `scripts/` folder holds repo tooling only (packaging) and is not installed.
+
 Install globally:
 
 ```sh

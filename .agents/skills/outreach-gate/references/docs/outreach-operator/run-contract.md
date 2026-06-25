@@ -64,7 +64,7 @@ RALPH: stage=<stage> unit=<id> status=<ok|unreachable|skipped|drained|stopped> s
 - `status=drained` means there was no unit left to process this invocation; `status=stopped` means a cap or stop condition halted the stage.
 - `spend` is the cost or credits this unit consumed (0 when none).
 
-The driver is external and stateless: each iteration is a fresh agent invocation, which is what keeps per-unit context small and avoids context rot. The bundled `scripts/ralph-run.sh` re-invokes the worker for one unit at a time and stops when `remaining=0`, `status` is `drained` or `stopped`, the iteration cap is hit, or accumulated `spend` reaches the budget. The worker owns one unit and the checkpoint; the driver owns the loop and the caps.
+The driver is external and stateless: each iteration is a fresh agent invocation, which is what keeps per-unit context small and avoids context rot. The driver `ralph-run.sh` ships inside the `outreach-enrich` skill (at `scripts/ralph-run.sh` in that skill folder, so it installs with the skill). It re-invokes the worker for one unit at a time and stops when `remaining=0`, `status` is `drained` or `stopped`, the iteration cap is hit, or accumulated `spend` reaches the budget. Run it with `bash scripts/ralph-run.sh --run <RUN_ID> [--skill <stage>] [--max N] [--budget CAP] [--agent "<agent cmd>"]`. The worker owns one unit and the checkpoint; the driver owns the loop and the caps.
 
 ## QA Gate
 
