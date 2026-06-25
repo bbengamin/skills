@@ -46,7 +46,7 @@ Open only when needed:
    - blockers and `blockedByIssueIds`
    - comments
    - assignee
-3. Classify each issue:
+3. Classify each in-scope issue into exactly one of:
    - AFK-ready
    - needs-info
    - blocked
@@ -55,7 +55,9 @@ Open only when needed:
    - revise
    - cancel
    - done
-4. Recommend exact changes.
+
+   Done when every issue in scope carries exactly one classification.
+4. Recommend exact changes. Done when each non-AFK-ready issue names the specific missing readiness element.
 5. Ask for approval.
 6. Apply approved changes and verify by reading records back.
 

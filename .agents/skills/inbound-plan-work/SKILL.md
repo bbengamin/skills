@@ -1,6 +1,6 @@
 ---
 name: inbound-plan-work
-description: Split a shared growth strategy or inbound branch artifact into one level of Paperclip backlog work items for inbound, personal-brand, content-led, or channel-led acquisition. Use when planning LinkedIn, newsletter, YouTube, content, personal-brand, or trust-building work after growth-record-strategy.
+description: Split a shared growth strategy or inbound branch artifact into one level of Paperclip backlog work items for inbound, content-led, or channel-led acquisition. Use when planning LinkedIn, newsletter, YouTube, personal-brand, or content work after growth-record-strategy.
 ---
 
 # Inbound Plan Work
@@ -26,12 +26,14 @@ Read these first:
 2. Read the issue, plan document, parent chain, project, linked goals, blockers, and comments.
 3. Confirm the intended planning depth.
 4. Propose one level of child issues.
-5. Classify each proposed child:
+5. Classify each proposed child into exactly one of:
    - ready-looking
    - planning parent
    - needs-human
    - blocked
    - needs-info
+
+   Done when every proposed child carries exactly one type.
 6. If more than two proposed children are unclear, pause for focused clarification before creating issues.
 7. Include the exact title, body, status, parent, project, blockers, and assignee for each issue.
 8. Ask for approval.

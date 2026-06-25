@@ -32,7 +32,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 4. Read approvals, especially pending and revision-requested.
 5. Read agents and note paused, error, running, or budget-blocked states.
 6. Read activity for recent significant events.
-7. Summarize attention items in priority order.
+7. Summarize attention items in priority order. Done when every blocked, `in_review`, pending-approval, and errored-agent item appears in the report or is explicitly noted as none.
 
 ## Report Format
 

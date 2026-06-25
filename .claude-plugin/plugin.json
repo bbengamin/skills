@@ -13,6 +13,7 @@
     "./.agents/skills/paperclip-plan-work",
     "./.agents/skills/paperclip-triage",
     "./.agents/skills/paperclip-monitor",
+    "./.agents/skills/paperclip-daily-focus",
     "./.agents/skills/paperclip-admin",
     "./.agents/skills/paperclip-create-agent",
     "./.agents/skills/paperclip-skill-authoring",
