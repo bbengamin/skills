@@ -8,7 +8,7 @@ The operator gate is always required before external-account actions, credit or 
 
 ## source
 
-- Agent can: discover and bind a source surface at run time. For Apollo, bind usage or credit status, people search, and people match/enrichment when revealed work emails are required; bind auth/status and organization/company search when the surface provides them and the run needs them. Accept either direct Apollo tools or a gateway pattern such as Composio discovery plus multi-execute over returned `APOLLO_*` slugs. Also discover Grinfi list/import capabilities and file import tools by schema before use. Ingest to Twenty via `twenty-engine-sync`.
+- Agent can: discover and bind a source surface at run time. For Apollo, bind usage or credit status, people search, and people match/enrichment when revealed work emails are required; bind auth/status and organization/company search when the surface provides them and the run needs them. Accept either direct Apollo tools or a gateway pattern such as Composio discovery plus multi-execute over returned `APOLLO_*` slugs. Also discover Grinfi list/import capabilities and file import tools by schema before use. Ingest to Twenty via `twenty-engine-sync`, and bind the run segment as non-send-enabled state (for example a `DRAFT` Campaign plus run-label memberships).
 - Operator required: provide the Apollo filter set; approve Apollo credit spend, organization searches that charge per request, enrichment, imports, persistent jobs, CRM writes, and the per-run volume cap.
 
 ## resolve

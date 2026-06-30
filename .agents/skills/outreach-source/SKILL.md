@@ -43,6 +43,7 @@ Follow the bulk-stage pattern in `run-contract.md`.
 5. Ask for approval before pulling. The pull is an external-tool action and leads to CRM writes.
 6. Pull within caps, then reconcile every sourced person into Twenty through `twenty-engine-sync` (idempotent match-or-create, additive). Consult `eligibility-gate` where the per-person verdict decides whether to ingest, reuse, or suppress. Record sourcing provenance on each record.
    - Also bind every ingested or reused person to a durable run segment that the next stages can query, such as the Run Record's Twenty campaign/list/membership pointer. A generic provenance field like `sourcedFrom=APOLLO` is not enough because it mixes runs.
+   - When the segment is represented as a Twenty Campaign, create or reuse a `DRAFT` campaign/list object and attach people with campaign memberships named with the run label. Do not bind sending accounts, do not activate the campaign, and do not push to any sending tool.
    - Read back the segment pointer and count before checkpointing; if the segment cannot be read by run id, campaign id, run label, or another stable pointer named in the Run Record, stop with a repair plan instead of marking the source output ready.
    - Stop and checkpoint as `stopped` if a cap or stop condition trips; never exceed a cap to finish the batch.
 7. Reconcile and checkpoint. Write source counts to the Run Record: sourced, ingested, matched, suppressed or deduped, and errored. Move `source` to `qa`.
