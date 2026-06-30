@@ -24,6 +24,11 @@ Open when writing the signal back or choosing a surface:
 
 ## Process
 
+Use the worker/subagent pattern from `run-contract.md` for campaign analytics
+pulls, reply/outcome reads, and Twenty outcome reconciliation readbacks when the
+current client supports workers. The parent session owns the kill/continue
+recommendation, operator decision, and Paperclip signal checkpoint.
+
 1. Resume. Read the Run Record. Confirm `push` is `done` (a run with no sent campaign has no outcome to review). Read the success signal and kill/continue thresholds.
    - Done when the success signal, thresholds, and the campaign under review are stated.
 2. Pull signal from the sending tools (see `tool-map.md`): campaign analytics (`instantly__get_campaign_analytics`, `grinfi__get_outreach_metrics`, `grinfi__get_dashboard`, `grinfi__list_outbound_log`) and replies (`instantly__list_emails`, `grinfi__list_linkedin_messages`, `grinfi__get_unread_conversations`).

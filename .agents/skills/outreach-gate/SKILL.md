@@ -26,6 +26,11 @@ Open when checkpointing to Paperclip or choosing a surface:
 
 Follow the bulk-stage pattern in `run-contract.md`. The verdict is `eligibility-gate`; the writes are `twenty-engine-sync`.
 
+Use the worker/subagent pattern from `run-contract.md` for large Twenty segment
+reads, eligibility batches, suppression audits, and routing write readbacks when
+the current client supports workers. The parent session owns approvals, QA
+decisions, and Paperclip checkpoints.
+
 1. Resume. Read the Run Record. Confirm `gate` is in the run's stage scope and read its checkpoint. Read the suppression, dedup, TTL, consent, and routing rules.
    - Done when the rules are known and the current counts are stated.
 2. Read the segment from Twenty: the run's resolved leads not yet gated.

@@ -44,6 +44,15 @@ Identity precedence is always `linkedinLink.primaryLinkUrl` → `emails.primaryE
 
 ## Operating loop
 
+For large CRM reads or writes, use the client-neutral worker/subagent pattern
+from the outreach run contract when the caller supports it. Good worker tasks:
+tool-schema discovery, segment audits, duplicate/collision scans, and approved
+field hygiene repairs. The worker returns compact counts, record ids, diffs,
+remaining gaps, and readback evidence. It must not mutate Paperclip, send
+outreach, activate campaigns, bind sending accounts, or spend credits. If no
+worker mechanism is available, perform the same work in-session but do not paste
+full raw record sets into the parent transcript.
+
 1. Connect and learn exact tool schemas (meta-tool pattern: `get_tool_catalog` →
    `learn_tools` → `execute_tool`); never guess operation schemas.
 2. Resolve identity for each candidate with the decision layer in `demo/engine_identity.py`.

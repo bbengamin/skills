@@ -28,6 +28,14 @@ Open when checkpointing to Paperclip or choosing a surface:
 
 Follow the Ralph per-unit pattern in `run-contract.md`. One lead per invocation.
 
+Use the worker/subagent pattern from `run-contract.md` when the current client
+supports workers. For enrich, the preferred worker boundary is still one lead per
+invocation: a worker may discover provider schemas or enrich exactly one lead,
+then return the completion sigil plus compact provider/cost/provenance details.
+The parent or driver owns the loop, run-level budget, and Paperclip checkpoint.
+If workers are unavailable, keep the per-lead transcript narrow and emit only the
+sigil plus the minimal readback summary.
+
 1. Resume. Read the Run Record. Confirm `enrich` is in the run's stage scope and read its checkpoint counts.
    - If `enrich` is `done`, stop and report.
    - Read the run's output definition (the required channel keys), the enrichment waterfall (provider order), and the caps (per-lead cost cap and run-level credit or budget cap).

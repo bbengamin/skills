@@ -12,6 +12,52 @@ Every stage runner runs the same three beats from `workflow.md`:
 
 Counts are the unit of progress: how many of the segment have been handled, deduped or suppressed, errored, and remain. A stage is resumable because its counts and per-lead state live in Twenty, not in the transcript.
 
+## Context Budget And Workers
+
+Apollo, Twenty, and sending-tool MCP sessions can return large schemas and large
+record payloads. Keep the parent stage-runner session as the conductor whenever
+the client supports workers, subagents, tasks, or fresh child sessions.
+
+Use workers for bounded, tool-heavy jobs such as MCP capability discovery, Apollo
+sample pulls, Twenty segment audits, CRM hygiene repair, identity-resolution
+batches, and ICP sample QA. This instruction is client-neutral: use the worker
+mechanism available in the current runtime. If no worker mechanism exists, do
+the work in the parent session but aggressively compress intermediate output and
+avoid pasting full records into the transcript.
+
+The parent session retains authority for:
+
+- reading and interpreting the Paperclip Run Record
+- choosing the current stage and enforcing caps
+- asking the operator for approval
+- deciding whether a QA gate passes
+- writing Paperclip checkpoints and comments
+
+A worker may read external systems and may perform only the exact approved
+external mutation it was assigned. A worker must never widen the run scope,
+change Paperclip, send outreach, activate campaigns, bind sending accounts, or
+spend beyond the approved cap.
+
+Workers must return compact, structured results rather than raw schemas or full
+record dumps. Minimum return shape:
+
+```json
+{
+  "stage": "source",
+  "task": "twenty_segment_audit",
+  "result": "passed",
+  "counts": { "memberships": 50, "people": 50 },
+  "toolBindings": ["selected tool names, if discovery was the task"],
+  "mutationsApplied": ["field names or record counts, if approved"],
+  "remainingGaps": ["missing primaryEmail on 26 people"],
+  "forbiddenActionsConfirmed": ["no send", "no activation"]
+}
+```
+
+The parent must verify any worker mutation with a readback before checkpointing
+the Run Record. Paperclip checkpoints should contain counts, stable pointers,
+stage status, and remaining gaps, not copied lead data.
+
 ## Two Stage Patterns
 
 A stage is one of two kinds. The Run Record's stage scope says which stages run; this contract says how each kind behaves.

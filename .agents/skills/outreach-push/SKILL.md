@@ -29,6 +29,11 @@ Open when checkpointing to Paperclip or choosing a surface:
 
 Follow the bulk-stage pattern in `run-contract.md`. The push tools are wired through metamcp; see `tool-map.md` for the push row.
 
+Use the worker/subagent pattern from `run-contract.md` for sending-tool schema
+discovery, list membership audits, and post-write readbacks when the current
+client supports workers. The parent session owns the explicit activation
+approval, send-enabling decision, and Paperclip checkpoint.
+
 1. Resume. Read the Run Record. Confirm `push` is in the run's stage scope and read its checkpoint. Confirm `assemble` is `done`; push depends on assembled assets.
    - Read the sending tool (Instantly or Grinfi), the target campaign, the suppression and consent rules, and the volume caps.
    - Done when the tool, target campaign, and current counts are stated.

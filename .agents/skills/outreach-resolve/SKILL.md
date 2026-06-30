@@ -25,6 +25,13 @@ Open when checkpointing to Paperclip or choosing a surface:
 
 Follow the bulk-stage pattern in `run-contract.md`. The per-person work is `twenty-engine-sync`.
 
+Use the worker/subagent pattern from `run-contract.md` for Twenty segment reads,
+identity-resolution batches, collision scans, and fuzzy-candidate summaries when
+the current client supports workers. The parent session owns stage eligibility,
+operator approval, QA decisions, and Paperclip checkpoints. If workers are
+unavailable, keep raw People/Company records out of the transcript and return
+only compact counts, ids, collisions, and unresolved gaps.
+
 1. Resume. Read the Run Record. Confirm `resolve` is in the run's stage scope and read its checkpoint. Confirm `source` is eligible to hand off.
    - Normal prerequisite is `source=done`.
    - A deliberately capped `source=stopped` may hand off only when the Source Checkpoint says the cap or configured stop condition was reached, every sourced person is accounted for in Twenty or with an explicit skip/hold reason, and the operator accepts the capped batch for the next stage.

@@ -26,6 +26,11 @@ Open when checkpointing to Paperclip or choosing a surface:
 
 Follow the bulk-stage pattern in `run-contract.md`.
 
+Use the worker/subagent pattern from `run-contract.md` for large Twenty segment
+reads, personalization sample QA, and per-lead personalization fallbacks when
+the current client supports workers. The parent session owns the message
+structure, QA decision, and Paperclip checkpoint.
+
 1. Resume. Read the Run Record. Confirm `assemble` is in the run's stage scope and read its checkpoint.
    - If `assemble` is `done`, stop and report.
    - Read the campaign's offer or CTA, proof and source material, the channels in scope (for example LinkedIn and email), the output definition, and the QA gate.

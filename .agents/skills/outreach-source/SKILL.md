@@ -26,6 +26,13 @@ Open when checkpointing to Paperclip or choosing a surface:
 
 Follow the bulk-stage pattern in `run-contract.md`.
 
+Use the worker/subagent pattern from `run-contract.md` for MCP-heavy discovery,
+Apollo sampling/pulls, Twenty segment audits, CRM hygiene repair, and source
+sample QA when the current client supports workers. Keep Paperclip checkpoint
+authority in the parent session. If workers are unavailable, continue in-session
+but compress intermediate schemas and raw records into counts, stable ids, and
+explicit gaps.
+
 1. Resume. Read the Run Record. Confirm `source` is in the run's stage scope and read its checkpoint.
    - If `source` is `done`, stop and report; do not re-source.
    - If `running`, read its counts and the Twenty segment, and continue from there.
