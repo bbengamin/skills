@@ -24,8 +24,8 @@ For stages a tool handles in bulk (source, gate, assemble, push). The unit is th
 2. Dry-run: project the result set, a sample, and the cost or credit estimate against caps. Mutate nothing.
 3. Approval gate before any external-tool action, CRM write, or credit spend.
 4. Trigger the bulk operation within caps.
-5. Reconcile every item back to Twenty through `twenty-engine-sync`, recording provenance.
-6. Checkpoint counts, then move the stage to `qa` for the operator's review.
+5. Reconcile every item back to Twenty through `twenty-engine-sync`, recording provenance and binding it to this run's durable Twenty segment pointer.
+6. Read back the segment pointer and counts, then checkpoint counts and move the stage to `qa` for the operator's review. If the segment cannot be queried independently of generic provider provenance, stop with a repair plan instead.
 
 ### Ralph Per-Unit Stage
 

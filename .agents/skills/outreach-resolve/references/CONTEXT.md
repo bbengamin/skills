@@ -221,7 +221,7 @@ The local operator skill that materializes an approved Outreach Run Spec into a 
 _Avoid_: Running a stage, writing to Twenty, or starting work during record-run
 
 **outreach-source**:
-The operator stage runner that runs the source stage of a run: filtered sourcing (Apollo via composio, or import) into idempotent Twenty ingest through `twenty-engine-sync`, ending at a QA gate.
+The operator stage runner that runs the source stage of a run: filtered sourcing (Apollo via discovered source surface, or import) into idempotent Twenty ingest through `twenty-engine-sync`, ending at a QA gate.
 _Avoid_: Enriching or sending during source, or writing Twenty outside `twenty-engine-sync`
 
 **outreach-resolve**:

@@ -16,7 +16,7 @@ A Run Record holds:
 - link to the approved campaign or strategy parent issue
 - stage scope for this run (which of source, resolve, enrich, gate, assemble, push)
 - ICP slice and the concrete sourcing filters
-- the Twenty segment pointer (how to find this run's leads in Twenty)
+- the Twenty segment pointer (how to find this run's leads in Twenty). This must be durable and read-back verifiable, such as a campaign/list/membership id or an explicit run-label field. Provider provenance alone, for example `sourcedFrom=APOLLO`, is not a segment pointer because it can mix multiple runs.
 - tools per stage, and for enrich the provider waterfall order
 - caps: budget or credit caps, volume caps, rate limits
 - suppression, dedup, consent, and compliance boundaries

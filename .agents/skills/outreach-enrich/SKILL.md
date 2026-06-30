@@ -54,7 +54,8 @@ Adapter contract - each provider takes one lead and returns:
 
 Ordering and stop rule:
 
-- Order is cheapest first, taken from the Run Record's enrichment waterfall, not hardcoded. A typical order is existing Twenty data (free), then the metamcp providers `grinfi__enrich_leads` / `grinfi__enrich_companies`, `instantly__enrichment_enrich`, `instantly__verify_email`, then Apollo enrichment via composio (`APOLLO_PEOPLE_ENRICHMENT`), and Clay through its direct agent connection as the paid fallback. See `tool-map.md`.
+- Order is cheapest first, taken from the Run Record's enrichment waterfall, not hardcoded. A typical order is existing Twenty data (free), then discovered Grinfi or Instantly enrichment/verification tools, then Apollo enrichment through either direct Apollo MCP tools or a gateway-discovered `APOLLO_*` slug, and Clay through its direct agent connection as the paid fallback. See `tool-map.md`.
+- Bind provider tools by capability and schema at run time. Do not assume Composio is present for Apollo; in one observed client Apollo enrichment/match was exposed directly as `Appolo_apollo_people_bulk_match`.
 - Stop the waterfall as soon as the required keys are filled. Do not call a more expensive provider once the run's output definition is satisfied.
 - A per-lead cost cap bounds spend even when keys are still missing; if it trips first, mark the lead `unreachable` for this run.
 

@@ -25,7 +25,10 @@ Open when checkpointing to Paperclip or choosing a surface:
 
 Follow the bulk-stage pattern in `run-contract.md`. The per-person work is `twenty-engine-sync`.
 
-1. Resume. Read the Run Record. Confirm `resolve` is in the run's stage scope and read its checkpoint. Confirm `source` is `done`.
+1. Resume. Read the Run Record. Confirm `resolve` is in the run's stage scope and read its checkpoint. Confirm `source` is eligible to hand off.
+   - Normal prerequisite is `source=done`.
+   - A deliberately capped `source=stopped` may hand off only when the Source Checkpoint says the cap or configured stop condition was reached, every sourced person is accounted for in Twenty or with an explicit skip/hold reason, and the operator accepts the capped batch for the next stage.
+   - Block on `source=pending`, `running`, `revise`, missing counts, unaccounted sourced people, or unresolved sourcing errors.
    - Done when you can state whether this is a fresh resolve or a resume, and the current counts.
 2. Read the sourced segment from Twenty: the run's leads that have been ingested but not yet resolved.
 3. Resolve through `twenty-engine-sync`. For each contact, run identity match, precedence, and golden-record merge. Send ambiguous pairs to its fuzzy-match human-QA queue rather than auto-merging.
