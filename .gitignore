@@ -24,6 +24,7 @@ tmp/
 # The Paperclip operator suite is intentionally tracked.
 .agents/skills/*
 !.agents/skills/paperclip-setup/
+!.agents/skills/paperclip-mvp-grill/
 !.agents/skills/paperclip-clarify/
 !.agents/skills/paperclip-record-strategy/
 !.agents/skills/paperclip-source-capture/
