@@ -65,8 +65,9 @@ that same skill folder. The tracked skills bundle their shared docs under each
 skill's `references/` folder for this reason. Those shared files are generated;
 do not edit them directly.
 
-Author shared references in root `CONTEXT.md` and `docs/**`, then declare which
-skills receive them in `skill-references.json`:
+Author shared references in root `AGENTS.md`, `CONTEXT.md`, and `docs/**`, then
+declare which skills receive them in `skill-references.json`. The tooling
+requires Python 3.10 or newer:
 
 ```sh
 python3 scripts/sync_skill_references.py
@@ -74,8 +75,10 @@ python3 scripts/sync_skill_references.py --check
 ```
 
 The first command materializes the checked-in, self-contained bundles. The
-second is the CI-safe drift check. Skill-specific references that have no root
-canonical source remain authored inside that skill.
+second is the CI-safe drift check. `skill-references.lock.json` records explicit
+ownership of generated destinations so cleanup never relies on directory
+heuristics. Skill-specific references that have no root canonical source remain
+authored inside that skill.
 
 Build one `.skill` upload archive per skill:
 
@@ -83,8 +86,9 @@ Build one `.skill` upload archive per skill:
 scripts/package-skill-zips.sh
 ```
 
-The packaging script synchronizes shared references before archiving. Archives
-are written to `dist/skills/` and are intentionally ignored by git.
+The packaging script requires shared references to be synchronized and fails on
+drift instead of modifying tracked files. Archives are written to `dist/skills/`
+and are intentionally ignored by git.
 
 Scripts that should ship with a skill live inside that skill's folder (for example the Ralph loop driver at `.agents/skills/outreach-enrich/scripts/ralph-run.sh`), so `npx skills add` installs them with the skill. The repo-root `scripts/` folder holds repo tooling only (packaging) and is not installed.
 

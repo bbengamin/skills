@@ -7,7 +7,7 @@ out_dir="$repo_root/dist/skills"
 
 mkdir -p "$out_dir"
 
-python3 "$repo_root/scripts/sync_skill_references.py"
+python3 "$repo_root/scripts/sync_skill_references.py" --check
 
 find "$out_dir" -maxdepth 1 -type f -name '*.skill' -delete
 

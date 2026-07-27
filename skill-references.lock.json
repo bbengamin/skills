@@ -1,0 +1,629 @@
+{
+  "version": 1,
+  "generated": [
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/growth-clarify/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/control-plane.md",
+      "destination": ".agents/skills/growth-clarify/references/docs/growth-operator/control-plane.md"
+    },
+    {
+      "source": "docs/growth-operator/workflow.md",
+      "destination": ".agents/skills/growth-clarify/references/docs/growth-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/growth-clarify/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/growth-clarify/references/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/growth-record-strategy/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/control-plane.md",
+      "destination": ".agents/skills/growth-record-strategy/references/docs/growth-operator/control-plane.md"
+    },
+    {
+      "source": "docs/growth-operator/workflow.md",
+      "destination": ".agents/skills/growth-record-strategy/references/docs/growth-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/growth-record-strategy/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/growth-record-strategy/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/inbound-plan-work/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/afk-readiness.md",
+      "destination": ".agents/skills/inbound-plan-work/references/docs/growth-operator/afk-readiness.md"
+    },
+    {
+      "source": "docs/growth-operator/control-plane.md",
+      "destination": ".agents/skills/inbound-plan-work/references/docs/growth-operator/control-plane.md"
+    },
+    {
+      "source": "docs/growth-operator/workflow.md",
+      "destination": ".agents/skills/inbound-plan-work/references/docs/growth-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/inbound-plan-work/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/inbound-plan-work/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/inbound-triage/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/afk-readiness.md",
+      "destination": ".agents/skills/inbound-triage/references/docs/growth-operator/afk-readiness.md"
+    },
+    {
+      "source": "docs/growth-operator/control-plane.md",
+      "destination": ".agents/skills/inbound-triage/references/docs/growth-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/inbound-triage/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/inbound-triage/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/inbound-triage/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outbound-plan-work/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/afk-readiness.md",
+      "destination": ".agents/skills/outbound-plan-work/references/docs/growth-operator/afk-readiness.md"
+    },
+    {
+      "source": "docs/growth-operator/control-plane.md",
+      "destination": ".agents/skills/outbound-plan-work/references/docs/growth-operator/control-plane.md"
+    },
+    {
+      "source": "docs/growth-operator/workflow.md",
+      "destination": ".agents/skills/outbound-plan-work/references/docs/growth-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/outbound-plan-work/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/outbound-plan-work/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outbound-triage/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/afk-readiness.md",
+      "destination": ".agents/skills/outbound-triage/references/docs/growth-operator/afk-readiness.md"
+    },
+    {
+      "source": "docs/growth-operator/control-plane.md",
+      "destination": ".agents/skills/outbound-triage/references/docs/growth-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/outbound-triage/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/outbound-triage/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/outbound-triage/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outreach-assemble/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/outreach-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-assemble/references/docs/outreach-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/run-contract.md",
+      "destination": ".agents/skills/outreach-assemble/references/docs/outreach-operator/run-contract.md"
+    },
+    {
+      "source": "docs/outreach-operator/tool-map.md",
+      "destination": ".agents/skills/outreach-assemble/references/docs/outreach-operator/tool-map.md"
+    },
+    {
+      "source": "docs/outreach-operator/workflow.md",
+      "destination": ".agents/skills/outreach-assemble/references/docs/outreach-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/outreach-assemble/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/outreach-assemble/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outreach-clarify/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-clarify/references/docs/growth-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-clarify/references/docs/outreach-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/workflow.md",
+      "destination": ".agents/skills/outreach-clarify/references/docs/outreach-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-clarify/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outreach-enrich/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/outreach-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-enrich/references/docs/outreach-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/run-contract.md",
+      "destination": ".agents/skills/outreach-enrich/references/docs/outreach-operator/run-contract.md"
+    },
+    {
+      "source": "docs/outreach-operator/tool-map.md",
+      "destination": ".agents/skills/outreach-enrich/references/docs/outreach-operator/tool-map.md"
+    },
+    {
+      "source": "docs/outreach-operator/workflow.md",
+      "destination": ".agents/skills/outreach-enrich/references/docs/outreach-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/outreach-enrich/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/outreach-enrich/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outreach-gate/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/outreach-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-gate/references/docs/outreach-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/run-contract.md",
+      "destination": ".agents/skills/outreach-gate/references/docs/outreach-operator/run-contract.md"
+    },
+    {
+      "source": "docs/outreach-operator/tool-map.md",
+      "destination": ".agents/skills/outreach-gate/references/docs/outreach-operator/tool-map.md"
+    },
+    {
+      "source": "docs/outreach-operator/workflow.md",
+      "destination": ".agents/skills/outreach-gate/references/docs/outreach-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/outreach-gate/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/outreach-gate/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outreach-push/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/afk-readiness.md",
+      "destination": ".agents/skills/outreach-push/references/docs/growth-operator/afk-readiness.md"
+    },
+    {
+      "source": "docs/outreach-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-push/references/docs/outreach-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/run-contract.md",
+      "destination": ".agents/skills/outreach-push/references/docs/outreach-operator/run-contract.md"
+    },
+    {
+      "source": "docs/outreach-operator/tool-map.md",
+      "destination": ".agents/skills/outreach-push/references/docs/outreach-operator/tool-map.md"
+    },
+    {
+      "source": "docs/outreach-operator/workflow.md",
+      "destination": ".agents/skills/outreach-push/references/docs/outreach-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/outreach-push/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/outreach-push/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outreach-record-run/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-record-run/references/docs/growth-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-record-run/references/docs/outreach-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/workflow.md",
+      "destination": ".agents/skills/outreach-record-run/references/docs/outreach-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/outreach-record-run/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/outreach-record-run/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outreach-resolve/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/outreach-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-resolve/references/docs/outreach-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/run-contract.md",
+      "destination": ".agents/skills/outreach-resolve/references/docs/outreach-operator/run-contract.md"
+    },
+    {
+      "source": "docs/outreach-operator/workflow.md",
+      "destination": ".agents/skills/outreach-resolve/references/docs/outreach-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/outreach-resolve/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/outreach-resolve/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outreach-review/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-review/references/docs/growth-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-review/references/docs/outreach-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/run-contract.md",
+      "destination": ".agents/skills/outreach-review/references/docs/outreach-operator/run-contract.md"
+    },
+    {
+      "source": "docs/outreach-operator/tool-map.md",
+      "destination": ".agents/skills/outreach-review/references/docs/outreach-operator/tool-map.md"
+    },
+    {
+      "source": "docs/outreach-operator/workflow.md",
+      "destination": ".agents/skills/outreach-review/references/docs/outreach-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/outreach-review/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/outreach-review/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/outreach-source/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/outreach-operator/control-plane.md",
+      "destination": ".agents/skills/outreach-source/references/docs/outreach-operator/control-plane.md"
+    },
+    {
+      "source": "docs/outreach-operator/run-contract.md",
+      "destination": ".agents/skills/outreach-source/references/docs/outreach-operator/run-contract.md"
+    },
+    {
+      "source": "docs/outreach-operator/tool-map.md",
+      "destination": ".agents/skills/outreach-source/references/docs/outreach-operator/tool-map.md"
+    },
+    {
+      "source": "docs/outreach-operator/workflow.md",
+      "destination": ".agents/skills/outreach-source/references/docs/outreach-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/outreach-source/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/outreach-source/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-admin/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/paperclip-admin/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-admin/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/paperclip-admin/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-admin/references/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-clarify/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-clarify/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-clarify/references/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-create-agent/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/paperclip-create-agent/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-create-agent/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/paperclip-create-agent/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-create-agent/references/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-daily-focus/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/paperclip-daily-focus/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-daily-focus/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/paperclip-daily-focus/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-daily-focus/references/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-monitor/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/paperclip-monitor/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-monitor/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/paperclip-monitor/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-monitor/references/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-plan-work/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/paperclip-operator/afk-readiness.md",
+      "destination": ".agents/skills/paperclip-plan-work/references/docs/paperclip-operator/afk-readiness.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/paperclip-plan-work/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-plan-work/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/paperclip-plan-work/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-plan-work/references/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-record-strategy/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/paperclip-record-strategy/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-record-strategy/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/paperclip-record-strategy/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-record-strategy/references/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-setup/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/paperclip-setup/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-setup/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/paperclip-setup/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-setup/references/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "AGENTS.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/AGENTS.md"
+    },
+    {
+      "source": "AGENTS.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/CLAUDE.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/CONTEXT.md"
+    },
+    {
+      "source": "docs/growth-operator/afk-readiness.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/growth-operator/afk-readiness.md"
+    },
+    {
+      "source": "docs/growth-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/growth-operator/control-plane.md"
+    },
+    {
+      "source": "docs/growth-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/growth-operator/workflow.md"
+    },
+    {
+      "source": "docs/paperclip-operator/afk-readiness.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/afk-readiness.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "docs/paperclip-operator/paperclip-docs-index.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/paperclip-docs-index.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-source-capture/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/paperclip-source-capture/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-source-capture/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/paperclip-source-capture/references/docs/paperclip-operator/integration-matrix.md"
+    },
+    {
+      "source": "docs/paperclip-operator/workflow.md",
+      "destination": ".agents/skills/paperclip-source-capture/references/docs/paperclip-operator/workflow.md"
+    },
+    {
+      "source": "CONTEXT.md",
+      "destination": ".agents/skills/paperclip-triage/references/CONTEXT.md"
+    },
+    {
+      "source": "docs/paperclip-operator/afk-readiness.md",
+      "destination": ".agents/skills/paperclip-triage/references/docs/paperclip-operator/afk-readiness.md"
+    },
+    {
+      "source": "docs/paperclip-operator/cli-contract.md",
+      "destination": ".agents/skills/paperclip-triage/references/docs/paperclip-operator/cli-contract.md"
+    },
+    {
+      "source": "docs/paperclip-operator/control-plane.md",
+      "destination": ".agents/skills/paperclip-triage/references/docs/paperclip-operator/control-plane.md"
+    },
+    {
+      "source": "docs/paperclip-operator/integration-matrix.md",
+      "destination": ".agents/skills/paperclip-triage/references/docs/paperclip-operator/integration-matrix.md"
+    }
+  ]
+}
