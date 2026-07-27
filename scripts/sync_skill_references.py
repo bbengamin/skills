@@ -37,11 +37,7 @@ class ReferenceMaterializer:
         self.lock_path = self.root / "skill-references.lock.json"
 
     def mappings(self) -> list[ReferenceMapping]:
-        data = json.loads(self.manifest_path.read_text(encoding="utf-8"))
-        if not isinstance(data, dict):
-            raise ManifestError("skill-references.json root must be an object")
-        if data.get("version") != 1:
-            raise ManifestError("skill-references.json must use version 1")
+        data = self._manifest_data()
 
         mappings: list[ReferenceMapping] = []
         skills = data.get("skills")
@@ -86,6 +82,7 @@ class ReferenceMaterializer:
 
     def drift(self) -> list[str]:
         mappings = self.mappings()
+        self._ownership_state()
         problems: list[str] = []
         for mapping in mappings:
             relative = mapping.destination.relative_to(self.root)
@@ -102,8 +99,9 @@ class ReferenceMaterializer:
     def sync(self) -> tuple[int, int]:
         mappings = self.mappings()
         expected = {mapping.destination for mapping in mappings}
-        owned = self._owned_destinations()
-        removed = 0
+        owned = self._ownership_state()
+
+        removals: list[Path] = []
         for extra in sorted(owned.keys() - expected, reverse=True):
             if extra.is_symlink():
                 raise ManifestError(
@@ -125,6 +123,10 @@ class ReferenceMaterializer:
                 raise ManifestError(
                     f"refusing to remove modified formerly generated reference: {extra.relative_to(self.root)}"
                 )
+            removals.append(extra)
+
+        removed = 0
+        for extra in removals:
             extra.unlink()
             removed += 1
             self._remove_empty_parents(extra.parent)
@@ -142,6 +144,22 @@ class ReferenceMaterializer:
             (json.dumps(self._lock_payload(mappings), indent=2) + "\n").encode("utf-8"),
         )
         return updated, removed
+
+    def _ownership_state(self) -> dict[Path, Optional[str]]:
+        manifest = self._manifest_data()
+        current_skills = self._manifest_skill_names(manifest)
+        transitions = self._skill_transitions(manifest, current_skills)
+        owned, locked_skills = self._owned_destinations(transitions)
+        added_skills = current_skills - locked_skills
+        removed_skills = locked_skills - current_skills
+        if added_skills:
+            missing_transitions = sorted(removed_skills - transitions.keys())
+            if missing_transitions:
+                raise ManifestError(
+                    "ambiguous removed and added skills; declare skillTransitions for: "
+                    + ", ".join(missing_transitions)
+                )
+        return owned
 
     def _skill_dir(self, skill_name: object) -> Path:
         if not isinstance(skill_name, str) or not self.SKILL_SLUG.fullmatch(skill_name):
@@ -213,16 +231,90 @@ class ReferenceMaterializer:
             raise ManifestError(f"{field} must be a safe relative path: {value}")
         return relative
 
-    def _owned_destinations(self) -> dict[Path, Optional[str]]:
+    def _manifest_data(self) -> dict[str, object]:
+        data = json.loads(self.manifest_path.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            raise ManifestError("skill-references.json root must be an object")
+        if data.get("version") != 1:
+            raise ManifestError("skill-references.json must use version 1")
+        return data
+
+    def _manifest_skill_names(self, data: dict[str, object]) -> set[str]:
+        names: set[str] = set()
+        for field in ("skills", "projectDocs"):
+            value = data.get(field, {})
+            if not isinstance(value, dict):
+                raise ManifestError(f"{field} must be an object")
+            for skill_name in value:
+                if not isinstance(skill_name, str) or not self.SKILL_SLUG.fullmatch(skill_name):
+                    raise ManifestError(f"invalid skill slug: {skill_name}")
+                names.add(skill_name)
+        return names
+
+    def _skill_transitions(
+        self, data: dict[str, object], current_skills: set[str]
+    ) -> dict[str, Optional[str]]:
+        raw = data.get("skillTransitions", {})
+        if not isinstance(raw, dict):
+            raise ManifestError("skillTransitions must be an object")
+        transitions: dict[str, Optional[str]] = {}
+        for old_skill, new_skill in raw.items():
+            if not isinstance(old_skill, str) or not self.SKILL_SLUG.fullmatch(old_skill):
+                raise ManifestError(f"invalid transition source skill slug: {old_skill}")
+            if old_skill in current_skills:
+                raise ManifestError(f"active skill cannot be a transition source: {old_skill}")
+            if new_skill is not None and (
+                not isinstance(new_skill, str) or not self.SKILL_SLUG.fullmatch(new_skill)
+            ):
+                raise ManifestError(f"invalid transition target skill slug: {new_skill}")
+            if new_skill == old_skill:
+                raise ManifestError(f"skill transition cannot target itself: {old_skill}")
+            transitions[old_skill] = new_skill
+
+        for old_skill in transitions:
+            target = self._resolve_skill_transition(old_skill, transitions)
+            if target is not None and target not in current_skills:
+                raise ManifestError(
+                    f"skill transition target must be active: {old_skill} -> {target}"
+                )
+        return transitions
+
+    @staticmethod
+    def _resolve_skill_transition(
+        skill_name: str, transitions: dict[str, Optional[str]]
+    ) -> Optional[str]:
+        current = skill_name
+        visited: set[str] = set()
+        while current in transitions:
+            if current in visited:
+                raise ManifestError(f"skill transition cycle includes: {current}")
+            visited.add(current)
+            target = transitions[current]
+            if target is None:
+                return None
+            current = target
+        return current
+
+    def _owned_destinations(
+        self, transitions: dict[str, Optional[str]]
+    ) -> tuple[dict[Path, Optional[str]], set[str]]:
         payload = self._read_lock_payload()
         version = payload["version"]
-        generated = payload.get("generated", [])
-        if not isinstance(generated, list):
-            raise ManifestError("skill-references.lock.json generated must be an array")
+        generated = payload["generated"]
         destinations: dict[Path, Optional[str]] = {}
+        locked_skills: set[str] = set()
         for index, entry in enumerate(generated):
             if not isinstance(entry, dict):
                 raise ManifestError(f"lock generated[{index}] must be an object")
+            required_fields = {"source", "destination"}
+            if version == 2:
+                required_fields.add("sha256")
+            if set(entry) != required_fields:
+                raise ManifestError(
+                    f"lock generated[{index}] fields must be: "
+                    + ", ".join(sorted(required_fields))
+                )
+            self._safe_relative(entry["source"], f"lock generated[{index}].source")
             relative = self._safe_relative(entry.get("destination"), f"lock generated[{index}]")
             destination = self.root / relative
             try:
@@ -233,9 +325,13 @@ class ReferenceMaterializer:
                 raise ManifestError(f"owned destination is not a skill reference: {relative}")
             if not self.SKILL_SLUG.fullmatch(skill_relative.parts[0]):
                 raise ManifestError(f"owned destination has invalid skill slug: {relative}")
+            locked_skill = skill_relative.parts[0]
+            locked_skills.add(locked_skill)
+            transitioned_skill = self._resolve_skill_transition(locked_skill, transitions)
+            effective_skill = transitioned_skill or locked_skill
             owned_relative = Path(*skill_relative.parts[2:])
             destination = self._destination_path(
-                self.skills_root / skill_relative.parts[0] / "references",
+                self.skills_root / effective_skill / "references",
                 str(owned_relative),
                 f"lock generated[{index}]",
             )
@@ -250,7 +346,7 @@ class ReferenceMaterializer:
             if destination in destinations:
                 raise ManifestError(f"duplicate owned destination: {relative}")
             destinations[destination] = digest
-        return destinations
+        return destinations, locked_skills
 
     def _missing_declared_references(self) -> list[str]:
         problems: list[str] = []
@@ -292,6 +388,10 @@ class ReferenceMaterializer:
         data = json.loads(self.lock_path.read_text(encoding="utf-8"))
         if not isinstance(data, dict) or data.get("version") not in (1, 2):
             raise ManifestError("skill-references.lock.json must use version 1 or 2")
+        if set(data) != {"version", "generated"}:
+            raise ManifestError("skill-references.lock.json fields must be: generated, version")
+        if not isinstance(data["generated"], list):
+            raise ManifestError("skill-references.lock.json generated must be an array")
         return data
 
     def _skill_tree_symlinks(self) -> list[str]:

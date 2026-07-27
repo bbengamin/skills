@@ -33,11 +33,17 @@ class ReferenceMaterializerTest(unittest.TestCase):
     def tearDown(self) -> None:
         self.temp.cleanup()
 
-    def write_manifest(self, skills: dict[str, list[str]], project_docs: dict = None) -> None:
+    def write_manifest(
+        self,
+        skills: dict[str, list[str]],
+        project_docs: dict = None,
+        skill_transitions: dict[str, str | None] = None,
+    ) -> None:
         manifest = {
             "version": 1,
             "skills": skills,
             "projectDocs": project_docs or {},
+            "skillTransitions": skill_transitions or {},
         }
         (self.root / "skill-references.json").write_text(json.dumps(manifest), encoding="utf-8")
 
@@ -89,6 +95,67 @@ class ReferenceMaterializerTest(unittest.TestCase):
         with self.assertRaisesRegex(MODULE.ManifestError, "refusing to remove modified"):
             self.materializer.sync()
         self.assertEqual(destination.read_text(encoding="utf-8"), "skill authored\n")
+
+    def test_sync_renames_skill_and_removes_reduced_mapping(self) -> None:
+        (self.root / "docs" / "removed.md").write_text("removed\n", encoding="utf-8")
+        self.write_manifest({"example": ["docs/removed.md", "docs/shared.md"]})
+        self.assertEqual(self.materializer.sync(), (2, 0))
+
+        old_skill = self.root / ".agents" / "skills" / "example"
+        renamed_skill = self.root / ".agents" / "skills" / "renamed"
+        old_skill.rename(renamed_skill)
+        (renamed_skill / "SKILL.md").write_text(
+            "---\nname: renamed\ndescription: test\n---\nbody\n", encoding="utf-8"
+        )
+        self.write_manifest(
+            {"renamed": ["docs/shared.md"]},
+            skill_transitions={"example": "renamed"},
+        )
+
+        self.assertEqual(self.materializer.sync(), (0, 1))
+        self.assertFalse((renamed_skill / "references" / "docs" / "removed.md").exists())
+        self.assertEqual(self.materializer.drift(), [])
+
+    def test_sync_requires_transition_for_ambiguous_remove_and_add(self) -> None:
+        self.materializer.sync()
+        old_skill = self.root / ".agents" / "skills" / "example"
+        renamed_skill = self.root / ".agents" / "skills" / "renamed"
+        old_skill.rename(renamed_skill)
+        (renamed_skill / "SKILL.md").write_text(
+            "---\nname: renamed\ndescription: test\n---\nbody\n", encoding="utf-8"
+        )
+        self.write_manifest({"renamed": ["docs/shared.md"]})
+
+        with self.assertRaisesRegex(MODULE.ManifestError, "declare skillTransitions"):
+            self.materializer.sync()
+
+    def test_sync_allows_explicit_retirement_while_adding_skill(self) -> None:
+        self.materializer.sync()
+        added_skill = self.root / ".agents" / "skills" / "added"
+        added_skill.mkdir()
+        (added_skill / "SKILL.md").write_text(
+            "---\nname: added\ndescription: test\n---\nbody\n", encoding="utf-8"
+        )
+        self.write_manifest(
+            {"added": []},
+            skill_transitions={"example": None},
+        )
+
+        self.assertEqual(self.materializer.sync(), (0, 1))
+
+    def test_cleanup_preflights_every_retired_reference(self) -> None:
+        (self.root / "docs" / "a.md").write_text("a\n", encoding="utf-8")
+        (self.root / "docs" / "b.md").write_text("b\n", encoding="utf-8")
+        self.write_manifest({"example": ["docs/a.md", "docs/b.md"]})
+        self.materializer.sync()
+        references = self.root / ".agents" / "skills" / "example" / "references" / "docs"
+        (references / "a.md").write_text("modified\n", encoding="utf-8")
+        self.write_manifest({})
+
+        with self.assertRaisesRegex(MODULE.ManifestError, "refusing to remove modified"):
+            self.materializer.sync()
+        self.assertTrue((references / "a.md").exists())
+        self.assertTrue((references / "b.md").exists())
 
     def test_sync_preserves_skill_specific_reference(self) -> None:
         unique = self.root / ".agents" / "skills" / "example" / "references" / "docs" / "unique.md"
@@ -212,6 +279,27 @@ class ReferenceMaterializerTest(unittest.TestCase):
                     result = MODULE.main(["--root", str(self.root)])
                 self.assertEqual(result, 2)
                 self.assertIn("root must be an object", errors.getvalue())
+
+    def test_lock_requires_generated_field_and_complete_entries(self) -> None:
+        self.materializer.sync()
+        lock_path = self.root / "skill-references.lock.json"
+        malformed_payloads = [
+            {"version": 2},
+            {
+                "version": 2,
+                "generated": [
+                    {
+                        "destination": ".agents/skills/example/references/docs/shared.md",
+                        "sha256": "0" * 64,
+                    }
+                ],
+            },
+        ]
+        for payload in malformed_payloads:
+            with self.subTest(payload=payload):
+                lock_path.write_text(json.dumps(payload), encoding="utf-8")
+                with self.assertRaises(MODULE.ManifestError):
+                    self.materializer.sync()
 
 
 if __name__ == "__main__":

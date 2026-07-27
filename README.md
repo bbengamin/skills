@@ -83,6 +83,21 @@ mapping and synchronize before creating the skill-specific replacement.
 Skill-specific references that have no root canonical source remain authored
 inside that skill.
 
+When renaming a skill, record the ownership transition in the manifest so old
+lock destinations are evaluated under the new skill directory, including paths
+removed during the rename:
+
+```json
+"skillTransitions": {
+  "old-skill": "new-skill"
+}
+```
+
+Use `null` instead of a new name to explicitly retire a skill while adding other
+skills in the same synchronization. Transition chains are allowed and retained
+as durable rename history. Ambiguous remove-plus-add changes without transition
+metadata fail instead of silently discarding ownership.
+
 Build one `.skill` upload archive per skill:
 
 ```sh
