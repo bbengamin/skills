@@ -32,9 +32,10 @@ Rules:
 3. **Define inputs.** List the Paperclip company, project, issue, agent, approval, wiki, local file, credential, URL, or operator decision needed before action. Completion criterion: the agent can tell which inputs are present, missing, or intentionally unnecessary.
 4. **Write ordered steps.** Each step must end with a checkable completion criterion. Prefer "read back the updated issue and verify field X" over "ensure the update worked".
 5. **Set mutation boundaries.** State what can be read freely, what requires approval, and what is forbidden. Paperclip control-plane writes, external-account changes, spending, outreach, secrets, assignment, approval, import, and destructive actions require explicit approval.
-6. **Add stop conditions.** Stop on missing approval, missing credentials, ambiguous identity, unsafe scope, unavailable verification, duplicate records, or a request outside the skill's branch.
-7. **Add only useful examples.** Keep examples when they prevent a likely malformed frontmatter block, unsafe mutation, wrong API shape, or repeated operator mistake. Delete examples that merely restate the prose.
-8. **Validate with a parser.** Completion criterion: frontmatter parses, required fields exist, the body is non-empty, the slug matches the folder, and any live Paperclip import or attachment remains unperformed unless approved.
+6. **Model event-producing mutations.** When a write triggers asynchronous work, name the single dispatch trigger, require all preparation before it, and define the post-trigger phase as read-only observation. State how to detect queued/running success, skipped/failed dispatch, automatic retries, and full quiescence before correction. Assignment-driven execution must not be paired with heartbeat/resume, mentions, comments, or repeated assignment wakes.
+7. **Add stop conditions.** Stop on missing approval, missing credentials, ambiguous identity, unsafe scope, unavailable verification, duplicate records, an already queued/running dispatch, or a request outside the skill's branch.
+8. **Add only useful examples.** Keep examples when they prevent a likely malformed frontmatter block, unsafe mutation, wrong API shape, duplicate dispatch, or repeated operator mistake. Delete examples that merely restate the prose.
+9. **Validate with a parser.** Completion criterion: frontmatter parses, required fields exist, the body is non-empty, the slug matches the folder, and any live Paperclip import or attachment remains unperformed unless approved.
 
 ## Information Hierarchy
 

@@ -257,7 +257,7 @@ paperclipai issue comment <issue-id> --body "..."
 
 Use CLI when MCP does not expose the needed operation and the CLI does.
 
-During planning, create issues as `backlog` and unassigned. Do not move planned work to `todo`, assign, attach reviewer gates, checkout, or manually invoke heartbeats. Triage or delegation may make approved work startable by moving it to `todo`, assigning it, attaching required reviewers, or checking it out; Paperclip's heartbeat policy handles agent pickup after assignment.
+During planning, create issues as `backlog` and unassigned. Do not move planned work to `todo`, assign, attach reviewer gates, checkout, or manually invoke heartbeats. Triage or delegation may make approved work startable. Prepare the brief, comments, blockers, and reviewer policy while unassigned; verify there are no active/retry runs; then assign once as the final dispatch mutation. Assignment creates the wake. After activity reports `wake queued`, a queued/running run, or `workspace ready`, use read-only commands only unless Paperclip explicitly reports skipped/failed dispatch.
 
 ## Issue Reviewers
 

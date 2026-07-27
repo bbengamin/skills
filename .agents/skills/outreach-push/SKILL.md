@@ -1,6 +1,6 @@
 ---
 name: outreach-push
-description: Run the push stage of an outbound-engine run - create the list in the wired sending tool (Instantly or Grinfi via metamcp) and attach it to a campaign, the run's last operator action. Use when the operator wants to push or resume pushing a run's assembled segment to the sending tool, build the send list, or hand a QA-passed segment to automatic sending. Send-enabling and operator-gated: activating the campaign starts automatic sending; verifies suppression and consent, honors caps.
+description: "Run the push stage of an outbound-engine run - create the list in the wired sending tool (Instantly or Grinfi via metamcp) and attach it to a campaign, the run's last operator action. Use when the operator wants to push or resume pushing a run's assembled segment to the sending tool, build the send list, or hand a QA-passed segment to automatic sending. Send-enabling and operator-gated: activating the campaign starts automatic sending; verifies suppression and consent, honors caps."
 ---
 
 # Outreach Push

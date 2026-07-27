@@ -1,6 +1,6 @@
 ---
 name: eligibility-gate
-description: Engine-side decision skill that returns the per-person eligibility verdict for the outbound engine. Use when an outbound-engine agent must decide, before sourcing, enrichment, or outreach, whether a person is reuse / re-enrich / source / suppress / skip and how to route them. Decision-only: it reads Twenty and returns a verdict; callers (twenty-engine-sync, Apollo ingest, Clay enrichment, campaign assembly) perform the writes.
+description: "Engine-side decision skill that returns the per-person eligibility verdict for the outbound engine. Use when an outbound-engine agent must decide, before sourcing, enrichment, or outreach, whether a person is reuse / re-enrich / source / suppress / skip and how to route them. Decision-only: it reads Twenty and returns a verdict; callers (twenty-engine-sync, Apollo ingest, Clay enrichment, campaign assembly) perform the writes."
 ---
 
 # Eligibility Gate

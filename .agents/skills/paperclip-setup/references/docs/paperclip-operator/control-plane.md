@@ -31,6 +31,12 @@ Use `parentId` for goal hierarchy instead of encoding hierarchy only in titles o
 
 **Agent run** is a heartbeat execution tied to an agent, issue, and often a checkout run id.
 
+Assignment is an event-producing dispatch trigger. Changing an eligible issue from unassigned to an executor creates the assignment wake; it is not necessary to invoke heartbeat/resume, mention the agent, or repeat assignment. `wake queued`, a queued/running run, and `workspace ready` are healthy pickup states and should be observed read-only.
+
+Comments added after dispatch are work injection. They may appear as separate queued interactions and change what the active agent receives. Configure the complete issue handoff and reviewer policy before assignment.
+
+Interrupt/cancel is not a neutral pause: Paperclip may create an automatic retry. A correction is safe only after the active run and every retry are terminal. Then the operator may unassign, repair configuration, verify quiescence, and assign once again.
+
 ## Runtime Entities
 
 **Agent** is a configured AI worker with a role, manager, adapter, budget, skills, and heartbeat policy.

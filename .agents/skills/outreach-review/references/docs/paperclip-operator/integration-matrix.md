@@ -150,6 +150,7 @@ Use these only after the CLI and MCP API request surfaces are unavailable or bro
 
 - Use CLI dashboard, activity, approvals, agents, and issues first.
 - Use MCP or `paperclipApiRequest` for deeper drill-down when CLI summaries are insufficient.
+- Treat `wake queued`, queued/running runs, and `workspace ready` as healthy pickup states. Observe read-only; do not recommend duplicate dispatch or mutation merely because execution has not finished.
 
 **paperclip-admin**
 
@@ -158,6 +159,8 @@ Use these only after the CLI and MCP API request surfaces are unavailable or bro
 - Use `paperclipApiRequest` or direct REST for small record repairs not exposed through CLI/MCP.
 - Ask before any mutation, especially attaching skills, changing budgets, changing runtimes, or making work startable.
 - For reviewer assignment changes, patch and verify issue `executionPolicy.stages[].participants`; do not use `reviewRequest` as the reviewer source of truth.
+- For delegation, preserve the executor's default environment, complete and verify the handoff/reviewer gate while unassigned, confirm no live/retry runs, then assign exactly once. Do not pair assignment with heartbeat/resume, mentions, checkout, comments, or another assignment wake.
+- After dispatch is queued/running, remain read-only. For correction, interrupt/cancel once and wait for the active run and every automatic retry to become terminal before unassigning, repairing, or reassigning.
 - Verify every changed record after the write.
 - Route wiki content mutations to `paperclip-wiki-manage` instead of treating them as generic admin edits.
 

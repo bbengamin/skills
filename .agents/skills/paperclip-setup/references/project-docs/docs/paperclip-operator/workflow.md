@@ -64,7 +64,15 @@ Triage is the first phase that may recommend moving backlog work to `todo`; it s
 
 ## 5. Delegate And Monitor
 
-Delegation starts only after explicit operator intent. It may assign or checkout approved issues, and it may attach required reviewers through `executionPolicy.stages[].participants`. Paperclip's heartbeat loop handles agent pickup. Do not manually invoke another agent's heartbeat; Paperclip rejects cross-agent invocation and assignments are enough for eligible agents with heartbeat policy enabled.
+Delegation starts only after explicit operator intent. Use a prepare-dispatch-observe sequence:
+
+1. Prepare the complete handoff while the issue is unassigned. Read blockers, comments, activity, active/retry runs, executor configuration, project workspace, and review policy. Preserve the executor's existing/default environment unless the operator explicitly requests an override. Add the final brief and configure required reviewers through `executionPolicy.stages[].participants`; read the issue back and verify there are no live runs.
+2. Dispatch exactly once. Assign the executor and set `todo` if necessary as the final startable mutation. Assignment creates the wake automatically. Do not also invoke heartbeat/resume, mention the agent, checkout, comment, or create a second assignment wake.
+3. Observe read-only. `wake queued`, a queued/running run, or `workspace ready` means pickup succeeded. Do not mutate issue, agent, workspace, environment, policy, or comments while the run is queued/running.
+4. Let Paperclip route `in_review` through the configured review stage. Do not manually assign or wake the reviewer unless Paperclip explicitly reports skipped or failed review dispatch.
+5. For a material correction, interrupt/cancel once and wait for the active run and every automatic retry to become terminal. Only then unassign, repair, verify, and reassign once.
+
+Hard rule: after Paperclip reports `wake queued`, a queued/running run, or `workspace ready`, switch to read-only observation unless dispatch is explicitly skipped or failed.
 
 Use `paperclip-monitor` to inspect active execution. It reads dashboard, agents, issues, approvals, activity, costs, blocked work, and heartbeats.
 

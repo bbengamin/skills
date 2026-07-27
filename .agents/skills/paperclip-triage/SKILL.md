@@ -36,6 +36,8 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
    - comments
    - assignee, if present
    - reviewer gates in `executionPolicy.stages[].participants`, if review is required
+   - active, queued, and retry runs before recommending any assignment change
+   - the intended executor's default environment and the project workspace, without proposing an override unless the operator requires one
 3. Classify each in-scope issue into exactly one of:
    - AFK-ready
    - needs-info
@@ -118,3 +120,5 @@ If CLI and dedicated MCP tools cannot write blocker links, use the API fallback 
 Verify every mutation by reading the issue back. For blocker changes, confirm the returned issue contains the intended `blockedByIssueIds`; do not treat a comment-only explanation as equivalent unless the operator explicitly approved degraded mode. For reviewer gates, confirm the returned issue contains the intended `executionPolicy.stages[].participants`; do not treat `reviewRequest` as equivalent unless the target environment has verified mapping.
 
 If comment history is not exposed by the current issue detail surface, inspect the activity/comment surface if available. If comments still cannot be read, state that limitation in the recommendation and proceed from the visible issue fields instead of blocking the whole triage.
+
+When approved triage includes delegation, finish the issue brief, blocker links, comments, status, and reviewer gate while the issue is unassigned. Verify there are no live or retry runs, then assign the executor once as the final mutation. After the assignment wake is queued, stop mutating and hand observation to `paperclip-monitor`. Do not override the executor's normal environment, invoke heartbeat/resume, mention the executor, or add follow-up comments unless the operator supplies materially new required information.

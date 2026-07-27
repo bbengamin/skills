@@ -1,6 +1,6 @@
 ---
 name: paperclip-admin
-description: Handle general Paperclip administration and small operator requests without starting a full planning session. Use when the user asks to check Paperclip state, make a minor control-plane change, create or update a Paperclip agent, inspect or attach company skills, adjust assignments, or perform ad hoc Paperclip maintenance.
+description: Handle general Paperclip administration and small operator requests without starting a full planning session. Use when the user asks to check Paperclip state, make a minor control-plane change, update an existing Paperclip agent, inspect or attach company skills, prepare or dispatch an issue handoff, adjust assignments or reviewer gates, or perform ad hoc Paperclip maintenance.
 ---
 
 # Paperclip Admin
@@ -30,7 +30,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 - Use `paperclip-triage` when deciding whether issues are ready for AFK execution.
 - Use `paperclip-create-agent` when creating or hiring a new Paperclip agent.
 - Use `paperclip-wiki-manage` when the request is to create, update, rename, archive, delete, publish, sync, or otherwise mutate Paperclip llm-wiki content.
-- Stay in `paperclip-admin` for narrow reads, minor edits, agent provisioning, company skill-library operations, assignment or reviewer-gate tweaks, budget/status checks, and one-off maintenance.
+- Stay in `paperclip-admin` for narrow reads, minor edits, existing-agent administration, company skill-library operations, prepared assignment handoffs, reviewer-gate tweaks, budget/status checks, and one-off maintenance.
 
 ## Operating Loop
 
@@ -115,8 +115,20 @@ When the operator asks to set an issue reviewer, use Paperclip's native issue ex
 
 After writing, read the issue back and verify the reviewer participant is present. If the selected reviewer agent has `status: "error"`, report that assignment is correct but runtime review execution may still need the agent error cleared.
 
+## Prepared Assignment Protocol
+
+Treat assignment as an event-producing dispatch, not a passive field edit.
+
+1. **Prepare while unassigned.** Read the issue, blockers, comments, activity, active and retry runs, executor configuration, project workspace, and review policy. Preserve the executor's existing/default environment unless the operator explicitly requests an override. Add or update the complete handoff and configure the reviewer gate before assigning. Read the issue back and verify the brief, status, blockers, null assignee, workspace/environment posture, and `executionPolicy`. Done when the issue is complete, verified, unassigned, and has no live or queued run.
+2. **Dispatch exactly once.** With explicit approval, make the final startable mutation by assigning the executor and setting `status: todo` if necessary. Prefer one update when the available surface supports it. Assignment is the wake trigger; do not also invoke heartbeat, resume, mention the agent, checkout, or perform a second assignment mutation. Done when activity reports a queued wake or a run exists for the intended executor.
+3. **Observe read-only.** Once Paperclip reports `wake queued`, a queued/running run, or `workspace ready`, treat pickup as successful. Read activity and run state only. Do not mutate status, assignee, comments, workspace, environment, execution policy, or agent configuration while execution is queued or running. Comments are work injection and may create separate queued interactions.
+4. **Let review route natively.** The executor records evidence and moves the issue to `in_review`; Paperclip routes the configured review stage. Do not manually assign, mention, resume, or wake the reviewer unless Paperclip explicitly reports that review dispatch was skipped or failed.
+5. **Correct only from quiescence.** For an approved material correction, interrupt or cancel once, then wait until the active run and every automatic retry are terminal. Only then unassign, repair the issue/configuration, verify the corrected state, and reassign once. Never interrupt and immediately unassign/reassign.
+
+Hard rule: after Paperclip reports `wake queued`, a queued/running run, or `workspace ready`, switch to read-only observation unless Paperclip explicitly reports skipped or failed dispatch.
+
 ## Mutation Rule
 
-Read freely. Ask before creating, updating, deleting, assigning, checking out, approving, rejecting, installing, or attaching anything in Paperclip. Do not manually invoke another agent's heartbeat; Paperclip rejects cross-agent heartbeat invocation and eligible assignment is enough for the agent's own heartbeat loop to pick up work.
+Read freely. Ask before creating, updating, deleting, assigning, checking out, approving, rejecting, installing, or attaching anything in Paperclip. Assignment is sufficient dispatch; do not manually invoke heartbeat/resume or manufacture another wake. Once a wake is queued or running, remain read-only until it completes or an explicitly approved correction reaches quiescence.
 
 Destructive changes require especially explicit approval: delete, cancel, budget reduction, credential/runtime change, approval rejection, and agent disable/termination.

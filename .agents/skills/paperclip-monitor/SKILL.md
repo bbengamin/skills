@@ -32,7 +32,8 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 4. Read approvals, especially pending and revision-requested.
 5. Read agents and note paused, error, running, or budget-blocked states.
 6. Read activity for recent significant events.
-7. Summarize attention items in priority order. Done when every blocked, `in_review`, pending-approval, and errored-agent item appears in the report or is explicitly noted as none.
+7. For recently assigned work, distinguish healthy dispatch (`wake queued`, queued/running run, or `workspace ready`) from skipped/failed dispatch. Treat healthy queued or running pickup as success, not an intervention target.
+8. Summarize attention items in priority order. Done when every blocked, `in_review`, pending-approval, errored-agent, and explicitly skipped/failed-dispatch item appears in the report or is explicitly noted as none.
 
 ## Report Format
 
@@ -62,9 +63,11 @@ Recommend but do not perform mutations:
 - move issue status
 - add comments
 - create blockers
-- retry agents or manually invoke heartbeats
+- investigate an explicitly skipped or failed dispatch
 - reassign work
 - pause, resume, or terminate agents
+
+Do not recommend comments, heartbeat/resume, reassignments, workspace/environment changes, or interrupts merely because a wake is queued, a run is active, or a workspace has become ready. Comments during queued/running execution are work injection. An interrupt may create an automatic retry, so any correction plan must wait for the active run and every retry to become terminal before unassigning or reassigning.
 
 ## Mutation Rule
 
