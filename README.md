@@ -62,7 +62,20 @@ cp AGENTS.md CLAUDE.md
 For Claude/Cowork cloud skill import, each uploaded skill archive must be
 self-contained: `SKILL.md` at the archive root, and every referenced file inside
 that same skill folder. The tracked skills bundle their shared docs under each
-skill's `references/` folder for this reason.
+skill's `references/` folder for this reason. Those shared files are generated;
+do not edit them directly.
+
+Author shared references in root `CONTEXT.md` and `docs/**`, then declare which
+skills receive them in `skill-references.json`:
+
+```sh
+python3 scripts/sync_skill_references.py
+python3 scripts/sync_skill_references.py --check
+```
+
+The first command materializes the checked-in, self-contained bundles. The
+second is the CI-safe drift check. Skill-specific references that have no root
+canonical source remain authored inside that skill.
 
 Build one `.skill` upload archive per skill:
 
@@ -70,7 +83,8 @@ Build one `.skill` upload archive per skill:
 scripts/package-skill-zips.sh
 ```
 
-Archives are written to `dist/skills/` and are intentionally ignored by git.
+The packaging script synchronizes shared references before archiving. Archives
+are written to `dist/skills/` and are intentionally ignored by git.
 
 Scripts that should ship with a skill live inside that skill's folder (for example the Ralph loop driver at `.agents/skills/outreach-enrich/scripts/ralph-run.sh`), so `npx skills add` installs them with the skill. The repo-root `scripts/` folder holds repo tooling only (packaging) and is not installed.
 

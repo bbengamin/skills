@@ -1,0 +1,3 @@
+# Generate self-contained skill references from canonical docs
+
+Skill installers and Claude/Cowork uploads consume one skill directory at a time, so every shipped skill must retain local `references/` files. We author shared material only in root `CONTEXT.md` and `docs/**`, declare each bundle in `skill-references.json`, and generate checked-in skill-local copies through one materializer. This preserves consumer locality while avoiding manual duplication; source symlinks and cross-skill dependencies were rejected because their behavior is not portable across hosted downloads, Windows checkouts, scanners, and selective installs.

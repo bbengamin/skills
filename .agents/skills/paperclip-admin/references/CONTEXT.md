@@ -24,6 +24,10 @@ _Avoid_: Paperclip company skill, agent-attached skill
 A reusable instruction package installed in a Paperclip company's skill library and attached to Paperclip agents for use during their heartbeats.
 _Avoid_: Local operator skill
 
+**Skill Reference Bundle**:
+The generated, self-contained reference files shipped inside one skill so selective installers and cloud imports retain the context that skill needs. Shared material is authored in canonical repository docs rather than edited inside individual bundles.
+_Avoid_: Manually maintained reference copy, cross-skill runtime dependency
+
 **Ralph Loop**:
 An autonomous agent loop where the agent repeatedly reads a plan and progress state, chooses one next item, implements it, validates it, records progress, and commits the result.
 _Avoid_: Multi-agent orchestration, continuous unattended coding without a bounded task source
@@ -191,3 +195,67 @@ _Avoid_: Treating a lead-list task and a send-launch task as the same risk level
 **outbound-triage**:
 The local operator skill that classifies planned outbound work for AFK readiness by readiness level before delegation.
 _Avoid_: Sending outreach, launching campaigns, mutating CRM records, spending credits, or modifying external accounts during triage
+
+**Outreach Operator Skill**:
+A local operator skill that runs the outbound engine as an operator-driven pipeline over a lead list, beginning after triage and using Paperclip for run intent and Twenty for lead data.
+_Avoid_: Treating outreach as autonomous sending, or as strategy/planning work
+
+**Run Record**:
+The operations-plane analog of a Strategy Artifact: one Paperclip artifact per run that captures campaign link, stage scope, ICP filters, Twenty segment pointer, tools, caps, suppression, QA gates, success signal, stop conditions, and a stage checklist. It is the durable state that lets an outreach run be dropped and resumed.
+_Avoid_: Holding per-lead values in the Run Record, or treating a chat transcript as run state
+
+**Checkpoint**:
+A write to a Run Record's stage checklist and counts, made only after a step's completion criterion is met. It is both a save point an outreach run resumes from and a gate the run must pass before the next stage.
+_Avoid_: Recording progress in a local file, or checkpointing before the stage's completion criterion is met
+
+**Twenty Lead Ledger**:
+The rule that Twenty owns lead, account, and contact records and their per-lead pipeline progress (sourcing provenance, identity status, enrichment status with provider, confidence, cost, eligibility, asset reference, outcome signal), while Paperclip owns run intent and signal. Engine skills `twenty-engine-sync` and `eligibility-gate` own the per-person verdict and CRM mutation.
+_Avoid_: Duplicating per-lead progress into Paperclip or local ledgers
+
+**outreach-clarify**:
+The local operator skill that runs a non-mutating clarification session to pin the config of one concrete outreach run, producing an Outreach Run Spec.
+_Avoid_: Re-clarifying strategy, planning issues, or mutating Paperclip or Twenty during clarification
+
+**Outreach Run Spec**:
+The non-mutating summary `outreach-clarify` produces: the resolved run config that `outreach-record-run` turns into a Run Record after operator approval.
+_Avoid_: Treating the Run Spec as a committed Run Record before approval
+
+**outreach-record-run**:
+The local operator skill that materializes an approved Outreach Run Spec into a Paperclip Run Record and initializes its checkpoint, one run at a time, mutating Paperclip only.
+_Avoid_: Running a stage, writing to Twenty, or starting work during record-run
+
+**outreach-source**:
+The operator stage runner that runs the source stage of a run: filtered sourcing (Apollo via composio, or import) into idempotent Twenty ingest through `twenty-engine-sync`, ending at a QA gate.
+_Avoid_: Enriching or sending during source, or writing Twenty outside `twenty-engine-sync`
+
+**outreach-resolve**:
+The operator stage runner that runs the resolve stage of a run: identity match and golden-record merge over the sourced segment, delegating the per-person decision to `twenty-engine-sync` and routing fuzzy matches to human QA.
+_Avoid_: Auto-merging fuzzy matches, or reimplementing identity rules
+
+**outreach-enrich**:
+The operator stage runner that runs the enrich stage as a per-lead Ralph worker: one lead per invocation through a cheapest-first provider waterfall, stopping when the run's required channel keys are filled, writing back through `twenty-engine-sync`.
+_Avoid_: Batch-enriching in one pass, hardcoding a provider, or exceeding caps
+
+**outreach-gate**:
+The operator stage runner that runs the gate stage: applies the per-person `eligibility-gate` verdict and dedup, TTL, suppression, and routing over the segment via `twenty-engine-sync`.
+_Avoid_: Moving a suppressed or no-consent person forward, or reimplementing the verdict
+
+**outreach-assemble**:
+The operator stage runner that runs the assemble stage: builds the omnichannel segment and grounded personalization assets for eligible, enriched leads, writing asset references through `twenty-engine-sync`.
+_Avoid_: Ungrounded claims, or pushing/sending during assemble
+
+**outreach-push**:
+The operator stage runner that runs the push stage: creates the list in the wired sending tool (Instantly or Grinfi) and attaches it to a campaign. Activation is send-enabling and operator-gated.
+_Avoid_: Auto-approving activation, or pushing suppressed or no-consent leads
+
+**outreach-review**:
+The operator stage runner that runs the review stage: pulls reply and campaign signal from the sending tools, reconciles outcomes to Twenty, and writes the operator's kill/continue signal back to the Paperclip campaign or strategy issue.
+_Avoid_: Deciding kill/continue unilaterally, or sending replies without approval
+
+**twenty-engine-sync**:
+The shared engine skill that owns all Twenty reads and writes for the outbound pipeline: identity query, idempotent match-or-create, golden-record merge, fuzzy-match human-QA handoff, and suppression or routing writes. Additive and dry-run-first; used by both the operator `outreach-*` stage runners and Paperclip engine agents.
+_Avoid_: Writing Twenty outside this skill, deleting or overwriting populated fields, sending, or spending credits
+
+**eligibility-gate**:
+The shared engine skill that returns the deterministic per-person verdict (reuse / re-enrich / source / suppress / skip) and routing for the outbound pipeline. Decision-only; `outreach-gate`, `outreach-enrich`, and Paperclip engine agents consult it before acting.
+_Avoid_: Reimplementing the verdict in a caller, or writing Twenty from the gate

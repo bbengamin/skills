@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "skills": {
+    "growth-clarify": [
+      "CONTEXT.md",
+      "docs/growth-operator/control-plane.md",
+      "docs/growth-operator/workflow.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/workflow.md"
+    ],
+    "growth-record-strategy": [
+      "CONTEXT.md",
+      "docs/growth-operator/control-plane.md",
+      "docs/growth-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "inbound-plan-work": [
+      "CONTEXT.md",
+      "docs/growth-operator/afk-readiness.md",
+      "docs/growth-operator/control-plane.md",
+      "docs/growth-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "inbound-triage": [
+      "CONTEXT.md",
+      "docs/growth-operator/afk-readiness.md",
+      "docs/growth-operator/control-plane.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "outbound-plan-work": [
+      "CONTEXT.md",
+      "docs/growth-operator/afk-readiness.md",
+      "docs/growth-operator/control-plane.md",
+      "docs/growth-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "outbound-triage": [
+      "CONTEXT.md",
+      "docs/growth-operator/afk-readiness.md",
+      "docs/growth-operator/control-plane.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "outreach-assemble": [
+      "CONTEXT.md",
+      "docs/outreach-operator/control-plane.md",
+      "docs/outreach-operator/run-contract.md",
+      "docs/outreach-operator/tool-map.md",
+      "docs/outreach-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "outreach-clarify": [
+      "CONTEXT.md",
+      "docs/growth-operator/control-plane.md",
+      "docs/outreach-operator/control-plane.md",
+      "docs/outreach-operator/workflow.md",
+      "docs/paperclip-operator/control-plane.md"
+    ],
+    "outreach-enrich": [
+      "CONTEXT.md",
+      "docs/outreach-operator/control-plane.md",
+      "docs/outreach-operator/run-contract.md",
+      "docs/outreach-operator/tool-map.md",
+      "docs/outreach-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "outreach-gate": [
+      "CONTEXT.md",
+      "docs/outreach-operator/control-plane.md",
+      "docs/outreach-operator/run-contract.md",
+      "docs/outreach-operator/tool-map.md",
+      "docs/outreach-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "outreach-push": [
+      "CONTEXT.md",
+      "docs/growth-operator/afk-readiness.md",
+      "docs/outreach-operator/control-plane.md",
+      "docs/outreach-operator/run-contract.md",
+      "docs/outreach-operator/tool-map.md",
+      "docs/outreach-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "outreach-record-run": [
+      "CONTEXT.md",
+      "docs/growth-operator/control-plane.md",
+      "docs/outreach-operator/control-plane.md",
+      "docs/outreach-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "outreach-resolve": [
+      "CONTEXT.md",
+      "docs/outreach-operator/control-plane.md",
+      "docs/outreach-operator/run-contract.md",
+      "docs/outreach-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "outreach-review": [
+      "CONTEXT.md",
+      "docs/growth-operator/control-plane.md",
+      "docs/outreach-operator/control-plane.md",
+      "docs/outreach-operator/run-contract.md",
+      "docs/outreach-operator/tool-map.md",
+      "docs/outreach-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "outreach-source": [
+      "CONTEXT.md",
+      "docs/outreach-operator/control-plane.md",
+      "docs/outreach-operator/run-contract.md",
+      "docs/outreach-operator/tool-map.md",
+      "docs/outreach-operator/workflow.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ],
+    "paperclip-admin": [
+      "CONTEXT.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md",
+      "docs/paperclip-operator/workflow.md"
+    ],
+    "paperclip-clarify": [
+      "CONTEXT.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/workflow.md"
+    ],
+    "paperclip-create-agent": [
+      "CONTEXT.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md",
+      "docs/paperclip-operator/workflow.md"
+    ],
+    "paperclip-daily-focus": [
+      "CONTEXT.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md",
+      "docs/paperclip-operator/workflow.md"
+    ],
+    "paperclip-monitor": [
+      "CONTEXT.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md",
+      "docs/paperclip-operator/workflow.md"
+    ],
+    "paperclip-plan-work": [
+      "CONTEXT.md",
+      "docs/paperclip-operator/afk-readiness.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md",
+      "docs/paperclip-operator/workflow.md"
+    ],
+    "paperclip-record-strategy": [
+      "CONTEXT.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md",
+      "docs/paperclip-operator/workflow.md"
+    ],
+    "paperclip-setup": [
+      "CONTEXT.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md",
+      "docs/paperclip-operator/workflow.md"
+    ],
+    "paperclip-source-capture": [
+      "CONTEXT.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md",
+      "docs/paperclip-operator/workflow.md"
+    ],
+    "paperclip-triage": [
+      "CONTEXT.md",
+      "docs/paperclip-operator/afk-readiness.md",
+      "docs/paperclip-operator/cli-contract.md",
+      "docs/paperclip-operator/control-plane.md",
+      "docs/paperclip-operator/integration-matrix.md"
+    ]
+  },
+  "projectDocs": {
+    "paperclip-setup": [
+      { "source": "AGENTS.md", "destination": "AGENTS.md" },
+      { "source": "AGENTS.md", "destination": "CLAUDE.md" },
+      { "source": "CONTEXT.md", "destination": "CONTEXT.md" },
+      { "source": "docs/growth-operator/afk-readiness.md", "destination": "docs/growth-operator/afk-readiness.md" },
+      { "source": "docs/growth-operator/control-plane.md", "destination": "docs/growth-operator/control-plane.md" },
+      { "source": "docs/growth-operator/workflow.md", "destination": "docs/growth-operator/workflow.md" },
+      { "source": "docs/paperclip-operator/afk-readiness.md", "destination": "docs/paperclip-operator/afk-readiness.md" },
+      { "source": "docs/paperclip-operator/cli-contract.md", "destination": "docs/paperclip-operator/cli-contract.md" },
+      { "source": "docs/paperclip-operator/control-plane.md", "destination": "docs/paperclip-operator/control-plane.md" },
+      { "source": "docs/paperclip-operator/integration-matrix.md", "destination": "docs/paperclip-operator/integration-matrix.md" },
+      { "source": "docs/paperclip-operator/paperclip-docs-index.md", "destination": "docs/paperclip-operator/paperclip-docs-index.md" },
+      { "source": "docs/paperclip-operator/workflow.md", "destination": "docs/paperclip-operator/workflow.md" }
+    ]
+  }
+}

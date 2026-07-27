@@ -18,6 +18,7 @@ Shared references:
 
 ## Operating Rules
 
+- Root `CONTEXT.md` and `docs/**` are the authored source for shared skill references. Do not edit generated `.agents/skills/*/references/` copies directly; update `skill-references.json`, run `python3 scripts/sync_skill_references.py`, and verify with `--check`.
 - Paperclip is the source of truth for goals, projects, issues, comments, approvals, activity, assignments, and skill attachments.
 - Local operator skills may inspect Paperclip freely, but must ask before mutating the control plane.
 - `paperclip-setup` installs Paperclip MCP config project-locally by default after explicit approval; global MCP install is allowed only when the operator asks for it.
