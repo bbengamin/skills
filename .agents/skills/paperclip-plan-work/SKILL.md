@@ -93,6 +93,7 @@ Use `paperclipai context show --json`, `paperclipai auth whoami --json`, and `~/
 - Preserve operator intent: "plan", "break down", or "create the structure" means backlog structure, not execution.
 - Create planning parent issues as `backlog`.
 - Use `parentId` or the current surface's native parent field to link children to the parent. If using MCP, confirm the exposed tool schema and verify that parent linkage persists in the created record.
+- Prefer `paperclipai issue child:create <parentIssueId> --payload-json <json> --json` when available because the parent is explicit in the command. Verify the returned child and parent linkage before continuing.
 - Use MCP `paperclipApiRequest` for `blockedByIssueIds` unless CLI or a dedicated MCP issue tool exposes and verifies the field.
 - Do not assign any planning-created issue to an execution agent.
 - Add a comment explaining planning decisions when useful.

@@ -68,9 +68,10 @@ For this skill:
 
 - Use CLI first when it supports the exact native field and can verify the result.
 - Use dedicated Paperclip MCP tools when CLI lacks the operation or would require brittle parsing.
-- Use MCP `paperclipApiRequest` for project create/update, goal create/update, or native fields not exposed by CLI or dedicated MCP tools.
+- Use native `paperclipai goal create/update`, `project create/update`, and issue commands when present and their JSON readback verifies the required fields.
+- Use MCP `paperclipApiRequest` only for native fields not exposed by the installed CLI or dedicated MCP tools.
 - Use direct REST only when CLI and MCP are unavailable or broken.
-- Use keyed issue documents for the parent Issue `plan`; prefer MCP document tools when CLI lacks native document commands.
+- Use keyed issue documents for the parent Issue `plan`; prefer `paperclipai issue document:get`, `document:put`, and `document:revisions` when present, then MCP document tools.
 
 Before the first MCP API request or direct REST mutation:
 
@@ -111,7 +112,7 @@ Recommended plan shape:
 ## Planning Notes
 ```
 
-If CLI cannot write keyed documents, use MCP document tools. If no dedicated MCP tool is available, use `paperclipApiRequest` and explain the path used. Only embed the plan in the parent issue description as a last resort after CLI, MCP, and API access are unavailable or explicitly rejected by the operator.
+Use `paperclipai issue document:put <issueId> plan --body-file <path> --json` when available. On updates, read the current document and pass its base revision id so stale writes fail with `409 Conflict`. If CLI cannot write keyed documents, use MCP document tools. If no dedicated MCP tool is available, use `paperclipApiRequest` and explain the path used. Only embed the plan in the parent issue description as a last resort after CLI, MCP, and API access are unavailable or explicitly rejected by the operator.
 
 ## Mutation Rule
 

@@ -31,9 +31,11 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
    - parent issues with unfinished children
 4. Read approvals, especially pending and revision-requested.
 5. Read agents and note paused, error, running, or budget-blocked states.
-6. Read activity for recent significant events.
-7. For recently assigned work, distinguish healthy dispatch (`wake queued`, queued/running run, or `workspace ready`) from skipped/failed dispatch. Treat healthy queued or running pickup as success, not an intervention target.
-8. Summarize attention items in priority order. Done when every blocked, `in_review`, pending-approval, errored-agent, and explicitly skipped/failed-dispatch item appears in the report or is explicitly noted as none.
+6. For active or recently assigned issues, use `paperclipai issue live-runs`, `active-run`, `runs`, and `recovery-actions` with `--json` when available. Distinguish queued delivery, process recovery, missing-comment retry, and explicit recovery actions instead of labeling all follow-up runs as generic retries. Feature-detect additional run-liveness fields in newer environments.
+7. Read activity for recent significant events.
+8. For recently assigned work, distinguish healthy dispatch (`wake queued`, queued/running run, or `workspace ready`) from skipped/failed dispatch. Treat healthy queued or running pickup as success, not an intervention target.
+9. For review-stage issues, inspect `executionState.currentStageType`, `currentParticipant`, and `returnAssignee` when available. The executor normally submits by transitioning to `done`; Paperclip owns the resulting `in_review` routing.
+10. Summarize attention items in priority order. Done when every blocked, `in_review`, pending-approval, errored-agent, unresolved recovery action, and explicitly skipped/failed-dispatch item appears in the report or is explicitly noted as none.
 
 ## Report Format
 
@@ -45,6 +47,8 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 ### Blocked Work
 
 ### Pending Reviews And Approvals
+
+### Run And Recovery State
 
 ### Agent Health
 
@@ -67,7 +71,7 @@ Recommend but do not perform mutations:
 - reassign work
 - pause, resume, or terminate agents
 
-Do not recommend comments, heartbeat/resume, reassignments, workspace/environment changes, or interrupts merely because a wake is queued, a run is active, or a workspace has become ready. Comments during queued/running execution are work injection. An interrupt may create an automatic retry, so any correction plan must wait for the active run and every retry to become terminal before unassigning or reassigning.
+Do not recommend comments, heartbeat/resume, reassignments, workspace/environment changes, or interrupts merely because a wake is queued, a run is active, or a workspace has become ready. Comments during queued/running execution are work injection. An interrupt may create process recovery, and missing required comments may create one comment retry. Any correction plan must wait for all live runs and relevant recovery actions to settle before unassigning or reassigning.
 
 ## Mutation Rule
 

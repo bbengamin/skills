@@ -51,30 +51,31 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 | Derive API auth | CLI auth store | `PAPERCLIP_API_KEY` env var | Use `paperclipai auth whoami --json` to verify board auth. Stored board credentials live in `~/.paperclip/auth.json`; do not print tokens. |
 | List companies | CLI `paperclipai company list --json` | direct REST | No dedicated MCP company list tool. |
 | Export/import company | CLI `paperclipai company export/import` | direct REST if documented | Use CLI for backup/restore workflows. |
-| List goals | CLI if available with JSON | MCP `paperclipListGoals` | Verify response shape before using goal ids in mutations. |
-| Get goal | CLI if available with JSON | MCP `paperclipGetGoal` | Use MCP when CLI lacks the read. |
-| Create/update goal | CLI if available and verifies native fields | `paperclipApiRequest`, then direct REST | No dedicated goal write tool in MCP 0.1.0. Must support `level`, `status`, `parentId`, and `ownerAgentId`; verify the record. |
-| List projects | CLI if available with JSON | MCP `paperclipListProjects` | Use MCP when CLI lacks project reads. |
-| Get project | CLI if available with JSON | MCP `paperclipGetProject` | Use MCP when CLI lacks project detail. |
-| Create project | CLI if available and verifies native fields | `paperclipApiRequest`, then direct REST | Required for missing planning-chain projects. |
-| Update project / link goals | CLI if available and verifies native fields | `paperclipApiRequest`, then direct REST | Use native `goalIds` or equivalent field. |
+| List/get goals | CLI `paperclipai goal list/get --json` | MCP `paperclipListGoals` / `paperclipGetGoal` | Verify response shape before using goal ids in mutations. |
+| Create/update goal | CLI `paperclipai goal create/update --json` | `paperclipApiRequest`, then direct REST | Supports `level`, `status`, `parentId`, and `ownerAgentId`; verify the record. |
+| List/get projects | CLI `paperclipai project list/get --json` | MCP `paperclipListProjects` / `paperclipGetProject` | Prefer CLI for ordinary project reads. |
+| Create project | CLI `paperclipai project create --json` | `paperclipApiRequest`, then direct REST | Supports `goalIds`, lead agent, target date, environment bindings, and execution-workspace policy. |
+| Update project / link goals | CLI `paperclipai project update --json` | `paperclipApiRequest`, then direct REST | Use native `goalIds`; `goalId` is deprecated for single-goal compatibility. |
 | List issues | CLI `paperclipai issue list --json` | MCP `paperclipListIssues` | MCP supports richer filters; use it when CLI output is insufficient. |
 | Get issue detail | CLI `paperclipai issue get --json` | MCP `paperclipGetIssue` | Use before triage or planning. |
 | Create parent issue | CLI `paperclipai issue create` if fields verify | MCP `paperclipCreateIssue` | Include project/parent/status fields when known and verify after creation. |
-| Create child issue | CLI if parent linkage verifies | MCP `paperclipCreateIssue`, then `paperclipApiRequest` repair | Create one issue, verify `parentId`, repair if possible, then continue. |
+| Create child issue | CLI `paperclipai issue child:create --payload-json ... --json` | MCP `paperclipCreateIssue`, then `paperclipApiRequest` repair | Parent is explicit in the CLI command; create one issue, verify `parentId`, then continue. |
 | Update issue lifecycle/fields | CLI `paperclipai issue update` if fields verify | MCP `paperclipUpdateIssue` | Planning leaves issues in `backlog`. Only triage/delegation may move work to `todo` after approval. |
 | Write blocker links | CLI if `blockedByIssueIds` verifies | MCP `paperclipUpdateIssue`, then `paperclipApiRequest` | Do not replace first-class blockers with comments unless the operator approves degraded mode. |
 | Set issue reviewer gate | CLI or MCP only if `executionPolicy` verifies | `paperclipApiRequest`, then direct REST | The UI reviewer field maps to `executionPolicy.stages[].participants` on a `type: "review"` stage. Do not use `reviewRequest` unless the environment has verified mapping. |
 | Comment on issue | CLI `paperclipai issue comment` | MCP `paperclipAddComment` | Use comments for triage reasoning. |
 | Checkout/release issue | CLI `paperclipai issue checkout/release` | MCP `paperclipCheckoutIssue` / `paperclipReleaseIssue` | Respect checkout conflict semantics. |
-| Delete issue | direct REST only after explicit approval | none | The current CLI/MCP inspected surfaces do not expose issue delete as a normal operator command. |
-| Read/write `plan` document | CLI if available and verifies document record | MCP `paperclipGetDocument` / `paperclipUpsertIssueDocument` | Prefer keyed issue documents over issue-description fallback. |
+| Delete issue | CLI `paperclipai issue delete` after explicit approval | direct REST | Destructive; resolve the exact issue and read it before deletion. |
+| Read/write `plan` document | CLI `paperclipai issue document:get/put/revisions --json` | MCP `paperclipGetDocument` / `paperclipUpsertIssueDocument` | Use `baseRevisionId` on updates so stale writes return `409`; prefer keyed documents over description fallback. |
+| Issue interactions / plan confirmation | CLI `paperclipai issue interactions` and `interaction:create` | MCP interaction tools | Use `request_confirmation` for ordinary yes/no and plan decisions; bind plan confirmation to the exact document revision. |
+| Inspect issue execution | CLI `paperclipai issue runs/live-runs/active-run/recovery-actions --json` | `paperclipApiRequest` | Distinguish queued/running work, process recovery, missing-comment retry, and explicit recovery actions before intervening. Feature-detect newer run-liveness fields. |
+| Issue work products | CLI `paperclipai issue work-products` and work-product CRUD | `paperclipApiRequest` | Use for durable produced artifacts when comments/documents are not the right model. |
 | List approvals | CLI `paperclipai approval list --json` | MCP `paperclipListApprovals` / `paperclipListIssueApprovals` | Monitoring and board-decision workflows. |
 | Resolve approvals | CLI `paperclipai approval approve/reject/request-revision/resubmit` | MCP `paperclipApprovalDecision` | Verify approval status after mutation. |
 | List agents | CLI `paperclipai agent list --json` | MCP `paperclipListAgents` | Use CLI for local agent setup commands. |
-| Create agents / hire agents | CLI if available and governance path verifies | `paperclipApiRequest`, then direct REST | Use `paperclip-create-agent`. Inspect org/config/skills first, ask approval, create or submit hire, then verify agent and approval state. |
-| Update existing agents | CLI depending operation | MCP reads, then `paperclipApiRequest` or direct REST | Use `paperclip-admin`. Inspect current agent and skills first, ask approval, then verify the updated agent. |
-| Read/update managed agent instructions | CLI `paperclipai agent instructions-bundle*` if available | `paperclipApiRequest`, then direct REST | Current installed CLI versions may expose only `agent list/get/local-cli`; dedicated MCP has no instructions-bundle tool. REST supports `GET/PATCH /api/agents/{agentId}/instructions-bundle` and file-level `GET/PUT/DELETE /api/agents/{agentId}/instructions-bundle/file?path=...`. Ask approval before writes and read back exact content, size, and entry file. |
+| Create agents / hire agents | CLI `paperclipai agent create/hire --payload-json ... --json` | `paperclipApiRequest`, then direct REST | Use `paperclip-create-agent`. Inspect org/config/skills first, ask approval, create or submit hire, then verify agent and approval state. |
+| Update existing agents | CLI `paperclipai agent update` and lifecycle/config commands | MCP reads, then `paperclipApiRequest` or direct REST | Use `paperclip-admin`. Inspect current agent and skills first, ask approval, then verify the updated agent. |
+| Read/update managed agent instructions | CLI `paperclipai agent instructions-bundle`, `instructions-bundle:update`, and `instructions-file:*` | `paperclipApiRequest`, then direct REST | Feature-detect with `paperclipai agent --help`; dedicated MCP has no instructions-bundle tool. Ask approval before writes and read back exact content, size, and entry file. |
 | Dashboard summary | CLI `paperclipai dashboard get --json` | MCP if a dedicated/dashboard-equivalent tool exists, else API fallback | Preferred for `paperclip-monitor`. |
 | Activity log | CLI `paperclipai activity list --json` | `paperclipApiRequest`, then direct REST | Use CLI for ordinary monitoring. |
 | Costs | CLI/dashboard if exposed | `paperclipApiRequest`, then direct REST | Use API fallback for detailed cost drill-down if summaries are insufficient. |
@@ -115,8 +116,8 @@ Use these only after the CLI and MCP API request surfaces are unavailable or bro
 **paperclip-record-strategy**
 
 - Use CLI first for reads/writes that it supports and verifies.
-- Use MCP for project reads and plan documents when CLI lacks a native operation.
-- Use `paperclipApiRequest` for project create/update or goal create/update when no CLI or dedicated MCP tool supports the required native fields.
+- Use native CLI goal/project CRUD and issue document commands when available.
+- Use MCP or `paperclipApiRequest` only when the installed CLI lacks the required native field or verification.
 - Fall back to embedding the plan in the issue description only when CLI, MCP, and API access are unavailable or explicitly rejected.
 - Use `paperclip-wiki-fetch` before drafting plan documents when approved inputs reference wiki URLs, page paths, or captured sources.
 - Use `paperclip-wiki-manage` only when the operator explicitly asks to publish or sync a strategy artifact to wiki; Paperclip plan documents remain the default source of truth.
@@ -149,6 +150,7 @@ Use these only after the CLI and MCP API request surfaces are unavailable or bro
 **paperclip-monitor**
 
 - Use CLI dashboard, activity, approvals, agents, and issues first.
+- Use `paperclipai issue live-runs`, `active-run`, `runs`, and `recovery-actions` for execution drill-down.
 - Use MCP or `paperclipApiRequest` for deeper drill-down when CLI summaries are insufficient.
 - Treat `wake queued`, queued/running runs, and `workspace ready` as healthy pickup states. Observe read-only; do not recommend duplicate dispatch or mutation merely because execution has not finished.
 
@@ -159,8 +161,9 @@ Use these only after the CLI and MCP API request surfaces are unavailable or bro
 - Use `paperclipApiRequest` or direct REST for small record repairs not exposed through CLI/MCP.
 - Ask before any mutation, especially attaching skills, changing budgets, changing runtimes, or making work startable.
 - For reviewer assignment changes, patch and verify issue `executionPolicy.stages[].participants`; do not use `reviewRequest` as the reviewer source of truth.
-- For delegation, preserve the executor's default environment, complete and verify the handoff/reviewer gate while unassigned, confirm no live/retry runs, then assign exactly once. Do not pair assignment with heartbeat/resume, mentions, checkout, comments, or another assignment wake.
-- After dispatch is queued/running, remain read-only. For correction, interrupt/cancel once and wait for the active run and every automatic retry to become terminal before unassigning, repairing, or reassigning.
+- Executors submit to execution policy by transitioning to `done`; verify the runtime-created `in_review` state and `executionState.currentParticipant` instead of manually routing review.
+- For delegation, preserve the executor's default environment, complete and verify the handoff/reviewer gate while unassigned, confirm no live runs or unresolved recovery actions, then assign exactly once. Do not pair assignment with heartbeat/resume, mentions, checkout, comments, or another assignment wake.
+- After dispatch is queued/running, remain read-only. For correction, interrupt/cancel once and wait for live runs, process recovery, comment retries, and relevant recovery actions to settle before unassigning, repairing, or reassigning.
 - Verify every changed record after the write.
 - Route wiki content mutations to `paperclip-wiki-manage` instead of treating them as generic admin edits.
 
