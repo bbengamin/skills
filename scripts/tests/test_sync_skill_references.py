@@ -363,6 +363,21 @@ class ReferenceMaterializerTest(unittest.TestCase):
                 self.assertEqual(result, 2)
                 self.assertIn("root must be an object", errors.getvalue())
 
+    def test_manifest_rejects_boolean_and_float_versions(self) -> None:
+        for version in (True, 1.0):
+            with self.subTest(version=version):
+                payload = {
+                    "version": version,
+                    "skills": {},
+                    "projectDocs": {},
+                    "skillTransitions": {},
+                }
+                (self.root / "skill-references.json").write_text(
+                    json.dumps(payload), encoding="utf-8"
+                )
+                with self.assertRaisesRegex(MODULE.ManifestError, "must use version 1"):
+                    self.materializer.mappings()
+
     def test_lock_requires_generated_field_and_complete_entries(self) -> None:
         self.materializer.sync()
         lock_path = self.root / "skill-references.lock.json"
@@ -403,6 +418,20 @@ class ReferenceMaterializerTest(unittest.TestCase):
 
         with self.assertRaisesRegex(MODULE.ManifestError, "duplicate JSON key: generated"):
             self.materializer.sync()
+
+    def test_lock_rejects_boolean_and_float_versions(self) -> None:
+        self.materializer.sync()
+        lock_path = self.root / "skill-references.lock.json"
+        for version in (True, 1.0, 2.0):
+            with self.subTest(version=version):
+                lock_path.write_text(
+                    json.dumps({"version": version, "generated": []}),
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(
+                    MODULE.ManifestError, "must use version 1 or 2"
+                ):
+                    self.materializer.sync()
 
 
 if __name__ == "__main__":

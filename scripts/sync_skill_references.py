@@ -254,7 +254,8 @@ class ReferenceMaterializer:
         data = self._read_json(self.manifest_path)
         if not isinstance(data, dict):
             raise ManifestError("skill-references.json root must be an object")
-        if data.get("version") != 1:
+        version = data.get("version")
+        if type(version) is not int or version != 1:
             raise ManifestError("skill-references.json must use version 1")
         return data
 
@@ -420,7 +421,10 @@ class ReferenceMaterializer:
         if not self.lock_path.exists():
             return {"version": 2, "generated": []}
         data = self._read_json(self.lock_path)
-        if not isinstance(data, dict) or data.get("version") not in (1, 2):
+        if not isinstance(data, dict):
+            raise ManifestError("skill-references.lock.json must use version 1 or 2")
+        version = data.get("version")
+        if type(version) is not int or version not in (1, 2):
             raise ManifestError("skill-references.lock.json must use version 1 or 2")
         if set(data) != {"version", "generated"}:
             raise ManifestError("skill-references.lock.json fields must be: generated, version")
