@@ -76,9 +76,12 @@ python3 scripts/sync_skill_references.py --check
 
 The first command materializes the checked-in, self-contained bundles. The
 second is the CI-safe drift check. `skill-references.lock.json` records explicit
-ownership of generated destinations so cleanup never relies on directory
-heuristics. Skill-specific references that have no root canonical source remain
-authored inside that skill.
+ownership and content digests for generated destinations so cleanup never relies
+on directory heuristics and never deletes a modified file. To transfer a path
+from generated ownership to skill-specific authorship, remove the manifest
+mapping and synchronize before creating the skill-specific replacement.
+Skill-specific references that have no root canonical source remain authored
+inside that skill.
 
 Build one `.skill` upload archive per skill:
 
@@ -90,7 +93,7 @@ The packaging script requires shared references to be synchronized and fails on
 drift instead of modifying tracked files. Archives are written to `dist/skills/`
 and are intentionally ignored by git.
 
-Scripts that should ship with a skill live inside that skill's folder (for example the Ralph loop driver at `.agents/skills/outreach-enrich/scripts/ralph-run.sh`), so `npx skills add` installs them with the skill. The repo-root `scripts/` folder holds repo tooling only (packaging) and is not installed.
+Scripts that should ship with a skill live inside that skill's folder (for example the Ralph loop driver at `.agents/skills/outreach-enrich/scripts/ralph-run.sh`), so `npx skills add` installs them with the skill. The repo-root `scripts/` folder holds repository synchronization, validation, test, and packaging tooling and is not installed.
 
 Install globally:
 

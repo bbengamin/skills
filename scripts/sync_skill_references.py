@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -37,6 +38,8 @@ class ReferenceMaterializer:
 
     def mappings(self) -> list[ReferenceMapping]:
         data = json.loads(self.manifest_path.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            raise ManifestError("skill-references.json root must be an object")
         if data.get("version") != 1:
             raise ManifestError("skill-references.json must use version 1")
 
@@ -93,17 +96,38 @@ class ReferenceMaterializer:
         if self._lock_payload(mappings) != self._read_lock_payload():
             problems.append(f"stale {self.lock_path.relative_to(self.root)}")
         problems.extend(self._missing_declared_references())
+        problems.extend(self._skill_tree_symlinks())
         return problems
 
     def sync(self) -> tuple[int, int]:
         mappings = self.mappings()
         expected = {mapping.destination for mapping in mappings}
+        owned = self._owned_destinations()
         removed = 0
-        for extra in sorted(self._owned_destinations() - expected, reverse=True):
-            if extra.exists() or extra.is_symlink():
-                extra.unlink()
-                removed += 1
-                self._remove_empty_parents(extra.parent)
+        for extra in sorted(owned.keys() - expected, reverse=True):
+            if extra.is_symlink():
+                raise ManifestError(
+                    f"refusing to remove symlinked generated reference: {extra.relative_to(self.root)}"
+                )
+            if not extra.exists():
+                continue
+            if not extra.is_file():
+                raise ManifestError(
+                    f"refusing to remove non-file generated reference: {extra.relative_to(self.root)}"
+                )
+            expected_digest = owned[extra]
+            if expected_digest is None:
+                raise ManifestError(
+                    f"cannot safely remove lock-v1 reference without digest: {extra.relative_to(self.root)}; "
+                    "synchronize before removing its manifest entry"
+                )
+            if self._content_digest(extra.read_bytes()) != expected_digest:
+                raise ManifestError(
+                    f"refusing to remove modified formerly generated reference: {extra.relative_to(self.root)}"
+                )
+            extra.unlink()
+            removed += 1
+            self._remove_empty_parents(extra.parent)
 
         updated = 0
         for mapping in mappings:
@@ -189,12 +213,13 @@ class ReferenceMaterializer:
             raise ManifestError(f"{field} must be a safe relative path: {value}")
         return relative
 
-    def _owned_destinations(self) -> set[Path]:
+    def _owned_destinations(self) -> dict[Path, Optional[str]]:
         payload = self._read_lock_payload()
-        generated = payload.get("generated", []) if isinstance(payload, dict) else []
+        version = payload["version"]
+        generated = payload.get("generated", [])
         if not isinstance(generated, list):
             raise ManifestError("skill-references.lock.json generated must be an array")
-        destinations: set[Path] = set()
+        destinations: dict[Path, Optional[str]] = {}
         for index, entry in enumerate(generated):
             if not isinstance(entry, dict):
                 raise ManifestError(f"lock generated[{index}] must be an object")
@@ -208,15 +233,23 @@ class ReferenceMaterializer:
                 raise ManifestError(f"owned destination is not a skill reference: {relative}")
             if not self.SKILL_SLUG.fullmatch(skill_relative.parts[0]):
                 raise ManifestError(f"owned destination has invalid skill slug: {relative}")
-            skill_dir = self._skill_dir(skill_relative.parts[0])
             owned_relative = Path(*skill_relative.parts[2:])
-            destinations.add(
-                self._destination_path(
-                    skill_dir / "references",
-                    str(owned_relative),
-                    f"lock generated[{index}]",
-                )
+            destination = self._destination_path(
+                self.skills_root / skill_relative.parts[0] / "references",
+                str(owned_relative),
+                f"lock generated[{index}]",
             )
+            digest = entry.get("sha256")
+            if version == 2:
+                if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+                    raise ManifestError(
+                        f"lock generated[{index}] sha256 must be a lowercase digest"
+                    )
+            else:
+                digest = None
+            if destination in destinations:
+                raise ManifestError(f"duplicate owned destination: {relative}")
+            destinations[destination] = digest
         return destinations
 
     def _missing_declared_references(self) -> list[str]:
@@ -247,18 +280,35 @@ class ReferenceMaterializer:
             {
                 "source": str(mapping.source.relative_to(self.root)),
                 "destination": str(mapping.destination.relative_to(self.root)),
+                "sha256": self._content_digest(mapping.source.read_bytes()),
             }
             for mapping in sorted(mappings, key=lambda item: str(item.destination))
         ]
-        return {"version": 1, "generated": generated}
+        return {"version": 2, "generated": generated}
 
     def _read_lock_payload(self) -> dict[str, object]:
         if not self.lock_path.exists():
-            return {"version": 1, "generated": []}
+            return {"version": 2, "generated": []}
         data = json.loads(self.lock_path.read_text(encoding="utf-8"))
-        if not isinstance(data, dict) or data.get("version") != 1:
-            raise ManifestError("skill-references.lock.json must use version 1")
+        if not isinstance(data, dict) or data.get("version") not in (1, 2):
+            raise ManifestError("skill-references.lock.json must use version 1 or 2")
         return data
+
+    def _skill_tree_symlinks(self) -> list[str]:
+        problems: list[str] = []
+        if not self.skills_root.exists():
+            return problems
+        for directory, child_directories, files in os.walk(self.skills_root, followlinks=False):
+            parent = Path(directory)
+            for name in sorted(child_directories + files):
+                candidate = parent / name
+                if candidate.is_symlink():
+                    problems.append(f"symlinked skill content {candidate.relative_to(self.root)}")
+        return problems
+
+    @staticmethod
+    def _content_digest(content: bytes) -> str:
+        return hashlib.sha256(content).hexdigest()
 
     @staticmethod
     def _frontmatter_name(skill_file: Path) -> str:

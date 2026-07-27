@@ -25,8 +25,8 @@ A reusable instruction package installed in a Paperclip company's skill library 
 _Avoid_: Local operator skill
 
 **Skill Reference Bundle**:
-The generated, self-contained reference files shipped inside one skill so selective installers and cloud imports retain the context that skill needs. Shared material is authored in canonical repository docs rather than edited inside individual bundles.
-_Avoid_: Manually maintained reference copy, cross-skill runtime dependency
+The self-contained reference files shipped inside one skill so selective installers and cloud imports retain the context that skill needs.
+_Avoid_: Canonical source document
 
 **Ralph Loop**:
 An autonomous agent loop where the agent repeatedly reads a plan and progress state, chooses one next item, implements it, validates it, records progress, and commits the result.
