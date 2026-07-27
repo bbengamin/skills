@@ -100,6 +100,7 @@ docs/paperclip-operator/
 ### Paperclip Operator
 
 - `paperclip-setup` — check local `paperclipai` context and shared operator docs.
+- `paperclip-mvp-grill` — turn a committed product idea into an evidence-aware GTM dossier and approved Paperclip validation plan.
 - `paperclip-clarify` — run a non-mutating clarification session.
 - `paperclip-record-strategy` — create or select the Paperclip planning chain: Goal, Project, Parent Issue, and `plan` document.
 - `paperclip-source-capture` — capture a creator's raw brain-dump into their LLM Wiki space (no-task) and run guided ingest into structured, durable pages for reuse via wiki-ask.
