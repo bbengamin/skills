@@ -3,11 +3,13 @@ from __future__ import annotations
 import importlib.util
 import io
 import json
+import shutil
 import sys
 import tempfile
 import unittest
 from contextlib import redirect_stderr
 from pathlib import Path
+from unittest import mock
 
 
 SCRIPT = Path(__file__).resolve().parents[1] / "sync_skill_references.py"
@@ -131,6 +133,7 @@ class ReferenceMaterializerTest(unittest.TestCase):
 
     def test_sync_allows_explicit_retirement_while_adding_skill(self) -> None:
         self.materializer.sync()
+        (self.root / ".agents" / "skills" / "example" / "SKILL.md").unlink()
         added_skill = self.root / ".agents" / "skills" / "added"
         added_skill.mkdir()
         (added_skill / "SKILL.md").write_text(
@@ -142,6 +145,22 @@ class ReferenceMaterializerTest(unittest.TestCase):
         )
 
         self.assertEqual(self.materializer.sync(), (0, 1))
+
+    def test_sync_rejects_transition_while_source_skill_is_packageable(self) -> None:
+        self.materializer.sync()
+        old_skill = self.root / ".agents" / "skills" / "example"
+        renamed_skill = self.root / ".agents" / "skills" / "renamed"
+        shutil.copytree(old_skill, renamed_skill)
+        (renamed_skill / "SKILL.md").write_text(
+            "---\nname: renamed\ndescription: test\n---\nbody\n", encoding="utf-8"
+        )
+        self.write_manifest(
+            {"renamed": ["docs/shared.md"]},
+            skill_transitions={"example": "renamed"},
+        )
+
+        with self.assertRaisesRegex(MODULE.ManifestError, "remains packageable"):
+            self.materializer.sync()
 
     def test_cleanup_preflights_every_retired_reference(self) -> None:
         (self.root / "docs" / "a.md").write_text("a\n", encoding="utf-8")
@@ -156,6 +175,70 @@ class ReferenceMaterializerTest(unittest.TestCase):
             self.materializer.sync()
         self.assertTrue((references / "a.md").exists())
         self.assertTrue((references / "b.md").exists())
+
+    def test_write_preflight_happens_before_cleanup(self) -> None:
+        (self.root / "docs" / "retired.md").write_text("retired\n", encoding="utf-8")
+        self.write_manifest({"example": ["docs/retired.md"]})
+        self.materializer.sync()
+        retired = (
+            self.root
+            / ".agents"
+            / "skills"
+            / "example"
+            / "references"
+            / "docs"
+            / "retired.md"
+        )
+        lock_before = (self.root / "skill-references.lock.json").read_bytes()
+
+        canonical_parent = self.root / "docs" / "new"
+        canonical_parent.mkdir()
+        (canonical_parent / "child.md").write_text("new\n", encoding="utf-8")
+        blocked_parent = retired.parent / "new"
+        blocked_parent.write_text("not a directory\n", encoding="utf-8")
+        self.write_manifest({"example": ["docs/new/child.md"]})
+
+        with self.assertRaisesRegex(MODULE.ManifestError, "write parent is not a directory"):
+            self.materializer.sync()
+        self.assertTrue(retired.exists())
+        self.assertEqual(blocked_parent.read_text(encoding="utf-8"), "not a directory\n")
+        self.assertEqual((self.root / "skill-references.lock.json").read_bytes(), lock_before)
+
+    def test_commit_failure_rolls_back_writes_and_removals(self) -> None:
+        (self.root / "docs" / "retired.md").write_text("retired\n", encoding="utf-8")
+        self.write_manifest({"example": ["docs/retired.md", "docs/shared.md"]})
+        self.materializer.sync()
+        references = self.root / ".agents" / "skills" / "example" / "references" / "docs"
+        shared = references / "shared.md"
+        retired = references / "retired.md"
+        lock_path = self.root / "skill-references.lock.json"
+        lock_before = lock_path.read_bytes()
+
+        (self.root / "docs" / "shared.md").write_text("changed\n", encoding="utf-8")
+        (self.root / "docs" / "new.md").write_text("new\n", encoding="utf-8")
+        self.write_manifest({"example": ["docs/new.md", "docs/shared.md"]})
+        original_write = self.materializer._write_bytes_atomic
+        write_calls = 0
+
+        def fail_first_lock_write(destination: Path, content: bytes) -> None:
+            nonlocal write_calls
+            write_calls += 1
+            if write_calls == 3:
+                raise OSError("simulated lock failure")
+            original_write(destination, content)
+
+        with mock.patch.object(
+            self.materializer,
+            "_write_bytes_atomic",
+            side_effect=fail_first_lock_write,
+        ):
+            with self.assertRaisesRegex(OSError, "simulated lock failure"):
+                self.materializer.sync()
+
+        self.assertEqual(shared.read_text(encoding="utf-8"), "canonical\n")
+        self.assertTrue(retired.exists())
+        self.assertFalse((references / "new.md").exists())
+        self.assertEqual(lock_path.read_bytes(), lock_before)
 
     def test_sync_preserves_skill_specific_reference(self) -> None:
         unique = self.root / ".agents" / "skills" / "example" / "references" / "docs" / "unique.md"
@@ -300,6 +383,26 @@ class ReferenceMaterializerTest(unittest.TestCase):
                 lock_path.write_text(json.dumps(payload), encoding="utf-8")
                 with self.assertRaises(MODULE.ManifestError):
                     self.materializer.sync()
+
+    def test_manifest_rejects_duplicate_transition_keys(self) -> None:
+        (self.root / "skill-references.json").write_text(
+            '{"version":1,"skills":{},"projectDocs":{},'
+            '"skillTransitions":{"old":"new","old":null}}',
+            encoding="utf-8",
+        )
+
+        with self.assertRaisesRegex(MODULE.ManifestError, "duplicate JSON key: old"):
+            self.materializer.mappings()
+
+    def test_lock_rejects_duplicate_keys(self) -> None:
+        self.materializer.sync()
+        (self.root / "skill-references.lock.json").write_text(
+            '{"version":2,"generated":[],"generated":[]}',
+            encoding="utf-8",
+        )
+
+        with self.assertRaisesRegex(MODULE.ManifestError, "duplicate JSON key: generated"):
+            self.materializer.sync()
 
 
 if __name__ == "__main__":

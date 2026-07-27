@@ -21,6 +21,20 @@ class ReferenceMapping:
     destination: Path
 
 
+@dataclass(frozen=True)
+class PlannedWrite:
+    destination: Path
+    content: bytes
+
+
+@dataclass(frozen=True)
+class FileSnapshot:
+    path: Path
+    existed: bool
+    content: bytes = b""
+    mode: int = 0o644
+
+
 class ManifestError(ValueError):
     pass
 
@@ -125,25 +139,30 @@ class ReferenceMaterializer:
                 )
             removals.append(extra)
 
-        removed = 0
-        for extra in removals:
-            extra.unlink()
-            removed += 1
-            self._remove_empty_parents(extra.parent)
-
-        updated = 0
+        mapping_contents: dict[Path, bytes] = {}
+        mapping_writes: list[PlannedWrite] = []
         for mapping in mappings:
             source_bytes = mapping.source.read_bytes()
+            mapping_contents[mapping.destination] = source_bytes
             if mapping.destination.exists() and mapping.destination.read_bytes() == source_bytes:
                 continue
-            mapping.destination.parent.mkdir(parents=True, exist_ok=True)
-            self._write_bytes_atomic(mapping.destination, source_bytes)
-            updated += 1
-        self._write_bytes_atomic(
-            self.lock_path,
-            (json.dumps(self._lock_payload(mappings), indent=2) + "\n").encode("utf-8"),
+            mapping_writes.append(PlannedWrite(mapping.destination, source_bytes))
+
+        lock_content = (
+            json.dumps(self._lock_payload(mappings, mapping_contents), indent=2) + "\n"
+        ).encode("utf-8")
+        lock_write = None
+        if not self.lock_path.exists() or self.lock_path.read_bytes() != lock_content:
+            lock_write = PlannedWrite(self.lock_path, lock_content)
+
+        self._apply_transaction(
+            mapping_writes=mapping_writes,
+            removals=removals,
+            lock_write=lock_write,
         )
-        return updated, removed
+        for extra in removals:
+            self._remove_empty_parents(extra.parent)
+        return len(mapping_writes), len(removals)
 
     def _ownership_state(self) -> dict[Path, Optional[str]]:
         manifest = self._manifest_data()
@@ -232,7 +251,7 @@ class ReferenceMaterializer:
         return relative
 
     def _manifest_data(self) -> dict[str, object]:
-        data = json.loads(self.manifest_path.read_text(encoding="utf-8"))
+        data = self._read_json(self.manifest_path)
         if not isinstance(data, dict):
             raise ManifestError("skill-references.json root must be an object")
         if data.get("version") != 1:
@@ -269,6 +288,11 @@ class ReferenceMaterializer:
                 raise ManifestError(f"invalid transition target skill slug: {new_skill}")
             if new_skill == old_skill:
                 raise ManifestError(f"skill transition cannot target itself: {old_skill}")
+            old_skill_file = self.skills_root / old_skill / "SKILL.md"
+            if old_skill_file.exists() or old_skill_file.is_symlink():
+                raise ManifestError(
+                    f"transition source skill remains packageable: {old_skill}"
+                )
             transitions[old_skill] = new_skill
 
         for old_skill in transitions:
@@ -371,21 +395,31 @@ class ReferenceMaterializer:
                     )
         return problems
 
-    def _lock_payload(self, mappings: list[ReferenceMapping]) -> dict[str, object]:
+    def _lock_payload(
+        self,
+        mappings: list[ReferenceMapping],
+        contents: Optional[dict[Path, bytes]] = None,
+    ) -> dict[str, object]:
         generated = [
             {
                 "source": str(mapping.source.relative_to(self.root)),
                 "destination": str(mapping.destination.relative_to(self.root)),
-                "sha256": self._content_digest(mapping.source.read_bytes()),
+                "sha256": self._content_digest(
+                    contents[mapping.destination]
+                    if contents is not None
+                    else mapping.source.read_bytes()
+                ),
             }
             for mapping in sorted(mappings, key=lambda item: str(item.destination))
         ]
         return {"version": 2, "generated": generated}
 
     def _read_lock_payload(self) -> dict[str, object]:
+        if self.lock_path.is_symlink():
+            raise ManifestError("skill-references.lock.json must not be a symlink")
         if not self.lock_path.exists():
             return {"version": 2, "generated": []}
-        data = json.loads(self.lock_path.read_text(encoding="utf-8"))
+        data = self._read_json(self.lock_path)
         if not isinstance(data, dict) or data.get("version") not in (1, 2):
             raise ManifestError("skill-references.lock.json must use version 1 or 2")
         if set(data) != {"version", "generated"}:
@@ -393,6 +427,127 @@ class ReferenceMaterializer:
         if not isinstance(data["generated"], list):
             raise ManifestError("skill-references.lock.json generated must be an array")
         return data
+
+    def _apply_transaction(
+        self,
+        mapping_writes: list[PlannedWrite],
+        removals: list[Path],
+        lock_write: Optional[PlannedWrite],
+    ) -> None:
+        writes = list(mapping_writes)
+        if lock_write is not None:
+            writes.append(lock_write)
+        self._preflight_writes(writes)
+
+        paths = {write.destination for write in writes}
+        paths.update(removals)
+        snapshots = {path: self._snapshot(path) for path in paths}
+        created_directories: list[Path] = []
+        try:
+            for directory in self._missing_parent_directories(writes):
+                directory.mkdir()
+                created_directories.append(directory)
+            for write in mapping_writes:
+                self._write_bytes_atomic(write.destination, write.content)
+            for extra in removals:
+                extra.unlink()
+            if lock_write is not None:
+                self._write_bytes_atomic(lock_write.destination, lock_write.content)
+        except OSError as error:
+            rollback_errors = self._rollback(snapshots, created_directories)
+            if rollback_errors:
+                raise ManifestError(
+                    f"sync failed and rollback was incomplete: {error}; "
+                    + "; ".join(rollback_errors)
+                ) from error
+            raise
+
+    def _preflight_writes(self, writes: list[PlannedWrite]) -> None:
+        destinations = {write.destination for write in writes}
+        if len(destinations) != len(writes):
+            raise ManifestError("transaction contains duplicate write destinations")
+        for destination in sorted(destinations):
+            if not destination.is_relative_to(self.root):
+                raise ManifestError(f"write destination escapes repository: {destination}")
+            if destination.is_symlink():
+                raise ManifestError(
+                    f"write destination must not be a symlink: {destination.relative_to(self.root)}"
+                )
+            if destination.exists() and not destination.is_file():
+                raise ManifestError(
+                    f"write destination is not a file: {destination.relative_to(self.root)}"
+                )
+            current = destination.parent
+            while current != self.root:
+                if current in destinations:
+                    raise ManifestError(
+                        f"write destination is also a parent path: {current.relative_to(self.root)}"
+                    )
+                if current.exists() and not current.is_dir():
+                    raise ManifestError(
+                        f"write parent is not a directory: {current.relative_to(self.root)}"
+                    )
+                if current.is_symlink():
+                    raise ManifestError(
+                        f"write parent must not be a symlink: {current.relative_to(self.root)}"
+                    )
+                current = current.parent
+
+    def _missing_parent_directories(self, writes: list[PlannedWrite]) -> list[Path]:
+        missing: set[Path] = set()
+        for write in writes:
+            current = write.destination.parent
+            while current != self.root and not current.exists():
+                missing.add(current)
+                current = current.parent
+        return sorted(missing, key=lambda path: len(path.parts))
+
+    @staticmethod
+    def _snapshot(path: Path) -> FileSnapshot:
+        if not path.exists():
+            return FileSnapshot(path=path, existed=False)
+        return FileSnapshot(
+            path=path,
+            existed=True,
+            content=path.read_bytes(),
+            mode=path.stat().st_mode & 0o777,
+        )
+
+    def _rollback(
+        self, snapshots: dict[Path, FileSnapshot], created_directories: list[Path]
+    ) -> list[str]:
+        errors: list[str] = []
+        for snapshot in snapshots.values():
+            try:
+                if snapshot.existed:
+                    snapshot.path.parent.mkdir(parents=True, exist_ok=True)
+                    self._write_bytes_atomic(snapshot.path, snapshot.content)
+                    snapshot.path.chmod(snapshot.mode)
+                elif snapshot.path.exists() or snapshot.path.is_symlink():
+                    snapshot.path.unlink()
+            except OSError as error:
+                errors.append(f"restore {snapshot.path}: {error}")
+        for directory in reversed(created_directories):
+            try:
+                directory.rmdir()
+            except OSError:
+                pass
+        return errors
+
+    @staticmethod
+    def _reject_duplicate_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
+        result: dict[str, object] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ManifestError(f"duplicate JSON key: {key}")
+            result[key] = value
+        return result
+
+    def _read_json(self, path: Path) -> object:
+        return json.loads(
+            path.read_text(encoding="utf-8"),
+            object_pairs_hook=self._reject_duplicate_keys,
+        )
 
     def _skill_tree_symlinks(self) -> list[str]:
         problems: list[str] = []

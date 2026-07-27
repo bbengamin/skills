@@ -96,7 +96,15 @@ removed during the rename:
 Use `null` instead of a new name to explicitly retire a skill while adding other
 skills in the same synchronization. Transition chains are allowed and retained
 as durable rename history. Ambiguous remove-plus-add changes without transition
-metadata fail instead of silently discarding ownership.
+metadata fail instead of silently discarding ownership. A transition source must
+no longer contain `SKILL.md`; move or remove the old packageable skill tree before
+synchronizing.
+
+Synchronization validates and snapshots every destination before committing.
+Generated writes are applied first, retired files second, and the ownership lock
+last. Any commit failure restores all overwritten and removed files. Manifest and
+lock parsing also rejects duplicate JSON keys so ownership metadata cannot be
+silently replaced by a later duplicate.
 
 Build one `.skill` upload archive per skill:
 
