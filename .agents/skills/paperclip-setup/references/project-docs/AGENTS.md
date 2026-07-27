@@ -18,13 +18,15 @@ Shared references:
 
 ## Operating Rules
 
+- Root `AGENTS.md`, `CONTEXT.md`, and `docs/**` are the authored sources for shared skill references. Do not edit generated `.agents/skills/*/references/` copies directly; update `skill-references.json`, run `python3 scripts/sync_skill_references.py`, and verify with `--check`.
 - Paperclip is the source of truth for goals, projects, issues, comments, approvals, activity, assignments, and skill attachments.
 - Local operator skills may inspect Paperclip freely, but must ask before mutating the control plane.
 - `paperclip-setup` installs Paperclip MCP config project-locally by default after explicit approval; global MCP install is allowed only when the operator asks for it.
 - Prefer Paperclip-native lifecycle state over parallel local ledgers: `backlog` is parked, `todo` is ready/actionable, `blockedByIssueIds` are first-class blockers.
 - Paperclip issue reviewers are native execution-policy review stages: use `executionPolicy.stages[].participants`, not `reviewRequest`, and verify the field after mutation.
+- Executors submit reviewed work by transitioning to `done`; Paperclip intercepts the transition, moves the issue to `in_review`, and routes the active `executionState` participant. Use `request_confirmation` interactions for ordinary issue-scoped yes/no or plan decisions, and formal Approvals for governed actions.
 - Plan recursively. Create one child-issue level at a time, and treat broad children as planning parents for later passes.
-- Keep phase boundaries strict: planning creates backlog, unassigned structure only; triage may recommend `todo`; delegation prepares the full handoff and reviewer policy while unassigned, then assigns exactly once. Assignment is the dispatch trigger. After Paperclip reports a queued or running wake, observe read-only; do not invoke heartbeat/resume, mention the agent, comment, reassign, or alter workspace/environment unless a material correction is explicitly approved and all active/retry runs are terminal.
+- Keep phase boundaries strict: planning creates backlog, unassigned structure only; triage may recommend `todo`; delegation prepares the full handoff and reviewer policy while unassigned, then assigns exactly once. Assignment is the dispatch trigger. After Paperclip reports a queued or running wake, observe read-only; do not invoke heartbeat/resume, mention the agent, comment, reassign, or alter workspace/environment unless a material correction is explicitly approved and all live runs and recovery actions have settled.
 - Use `paperclip-admin` for narrow reads, minor approved mutations, prepared assignment handoffs, existing-agent administration, and company skill-library maintenance outside the planning chain.
 - Use `paperclip-daily-focus` for read-only daily or weekly operator prioritization: derive a North Star, Weekly Bet, and Daily Highlight from the goal tree and actionable issues, then print a plain-text Focus Card. It mutates nothing; persisting a Highlight or re-prioritizing routes to `paperclip-admin` or triage.
 - Use `paperclip-create-agent` for creating, hiring, drafting, or provisioning new Paperclip agents.

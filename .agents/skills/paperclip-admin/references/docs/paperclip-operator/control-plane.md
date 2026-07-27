@@ -35,7 +35,9 @@ Assignment is an event-producing dispatch trigger. Changing an eligible issue fr
 
 Comments added after dispatch are work injection. They may appear as separate queued interactions and change what the active agent receives. Configure the complete issue handoff and reviewer policy before assignment.
 
-Interrupt/cancel is not a neutral pause: Paperclip may create an automatic retry. A correction is safe only after the active run and every retry are terminal. Then the operator may unassign, repair configuration, verify quiescence, and assign once again.
+Interrupt/cancel is not a neutral pause: Paperclip may create process recovery. Separately, a missing required issue comment may create one comment retry. A correction is safe only after live runs and relevant recovery actions are settled. Then the operator may unassign, repair configuration, verify quiescence, and assign once again.
+
+Run records do not replace issue lifecycle. Inspect `paperclipai issue runs`, `live-runs`, `active-run`, and `recovery-actions` before intervening. Newer builds may expose additional run-liveness or continuation metadata; feature-detect it from the returned schema instead of assuming canary fields exist in stable environments.
 
 ## Runtime Entities
 
@@ -55,7 +57,7 @@ Interrupt/cancel is not a neutral pause: Paperclip may create an automatic retry
 
 Paperclip's issue reviewer UI is backed by `executionPolicy.stages[].participants`, not `reviewRequest`.
 
-To require an agent reviewer, set an issue `executionPolicy` with `mode: "normal"`, `commentRequired: true` when the reviewer must leave a comment, and a `review` stage:
+To require an agent reviewer, set an issue `executionPolicy` with `mode: "normal"`, `commentRequired: true`, and a `review` stage. Comment-required is a runtime backstop for issue-bound agent runs, not merely a reviewer preference:
 
 ```json
 {
@@ -78,7 +80,17 @@ To require an agent reviewer, set an issue `executionPolicy` with `mode: "normal
 }
 ```
 
-Use `type: "user"` with the native user id for human reviewers when supported by the target Paperclip environment. Read the issue back after writing and verify the reviewer appears in `executionPolicy.stages[].participants`. Do not treat a `reviewRequest` field as equivalent unless current Paperclip API documentation explicitly says it is mapped by that environment.
+Use `type: "user"` with the native user id for human reviewers or approvers. Approval stages use `type: "approval"`; stages are ordered, and current stable Paperclip supports one required approval per stage. Read the issue back after writing and verify the participants in `executionPolicy.stages`.
+
+The executor submits work by transitioning the issue to `done`, not by manually assigning a reviewer or setting `in_review`. The runtime intercepts `done`, moves the issue to `in_review`, sets `executionState.status: "pending"`, records `currentStageType` and `currentParticipant`, and assigns/wakes the selected participant. An approving participant also transitions to `done` with a required comment; the runtime either advances to the next stage or reaches actual `done`. A change request returns the issue to the original executor through `executionState.returnAssignee`.
+
+Use `executionState` to diagnose review routing. Do not treat a `reviewRequest` field as equivalent unless current Paperclip API documentation explicitly says it is mapped by that environment.
+
+## Issue Documents And Interactions
+
+Issue documents are keyed, revisioned artifacts such as `plan`, `design`, or `notes`. Read and write them with native CLI document commands when available. Updates should include the current base revision so stale writes fail instead of overwriting concurrent edits.
+
+Issue-thread interactions are structured decision cards. Use `request_confirmation` for ordinary issue-scoped yes/no decisions and plan approval, bound to the exact document revision with an idempotency key. Use formal Approvals for governed actions such as hires, strategy gates, spend, or security-sensitive changes. A normal comment is not a substitute for a structured confirmation when acceptance controls continuation.
 
 ## Issue Lifecycle
 

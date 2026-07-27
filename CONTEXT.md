@@ -24,6 +24,10 @@ _Avoid_: Paperclip company skill, agent-attached skill
 A reusable instruction package installed in a Paperclip company's skill library and attached to Paperclip agents for use during their heartbeats.
 _Avoid_: Local operator skill
 
+**Skill Reference Bundle**:
+The self-contained reference files shipped inside one skill so selective installers and cloud imports retain the context that skill needs.
+_Avoid_: Canonical source document
+
 **Ralph Loop**:
 An autonomous agent loop where the agent repeatedly reads a plan and progress state, chooses one next item, implements it, validates it, records progress, and commits the result.
 _Avoid_: Multi-agent orchestration, continuous unattended coding without a bounded task source

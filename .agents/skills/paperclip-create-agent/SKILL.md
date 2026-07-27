@@ -45,8 +45,8 @@ Useful upstream surfaces discovered from Paperclip docs/source:
 
 3. Choose the route.
 
-   - Use `POST /api/companies/{companyId}/agent-hires` when governance is required, the request came from another agent or issue, or the operator wants a board-visible hire flow.
-   - Use `POST /api/companies/{companyId}/agents` only when the operator explicitly approves direct creation and company policy allows it.
+   - Prefer `paperclipai agent hire -C <company-id> --payload-json <json> --json` when governance is required, the request came from another agent or issue, or the operator wants a board-visible hire flow. Fall back to `POST /api/companies/{companyId}/agent-hires` only when the installed CLI lacks the command.
+   - Prefer `paperclipai agent create -C <company-id> --payload-json <json> --json` for explicitly approved direct creation when company policy allows it. Fall back to `POST /api/companies/{companyId}/agents` only when necessary.
    - Use the Paperclip UI as the fallback if no authenticated callable surface can safely create the record.
 
 4. Draft the agent.
@@ -69,7 +69,7 @@ Useful upstream surfaces discovered from Paperclip docs/source:
 
 8. Apply and verify.
 
-   Create the hire or agent with REST/API surface. Read the resulting agent and approval back. Verify status:
+   Create the hire or agent through the native CLI when available, otherwise the API/REST fallback. Read the resulting agent and approval back. Verify status:
 
    - `pending_approval` with a `hire_agent` approval when governance applies
    - `idle` or company default active state when direct creation succeeds

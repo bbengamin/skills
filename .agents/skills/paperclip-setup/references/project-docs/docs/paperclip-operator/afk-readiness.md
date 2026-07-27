@@ -16,6 +16,7 @@ An issue is ready for AFK execution when:
 - validation path is clear
 - unresolved blockers are represented with `blockedByIssueIds`
 - required plan or board decision exists before execution
+- issue-scoped plan acceptance uses a `request_confirmation` bound to the current `plan` revision when Paperclip-native confirmation is required; formal Approvals remain for governed actions
 - assignee expectations are clear, even if the assignee is not chosen yet
 - stop conditions are explicit
 

@@ -62,7 +62,49 @@ cp AGENTS.md CLAUDE.md
 For Claude/Cowork cloud skill import, each uploaded skill archive must be
 self-contained: `SKILL.md` at the archive root, and every referenced file inside
 that same skill folder. The tracked skills bundle their shared docs under each
-skill's `references/` folder for this reason.
+skill's `references/` folder for this reason. Those shared files are generated;
+do not edit them directly.
+
+Author shared references in root `AGENTS.md`, `CONTEXT.md`, and `docs/**`, then
+declare which skills receive them in `skill-references.json`. The tooling
+requires Python 3.10 or newer:
+
+```sh
+python3 scripts/sync_skill_references.py
+python3 scripts/sync_skill_references.py --check
+```
+
+The first command materializes the checked-in, self-contained bundles. The
+second is the CI-safe drift check. `skill-references.lock.json` records explicit
+ownership and content digests for generated destinations so cleanup never relies
+on directory heuristics and never deletes a modified file. To transfer a path
+from generated ownership to skill-specific authorship, remove the manifest
+mapping and synchronize before creating the skill-specific replacement.
+Skill-specific references that have no root canonical source remain authored
+inside that skill.
+
+When renaming a skill, record the ownership transition in the manifest so old
+lock destinations are evaluated under the new skill directory, including paths
+removed during the rename:
+
+```json
+"skillTransitions": {
+  "old-skill": "new-skill"
+}
+```
+
+Use `null` instead of a new name to explicitly retire a skill while adding other
+skills in the same synchronization. Transition chains are allowed and retained
+as durable rename history. Ambiguous remove-plus-add changes without transition
+metadata fail instead of silently discarding ownership. A transition source must
+no longer contain `SKILL.md`; move or remove the old packageable skill tree before
+synchronizing.
+
+Synchronization validates and snapshots every destination before committing.
+Generated writes are applied first, retired files second, and the ownership lock
+last. Any commit failure restores all overwritten and removed files. Manifest and
+lock parsing also rejects duplicate JSON keys so ownership metadata cannot be
+silently replaced by a later duplicate.
 
 Build one `.skill` upload archive per skill:
 
@@ -70,9 +112,11 @@ Build one `.skill` upload archive per skill:
 scripts/package-skill-zips.sh
 ```
 
-Archives are written to `dist/skills/` and are intentionally ignored by git.
+The packaging script requires shared references to be synchronized and fails on
+drift instead of modifying tracked files. Archives are written to `dist/skills/`
+and are intentionally ignored by git.
 
-Scripts that should ship with a skill live inside that skill's folder (for example the Ralph loop driver at `.agents/skills/outreach-enrich/scripts/ralph-run.sh`), so `npx skills add` installs them with the skill. The repo-root `scripts/` folder holds repo tooling only (packaging) and is not installed.
+Scripts that should ship with a skill live inside that skill's folder (for example the Ralph loop driver at `.agents/skills/outreach-enrich/scripts/ralph-run.sh`), so `npx skills add` installs them with the skill. The repo-root `scripts/` folder holds repository synchronization, validation, test, and packaging tooling and is not installed.
 
 Install globally:
 
