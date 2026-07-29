@@ -313,7 +313,7 @@ with JSON containing the `executionPolicy` object above. After writing, read the
 
 If the reviewer agent exists but is `status: "error"`, record that the control-plane reviewer assignment is correct but runtime review execution may still be blocked until the agent's runtime error is cleared.
 
-The executor submits to the policy by transitioning the issue to `done`. Paperclip intercepts that transition, moves the issue to `in_review`, and records the active stage and participant in `executionState`. Reviewers/approvers also transition to `done` with a comment; the runtime advances stages or reaches actual `done`. Inspect `executionState.currentStageType`, `currentParticipant`, and `returnAssignee` when diagnosing routing.
+The executor submits to the policy by transitioning the issue to `done`. Paperclip intercepts that transition, moves the issue to `in_review`, and records the active agent reviewer in `executionState`. Do not configure an ordinary human final gate as a user `approval` stage: the current task UI may show the pending stage without usable approval, comment, or status controls. Instead, require the agent reviewer to create a `request_confirmation` interaction and wait. Inspect the interaction status and resume result as well as `executionState.currentStageType`, `currentParticipant`, and `returnAssignee` when diagnosing routing.
 
 ## llm-wiki Reads
 

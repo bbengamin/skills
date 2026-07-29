@@ -4,7 +4,7 @@
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/growth-clarify/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/control-plane.md",
@@ -19,17 +19,17 @@
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/growth-clarify/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/growth-clarify/references/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/growth-record-strategy/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/control-plane.md",
@@ -44,17 +44,17 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/growth-record-strategy/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/growth-record-strategy/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/inbound-plan-work/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/afk-readiness.md",
@@ -74,17 +74,17 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/inbound-plan-work/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/inbound-plan-work/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/inbound-triage/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/afk-readiness.md",
@@ -99,22 +99,22 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/inbound-triage/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/inbound-triage/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/inbound-triage/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outbound-plan-work/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/afk-readiness.md",
@@ -134,17 +134,17 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/outbound-plan-work/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/outbound-plan-work/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outbound-triage/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/afk-readiness.md",
@@ -159,22 +159,22 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/outbound-triage/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/outbound-triage/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/outbound-triage/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outreach-assemble/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/outreach-operator/control-plane.md",
@@ -199,17 +199,17 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/outreach-assemble/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/outreach-assemble/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outreach-clarify/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/control-plane.md",
@@ -229,12 +229,12 @@
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/outreach-clarify/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outreach-enrich/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/outreach-operator/control-plane.md",
@@ -259,17 +259,17 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/outreach-enrich/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/outreach-enrich/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outreach-gate/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/outreach-operator/control-plane.md",
@@ -294,17 +294,17 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/outreach-gate/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/outreach-gate/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outreach-push/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/afk-readiness.md",
@@ -334,17 +334,17 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/outreach-push/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/outreach-push/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outreach-record-run/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/control-plane.md",
@@ -364,17 +364,17 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/outreach-record-run/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/outreach-record-run/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outreach-resolve/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/outreach-operator/control-plane.md",
@@ -394,17 +394,17 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/outreach-resolve/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/outreach-resolve/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outreach-review/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/control-plane.md",
@@ -434,17 +434,17 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/outreach-review/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/outreach-review/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/outreach-source/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/outreach-operator/control-plane.md",
@@ -469,222 +469,222 @@
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/outreach-source/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/outreach-source/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-admin/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/paperclip-admin/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-admin/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/paperclip-admin/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/paperclip-admin/references/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-clarify/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-clarify/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/paperclip-clarify/references/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-create-agent/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/paperclip-create-agent/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-create-agent/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/paperclip-create-agent/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/paperclip-create-agent/references/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-daily-focus/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/paperclip-daily-focus/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-daily-focus/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/paperclip-daily-focus/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/paperclip-daily-focus/references/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-monitor/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/paperclip-monitor/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-monitor/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/paperclip-monitor/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/paperclip-monitor/references/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-plan-work/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/paperclip-operator/afk-readiness.md",
       "destination": ".agents/skills/paperclip-plan-work/references/docs/paperclip-operator/afk-readiness.md",
-      "sha256": "e460ef3fce9f4c046526d82d55a5b30817cf7ca81a41ac165c64b2ddf5a4523b"
+      "sha256": "4b1f7d5d9ef235f7b8c7a7585025da51ae964d861d472fc6d43e99265b57aa1f"
     },
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/paperclip-plan-work/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-plan-work/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/paperclip-plan-work/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/paperclip-plan-work/references/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-record-strategy/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/paperclip-record-strategy/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-record-strategy/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/paperclip-record-strategy/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/paperclip-record-strategy/references/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-setup/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/paperclip-setup/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-setup/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/paperclip-setup/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/paperclip-setup/references/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "AGENTS.md",
       "destination": ".agents/skills/paperclip-setup/references/project-docs/AGENTS.md",
-      "sha256": "b2620b8cfa5a61c5ee89c666f91a2e184404af249dea732622ae055cf2b1aa5c"
+      "sha256": "c3f1ea5dd440cb8545b485be76a989bdb303051c7f4817c30b7919f85fa590d0"
     },
     {
       "source": "AGENTS.md",
       "destination": ".agents/skills/paperclip-setup/references/project-docs/CLAUDE.md",
-      "sha256": "b2620b8cfa5a61c5ee89c666f91a2e184404af249dea732622ae055cf2b1aa5c"
+      "sha256": "c3f1ea5dd440cb8545b485be76a989bdb303051c7f4817c30b7919f85fa590d0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-setup/references/project-docs/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/growth-operator/afk-readiness.md",
@@ -704,22 +704,22 @@
     {
       "source": "docs/paperclip-operator/afk-readiness.md",
       "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/afk-readiness.md",
-      "sha256": "e460ef3fce9f4c046526d82d55a5b30817cf7ca81a41ac165c64b2ddf5a4523b"
+      "sha256": "4b1f7d5d9ef235f7b8c7a7585025da51ae964d861d472fc6d43e99265b57aa1f"
     },
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "docs/paperclip-operator/paperclip-docs-index.md",
@@ -729,57 +729,57 @@
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/paperclip-setup/references/project-docs/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-source-capture/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/paperclip-source-capture/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-source-capture/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/paperclip-source-capture/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     },
     {
       "source": "docs/paperclip-operator/workflow.md",
       "destination": ".agents/skills/paperclip-source-capture/references/docs/paperclip-operator/workflow.md",
-      "sha256": "6f53d48c2044749640ef45dd66c94479e1cf3455ae95e67d2aa9783e478f99cf"
+      "sha256": "491721b50eaf50e782f10df496b39983f94ee59aa4113a2456353891db106fe0"
     },
     {
       "source": "CONTEXT.md",
       "destination": ".agents/skills/paperclip-triage/references/CONTEXT.md",
-      "sha256": "acd6c4fb305231870e325053ab5e5ad96209a438d52d67b5355da343ebc8c8c9"
+      "sha256": "337b2387be5344a022281b90ba8a885f7437bb01bda515976880687b3c579b47"
     },
     {
       "source": "docs/paperclip-operator/afk-readiness.md",
       "destination": ".agents/skills/paperclip-triage/references/docs/paperclip-operator/afk-readiness.md",
-      "sha256": "e460ef3fce9f4c046526d82d55a5b30817cf7ca81a41ac165c64b2ddf5a4523b"
+      "sha256": "4b1f7d5d9ef235f7b8c7a7585025da51ae964d861d472fc6d43e99265b57aa1f"
     },
     {
       "source": "docs/paperclip-operator/cli-contract.md",
       "destination": ".agents/skills/paperclip-triage/references/docs/paperclip-operator/cli-contract.md",
-      "sha256": "b68eb15a52cdea727e0d6e7c34230e68d62805976463105b38db80df9fa0ec19"
+      "sha256": "3bb2d74e60bcefaa4fb25dea02747c283d2db13ceb42d0d41d8222d943107ad3"
     },
     {
       "source": "docs/paperclip-operator/control-plane.md",
       "destination": ".agents/skills/paperclip-triage/references/docs/paperclip-operator/control-plane.md",
-      "sha256": "be2f75677f7fb17c95163c6ef0956ae7474f185daf392d3d7370c0c9ddd4a83c"
+      "sha256": "92a9c760ea44decb85588c54ae0e220dfc6d78c13ebeeebcf06a74b047540049"
     },
     {
       "source": "docs/paperclip-operator/integration-matrix.md",
       "destination": ".agents/skills/paperclip-triage/references/docs/paperclip-operator/integration-matrix.md",
-      "sha256": "0a00fa015d03081cece8da5a821db4727e2132a11301a749bb6f77ad54ad67cd"
+      "sha256": "906918b76ef06f847782c16b6b33c0c28ca62d0413118a89718495d841542f0f"
     }
   ]
 }

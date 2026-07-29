@@ -113,8 +113,8 @@ The local operator skill that classifies existing Paperclip issues and decides w
 _Avoid_: ready-check as a separate skill
 
 **Delegation**:
-The explicit operator phase after triage where the operator prepares the complete issue handoff and review policy while unassigned, verifies quiescence, then assigns the executor exactly once. Assignment creates the pickup wake; queued or running execution is observed read-only.
-_Avoid_: Implicit pickup during planning, environment overrides without operator intent, manual heartbeat/resume, comments after dispatch, duplicate assignment wakes, interrupt/unassign/reassign before retries settle
+The explicit operator phase after triage where the operator prepares the complete issue handoff and agent review policy while unassigned, verifies quiescence, then assigns the executor exactly once. Assignment creates the pickup wake; queued or running execution is observed read-only. When ordinary human final acceptance is required, the agent reviewer pauses on a `request_confirmation` instead of routing the issue into a user approval stage.
+_Avoid_: Implicit pickup during planning, user approval stages for ordinary ticket acceptance, environment overrides without operator intent, manual heartbeat/resume, comments after dispatch, duplicate assignment wakes, interrupt/unassign/reassign before retries settle
 
 **Operator Approval Boundary**:
 The rule that local operator skills report proposed Paperclip mutations first and only create or update control-plane records after the human operator approves.

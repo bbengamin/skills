@@ -80,9 +80,9 @@ To require an agent reviewer, set an issue `executionPolicy` with `mode: "normal
 }
 ```
 
-Use `type: "user"` with the native user id for human reviewers or approvers. Approval stages use `type: "approval"`; stages are ordered, and current stable Paperclip supports one required approval per stage. Read the issue back after writing and verify the participants in `executionPolicy.stages`.
+Execution-policy stages can represent user participants, but the current task UI may not expose usable approve, comment, or status controls for a user `approval` stage. The local operator flow therefore keeps ordinary ticket review in an agent `review` stage. When human final acceptance is required, the active agent reviewer creates a `request_confirmation` interaction instead of adding the operator as a reviewer or approver. Use formal Approvals only for governed actions such as hires, strategy gates, spend, or security-sensitive changes.
 
-The executor submits work by transitioning the issue to `done`, not by manually assigning a reviewer or setting `in_review`. The runtime intercepts `done`, moves the issue to `in_review`, sets `executionState.status: "pending"`, records `currentStageType` and `currentParticipant`, and assigns/wakes the selected participant. An approving participant also transitions to `done` with a required comment; the runtime either advances to the next stage or reaches actual `done`. A change request returns the issue to the original executor through `executionState.returnAssignee`.
+The executor submits work by transitioning the issue to `done`, not by manually assigning a reviewer or setting `in_review`. The runtime intercepts `done`, moves the issue to `in_review`, sets `executionState.status: "pending"`, records `currentStageType` and `currentParticipant`, and assigns/wakes the selected agent reviewer. If no human acceptance is required, the reviewer approves or requests changes through the native review path. If human acceptance is required, the reviewer must remain the current participant, create one idempotent `request_confirmation` containing the evidence and consequences, and wait. Acceptance resumes the reviewer to finalize the issue; rejection resumes the reviewer to record the reason and return the work through the native change-request path. Do not add the human to the reviewer list as a workaround.
 
 Use `executionState` to diagnose review routing. Do not treat a `reviewRequest` field as equivalent unless current Paperclip API documentation explicitly says it is mapped by that environment.
 
@@ -90,7 +90,7 @@ Use `executionState` to diagnose review routing. Do not treat a `reviewRequest` 
 
 Issue documents are keyed, revisioned artifacts such as `plan`, `design`, or `notes`. Read and write them with native CLI document commands when available. Updates should include the current base revision so stale writes fail instead of overwriting concurrent edits.
 
-Issue-thread interactions are structured decision cards. Use `request_confirmation` for ordinary issue-scoped yes/no decisions and plan approval, bound to the exact document revision with an idempotency key. Use formal Approvals for governed actions such as hires, strategy gates, spend, or security-sensitive changes. A normal comment is not a substitute for a structured confirmation when acceptance controls continuation.
+Issue-thread interactions are structured decision cards. Use `request_confirmation` for ordinary issue-scoped yes/no decisions, plan approval, and human final acceptance of agent-reviewed ticket work. Bind plan approval to the exact document revision; for ticket acceptance, include the reviewed evidence, residual risks, the effect of acceptance or rejection, and an idempotency key. Use formal Approvals for governed actions such as hires, strategy gates, spend, or security-sensitive changes. A normal comment is not a substitute for a structured confirmation when acceptance controls continuation.
 
 ## Issue Lifecycle
 

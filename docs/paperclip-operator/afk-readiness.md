@@ -17,6 +17,7 @@ An issue is ready for AFK execution when:
 - unresolved blockers are represented with `blockedByIssueIds`
 - required plan or board decision exists before execution
 - issue-scoped plan acceptance uses a `request_confirmation` bound to the current `plan` revision when Paperclip-native confirmation is required; formal Approvals remain for governed actions
+- when human final acceptance is required after agent review, the brief names the decision criteria and requires the agent reviewer to create one idempotent `request_confirmation`; it does not add the human as an execution-policy approver
 - assignee expectations are clear, even if the assignee is not chosen yet
 - stop conditions are explicit
 
