@@ -34,7 +34,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 6. For active or recently assigned issues, use `paperclipai issue live-runs`, `active-run`, `runs`, and `recovery-actions` with `--json` when available. Distinguish queued delivery, process recovery, missing-comment retry, and explicit recovery actions instead of labeling all follow-up runs as generic retries. Feature-detect additional run-liveness fields in newer environments.
 7. Read activity for recent significant events.
 8. For recently assigned work, distinguish healthy dispatch (`wake queued`, queued/running run, or `workspace ready`) from skipped/failed dispatch. Treat healthy queued or running pickup as success, not an intervention target.
-9. For review-stage issues, inspect `executionState.currentStageType`, `currentParticipant`, and `returnAssignee` when available. The executor normally submits by transitioning to `done`; Paperclip owns the resulting `in_review` routing.
+9. For review-stage issues, inspect `executionState.currentStageType`, `currentParticipant`, and `returnAssignee` when available. The executor normally submits by transitioning to `done`; Paperclip owns the resulting `in_review` routing to the agent reviewer. When human final acceptance is required, also inspect issue interactions: a pending `request_confirmation` is healthy waiting state, while accepted/rejected interactions with failed resume or no reviewer follow-through need attention. A user approval-stage participant is a flow defect, not a reason to tell the operator to use CLI.
 10. Summarize attention items in priority order. Done when every blocked, `in_review`, pending-approval, errored-agent, unresolved recovery action, and explicitly skipped/failed-dispatch item appears in the report or is explicitly noted as none.
 
 ## Report Format
@@ -64,6 +64,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
 Recommend but do not perform mutations:
 
 - approve, reject, or request revision
+- accept or reject a pending issue `request_confirmation`
 - move issue status
 - add comments
 - create blockers

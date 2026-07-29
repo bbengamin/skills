@@ -36,6 +36,7 @@ If these project docs are missing, run `paperclip-setup` first to scaffold them 
    - comments
    - assignee, if present
    - reviewer gates in `executionPolicy.stages[].participants`, if review is required
+   - whether human final acceptance is required; if so, the agent reviewer must own an idempotent `request_confirmation` handoff instead of a user approval stage
    - active, queued, and retry runs before recommending any assignment change
    - the intended executor's default environment and the project workspace, without proposing an override unless the operator requires one
 3. Classify each in-scope issue into exactly one of:
@@ -79,6 +80,7 @@ When triaging a parent issue, inspect its direct children. Inspect one additiona
 - Proposed comment:
 - Proposed blocker links:
 - Proposed reviewer gate:
+- Proposed human confirmation:
 - Follow-up skill:
 ```
 

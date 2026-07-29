@@ -62,12 +62,12 @@ Treat write schemas as claims to verify, not proof. After every write, read the 
 | Create child issue | CLI `paperclipai issue child:create --payload-json ... --json` | MCP `paperclipCreateIssue`, then `paperclipApiRequest` repair | Parent is explicit in the CLI command; create one issue, verify `parentId`, then continue. |
 | Update issue lifecycle/fields | CLI `paperclipai issue update` if fields verify | MCP `paperclipUpdateIssue` | Planning leaves issues in `backlog`. Only triage/delegation may move work to `todo` after approval. |
 | Write blocker links | CLI if `blockedByIssueIds` verifies | MCP `paperclipUpdateIssue`, then `paperclipApiRequest` | Do not replace first-class blockers with comments unless the operator approves degraded mode. |
-| Set issue reviewer gate | CLI or MCP only if `executionPolicy` verifies | `paperclipApiRequest`, then direct REST | The UI reviewer field maps to `executionPolicy.stages[].participants` on a `type: "review"` stage. Do not use `reviewRequest` unless the environment has verified mapping. |
+| Set issue reviewer gate | CLI or MCP only if `executionPolicy` verifies | `paperclipApiRequest`, then direct REST | The UI reviewer field maps to agent participants on an `executionPolicy` `review` stage. For ordinary human final acceptance, keep the agent reviewer active and use `request_confirmation`; do not add a user approval stage or use `reviewRequest`. |
 | Comment on issue | CLI `paperclipai issue comment` | MCP `paperclipAddComment` | Use comments for triage reasoning. |
 | Checkout/release issue | CLI `paperclipai issue checkout/release` | MCP `paperclipCheckoutIssue` / `paperclipReleaseIssue` | Respect checkout conflict semantics. |
 | Delete issue | CLI `paperclipai issue delete` after explicit approval | direct REST | Destructive; resolve the exact issue and read it before deletion. |
 | Read/write `plan` document | CLI `paperclipai issue document:get/put/revisions --json` | MCP `paperclipGetDocument` / `paperclipUpsertIssueDocument` | Use `baseRevisionId` on updates so stale writes return `409`; prefer keyed documents over description fallback. |
-| Issue interactions / plan confirmation | CLI `paperclipai issue interactions` and `interaction:create` | MCP interaction tools | Use `request_confirmation` for ordinary yes/no and plan decisions; bind plan confirmation to the exact document revision. |
+| Issue interactions / confirmation | CLI `paperclipai issue interactions` and `interaction:create` | MCP interaction tools | Use `request_confirmation` for ordinary yes/no decisions, plan acceptance, and human final acceptance after agent review. Bind plan confirmation to the exact document revision and use an idempotency key for every decision card. |
 | Inspect issue execution | CLI `paperclipai issue runs/live-runs/active-run/recovery-actions --json` | `paperclipApiRequest` | Distinguish queued/running work, process recovery, missing-comment retry, and explicit recovery actions before intervening. Feature-detect newer run-liveness fields. |
 | Issue work products | CLI `paperclipai issue work-products` and work-product CRUD | `paperclipApiRequest` | Use for durable produced artifacts when comments/documents are not the right model. |
 | List approvals | CLI `paperclipai approval list --json` | MCP `paperclipListApprovals` / `paperclipListIssueApprovals` | Monitoring and board-decision workflows. |
@@ -143,7 +143,7 @@ Use these only after the CLI and MCP API request surfaces are unavailable or bro
 - Use `paperclipApiRequest` only for fields not exposed by CLI/MCP.
 - Recommend first, mutate after approval.
 - Triage is the phase that may recommend moving ready backlog issues to `todo`.
-- Use `executionPolicy.stages[].participants` for recommended issue reviewer gates, and verify the field after mutation.
+- Use agent participants in `executionPolicy.stages[]` for recommended issue reviewer gates, and verify the field after mutation. Represent required human final acceptance in the handoff as an agent-owned `request_confirmation`, not a user approval stage.
 - Use `paperclip-wiki-fetch` when readiness depends on referenced wiki source material.
 - Recommend `paperclip-wiki-manage` for wiki content corrections, but do not mutate wiki pages from ordinary triage unless the operator explicitly switches to wiki management.
 
@@ -161,7 +161,8 @@ Use these only after the CLI and MCP API request surfaces are unavailable or bro
 - Use `paperclipApiRequest` or direct REST for small record repairs not exposed through CLI/MCP.
 - Ask before any mutation, especially attaching skills, changing budgets, changing runtimes, or making work startable.
 - For reviewer assignment changes, patch and verify issue `executionPolicy.stages[].participants`; do not use `reviewRequest` as the reviewer source of truth.
-- Executors submit to execution policy by transitioning to `done`; verify the runtime-created `in_review` state and `executionState.currentParticipant` instead of manually routing review.
+- Executors submit to execution policy by transitioning to `done`; verify the runtime-created `in_review` state and agent `executionState.currentParticipant` instead of manually routing review.
+- For ordinary human final acceptance, require the agent reviewer to create and wait on `request_confirmation`. Do not configure the operator as a user approval-stage participant; verify the pending interaction, then its accepted/rejected status and resume result.
 - For delegation, preserve the executor's default environment, complete and verify the handoff/reviewer gate while unassigned, confirm no live runs or unresolved recovery actions, then assign exactly once. Do not pair assignment with heartbeat/resume, mentions, checkout, comments, or another assignment wake.
 - After dispatch is queued/running, remain read-only. For correction, interrupt/cancel once and wait for live runs, process recovery, comment retries, and relevant recovery actions to settle before unassigning, repairing, or reassigning.
 - Verify every changed record after the write.
