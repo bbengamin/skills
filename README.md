@@ -26,8 +26,8 @@ When running from inside an agent, the installer may auto-detect that agent and 
 the interactive client picker. Passing `--agent claude-code codex` keeps the
 install scoped to the two supported local clients this suite is usually used with.
 
-Only use `--all` if you intentionally want every skill installed into every
-supported agent target:
+Only use `--all` for a project-local installation when you intentionally want
+every skill installed into every detected agent target:
 
 ```sh
 npx skills add bbengamin/skills --all
@@ -121,8 +121,25 @@ Scripts that should ship with a skill live inside that skill's folder (for examp
 Install globally:
 
 ```sh
-npx skills add bbengamin/skills --all -g
+npx skills add bbengamin/skills --skill '*' --agent claude-code codex --global --yes
 ```
+
+Global installation is per user and per machine. Run the command on each host
+where the skills should be available. Keep the explicit agent list: `--all -g`
+also selects Eve and PromptScript, whose adapters do not support global skill
+installation.
+
+To remove a previous project-local installation before relying on the global
+copy, run this from the project root:
+
+```sh
+npx skills remove --all --yes
+```
+
+This does not remove global skills. Some installer versions leave empty
+`.agents/skills/`, `.claude/skills/`, or `agent/skills/` directories and an
+empty `skills-lock.json`; those empty residuals may be removed after verifying
+that they contain no project-authored files.
 
 Install selected skills:
 
